@@ -2,10 +2,19 @@
 
 **The Vector Protocol** is a high-assurance, state-aware development workflow extension for the Gemini CLI. It is designed to provide **Direction** (Vector) and **Magnitude** (Intensity) to your development process.
 
+## Installation
+
+Install the Vector Protocol extension by running the following command from your terminal:
+
+```bash
+gemini extensions install https://github.com/ksprashu/gcx-vector-protocol --auto-update
+```
+
+The `--auto-update` is optional: if specified, it will update to new versions as they are released.
+
 ## 🚀 Getting Started
 
-1.  **Install:** Ensure this extension is registered in your Gemini CLI configuration.
-2.  **Initialize:** Run `/vector:init` in your project root.
+1.  **Initialize:** Run `/vector:init` in your project root.
     *   This creates the `.gemini/` directory.
     *   It creates the **Trinity of State** files: `ANCHOR.md`, `COMPASS.md`, and `PULSE.md`.
 

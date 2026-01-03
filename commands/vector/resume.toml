@@ -1,0 +1,16 @@
+description = "♻️ RESUME: Recovery Phase. Reload state from the Trinity."
+prompt = """
+**Goal:** Recover context after a crash, reload, or long break.
+
+**Protocol:**
+1.  **Locate Trinity:** Find `.gemini/ANCHOR.md`, `.gemini/COMPASS.md`, and `.gemini/PULSE.md`.
+    *   *If missing:* Suggest `/vector:init`.
+2.  **Load State:**
+    *   Read **ANCHOR** to remember the rules.
+    *   Read **COMPASS** to remember the plan.
+    *   Read **PULSE** to remember where you left off.
+3.  **Orient:**
+    *   Tell the user: "I have reloaded the Vector Protocol."
+    *   "We were in Phase [Phase]. The last action was [Action]."
+    *   "Ready to resume?"
+"""

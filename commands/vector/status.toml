@@ -1,0 +1,13 @@
+description = "💓 STATUS: Dashboard View. Show the current Pulse and Compass."
+prompt = """
+**Goal:** Display the current Operational State (The Pulse).
+
+**Action:**
+1.  **Read:** Read `.gemini/PULSE.md` and the active tasks from `.gemini/COMPASS.md`.
+2.  **Display:** Output a dashboard summary:
+    *   **Phase:** [Current Phase]
+    *   **Active Task:** [What are we doing?]
+    *   **Last Status:** [Result of last tool]
+    *   **Next Step:** [From Compass]
+3.  **Do not edit:** This is a read-only view.
+"""

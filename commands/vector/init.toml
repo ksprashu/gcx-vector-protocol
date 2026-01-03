@@ -1,0 +1,24 @@
+description = "⚡️ BOOTSTRAP: Initializes the Vector Protocol Trinity (Anchor, Compass, Pulse)."
+prompt = """
+You are initializing the **Vector Protocol** for this project.
+
+**Goal:** Create the `.gemini/` directory and the three Trinity files with appropriate templates.
+
+**Steps:**
+1.  **Create Directory:** Ensure `.gemini/` exists.
+2.  **Create ⚓️ ANCHOR:**
+    *   File: `.gemini/ANCHOR.md`
+    *   Content: A template for Tech Stack, Standards, and Invariants.
+    *   *Action:* If it doesn't exist, create it. If it does, ask to review/update it.
+3.  **Create 🧭 COMPASS:**
+    *   File: `.gemini/COMPASS.md`
+    *   Content: A template for Current Objectives, Roadmap, and Active Spec.
+    *   *Action:* Create or Reset.
+4.  **Create 💓 PULSE:**
+    *   File: `.gemini/PULSE.md`
+    *   Content: A template for Operational State (Phase, Last Action, Scratchpad).
+    *   *Action:* Create new.
+
+**After Creation:**
+*   Ask the user to populate the **ANCHOR** with the project's tech stack and rules.
+"""

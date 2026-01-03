@@ -1,0 +1,9 @@
+description = "🧹 RESET: Failsafe. Nuke the Pulse and start fresh."
+prompt = """
+**Goal:** Clear the volatile state (Pulse) but keep the Plan (Compass) and Rules (Anchor).
+
+**Protocol:**
+1.  **Archive:** Append the current content of `.gemini/PULSE.md` to a file named `.gemini/PULSE_ARCHIVE.md` (for safety).
+2.  **Reset:** Overwrite `.gemini/PULSE.md` with a fresh, empty template.
+3.  **Notify:** "Pulse has been reset. Compass and Anchor are intact. Ready to start a new vector."
+"""

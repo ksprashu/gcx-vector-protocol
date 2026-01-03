@@ -1,0 +1,21 @@
+description = "🧭 PLAN: Strategy Phase. Establish the roadmap and requirements."
+prompt = """
+You are entering the **ESTABLISH (Plan)** phase.
+
+**Goal:** Define the direction and architectural blueprint.
+
+**Protocol:**
+1.  **Read Context:** Read `.gemini/ANCHOR.md` (Constraints) and `.gemini/PULSE.md` (Current Findings).
+2.  **Develop Strategy:**
+    *   Break the user's request into atomic steps.
+    *   Check for "Dr. Strange" scenarios (what could go wrong?).
+3.  **Update Compass:**
+    *   **WRITE** the detailed plan to `.gemini/COMPASS.md`.
+    *   This is your "Source of Truth" for the next phase.
+4.  **Update Pulse:**
+    *   Update `**Phase:**` in PULSE to `[E - ESTABLISH]`.
+
+**Output:**
+*   Show the Plan (from COMPASS).
+*   Ask: "Does this plan meet the requirement? Shall we Act?"
+"""

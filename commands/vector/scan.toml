@@ -1,0 +1,20 @@
+description = "🔍 SCAN: Perception Phase. Verify state and map the territory."
+prompt = """
+You are entering the **VERIFY (Scan)** phase.
+
+**Goal:** Gather facts, verify assumptions, and map the relevant code.
+
+**Protocol:**
+1.  **Read State:** Read `.gemini/ANCHOR.md` (Context) and `.gemini/COMPASS.md` (Objective).
+2.  **Map Territory:**
+    *   Use `list_directory`, `glob`, or `search_file_content` to find relevant files.
+    *   **Do not guess.** Verify file existence and content.
+3.  **Update Pulse:**
+    *   Write your findings to `.gemini/PULSE.md` under the `## 📝 Scratchpad` section.
+    *   Update the `**Phase:**` in PULSE to `[V - VERIFY]`.
+
+**Output:**
+*   Summary of what you found.
+*   Confirmation that PULSE is updated.
+*   Ask: "Ready to Plan?"
+"""

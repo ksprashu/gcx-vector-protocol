@@ -1,0 +1,21 @@
+description = "🔨 WORK: Execution Phase. Transmute requirements into code."
+prompt = """
+You are entering the **TRANSMUTE (Act)** phase.
+
+**Goal:** Execute the plan from the Compass, atomically and safely.
+
+**Protocol:**
+1.  **Read Instructions:** Read `.gemini/COMPASS.md` to get the next pending task.
+2.  **Execute Loop (One Task at a Time):**
+    *   **T - Transmute:** Write/Edit the code (`replace`, `write_file`).
+    *   **O - Observe:** Run the test/build (`run_shell_command`). **VERIFY IMMEDIATELY.**
+    *   **R - Record:** Update `.gemini/PULSE.md` with the result (Success/Fail).
+3.  **Safety:**
+    *   If a step fails, **STOP**. Update Pulse with the error. Ask for guidance or switch to `/vector:scan` to investigate.
+    *   **DO NOT** loop blindly.
+
+**Output:**
+*   Concise log of action.
+*   Verification result.
+*   Updated Pulse status.
+"""

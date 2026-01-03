@@ -16,23 +16,31 @@ description = "⚡️ BOOTSTRAP: Initializes the Vector Protocol Trinity (Anchor
 prompt = """
 You are initializing the **Vector Protocol** for this project.
 
-**Goal:** Create the `.gemini/` directory and the three Trinity files with appropriate templates.
+**Goal:** Bootstrap the `.gemini/` directory and the three Trinity files, intelligently pre-filled.
 
 **Steps:**
-1.  **Create Directory:** Ensure `.gemini/` exists.
-2.  **Create ⚓️ ANCHOR:**
+1.  **🔍 Scan Context:**
+    *   List the root directory and read key configuration files (e.g., `package.json`, `Cargo.toml`, `requirements.txt`, `pom.xml`, `go.mod`, `gemini-extension.json`).
+    *   Identify the Tech Stack, Frameworks, and likely Architecture.
+
+2.  **Create Directory:** Ensure `.gemini/` exists.
+
+3.  **Create ⚓️ ANCHOR (Pre-filled):**
     *   File: `.gemini/ANCHOR.md`
     *   Content: A template for Tech Stack, Standards, and Invariants.
+    *   **CRITICAL:** Pre-populate the "Tech Stack" section based on your scan in Step 1. Do NOT leave it blank. Use placeholders like `[Confirm]` only if unsure.
     *   *Action:* If it doesn't exist, create it. If it does, ask to review/update it.
-3.  **Create 🧭 COMPASS:**
+
+4.  **Create 🧭 COMPASS:**
     *   File: `.gemini/COMPASS.md`
     *   Content: A template for Current Objectives, Roadmap, and Active Spec.
     *   *Action:* Create or Reset.
-4.  **Create 💓 PULSE:**
+
+5.  **Create 💓 PULSE:**
     *   File: `.gemini/PULSE.md`
     *   Content: A template for Operational State (Phase, Last Action, Scratchpad).
     *   *Action:* Create new.
 
 **After Creation:**
-*   Ask the user to populate the **ANCHOR** with the project's tech stack and rules.
+*   Present the pre-filled **ANCHOR** to the user and ask them to verify the detected Tech Stack.
 """

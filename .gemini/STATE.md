@@ -1,25 +1,27 @@
 # 💾 STATE
 
-**Phase:** [PERCEPTION]
-**Last Action:** Verified Protocol Update & Stale Cache.
-**Timestamp:** 2026-01-04
+**Phase:** [EXECUTION]
+**Objective:** Implement "Next Step Recommendation" logic.
 
 ## 📝 Scratchpad
-### Work Log
-- **GEMINI.md:** Updated `STATE.md` definition to mandate "PRESERVE existing content" and "APPEND".
-- **Scan Prompt:** Updated `scan.toml` to "PRESERVE any existing session history".
-- **Plan Prompt:** Updated `plan.toml` to "DO NOT overwrite the Scratchpad/Findings".
-- **Work Prompt:** Updated `work.toml` to "APPEND to the Scratchpad" and "DO NOT overwrite".
-
-### Verification
-- Prompts now explicitly forbid the destructive `write_file` behavior that was causing context loss.
-- Chain of Custody (Scan -> Plan -> Work) should now be preserved.
-
-### Scan Findings (Current)
-- **Stale Prompt Detection:** The system prompt used for this turn matches the *old* `scan.toml` (without the "Stopping Criteria" section), even though the file on disk is updated.
-- **Root Cause:** The CLI extension caches command definitions at startup.
-- **Resolution:** The user must reload the extension or restart the CLI to activate the new prompts.
-- **Protocol Adherence:** Despite the stale prompt, I am manually adhering to the new standards (Checklists, Preservation) to demonstrate compliance.
-
-### Next Steps
-- Advise user to reload the extension.
+- **User Request:** Add "intelligent prompting for the next step" and "recommend the next command" to the Vector Protocol.
+- **Findings:**
+    - The protocol is defined by TOML prompts and a central `GEMINI.md` context.
+    - Current prompts have static closing questions.
+    - Need to inject logic to analyze the current state (Phase + Plan Status) and output a specific command recommendation.
+- **Target Files:**
+    - `.gemini/GEMINI.md`: Add global "Recommendation Logic".
+    - `commands/vector/init.toml`: Recommend `/vector:scan`.
+    - `commands/vector/scan.toml`: Recommend `/vector:plan`.
+    - `commands/vector/plan.toml`: Recommend `/vector:work`.
+    - `commands/vector/work.toml`: Recommend `/vector:work` (loop) or `/vector:save`/`/vector:scan`.
+    - `commands/vector/status.toml`: Recommend based on state.
+    - `commands/vector/resume.toml`: Recommend based on state.
+- **Execution Log:**
+    - Updated `GEMINI.md` with "5. NAVIGATION LOGIC".
+    - Updated `commands/vector/init.toml`.
+    - Updated `commands/vector/scan.toml`.
+    - Updated `commands/vector/plan.toml`.
+    - Updated `commands/vector/work.toml`.
+    - Updated `commands/vector/status.toml` and `commands/vector/resume.toml`.
+    - Verified `GEMINI.md` content.

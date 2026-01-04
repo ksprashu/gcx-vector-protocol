@@ -41,3 +41,12 @@ When executing tasks, loosely adhere to this cognitive cycle:
 *   **Structured Tracking:** Use Checklists (`- [ ]`) to track tasks and progress.
 *   **Transparency:** Explicitly state what you are about to do before doing it.
 *   **Closure:** End each phase with a concise summary of work done and observations.
+
+## 5. NAVIGATION LOGIC
+You must ALWAYS recommend the next atomic step based on the current state.
+
+*   **IF** (Phase is `[PERCEPTION]`) **THEN** -> `> Recommended Action: /vector:plan <objective>`
+*   **IF** (Phase is `[STRATEGY]`) **THEN** -> `> Recommended Action: /vector:work <first_step>`
+*   **IF** (Phase is `[EXECUTION]` AND Plan has pending items) **THEN** -> `> Recommended Action: /vector:work <next_step>`
+*   **IF** (Phase is `[EXECUTION]` AND Plan is complete) **THEN** -> `> Recommended Action: /vector:save <commit_message>`
+*   **IF** (State is Lost/Unclear) **THEN** -> `> Recommended Action: /vector:scan`

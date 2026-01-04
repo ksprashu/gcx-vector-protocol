@@ -49,7 +49,9 @@ You are entering the **EXECUTION (Act)** phase.
 **Output:**
 *   **Execution Summary:** What was done, what was verified.
 *   **State:** Updated status in `.gemini/STATE.md`.
-*   **Prompt:** "Task complete. Proceed to next step?"
+*   **Navigation:**
+    *   **IF** Plan has more steps: `> Recommended Action: /vector:work <next_step>`
+    *   **IF** Plan is complete: `> Recommended Action: /vector:save <commit_message>`
 """
 
 

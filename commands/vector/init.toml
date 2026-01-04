@@ -37,4 +37,5 @@ You are initializing the **Vector Protocol** for this project.
 **Output:**
 *   Confirmation of file creation.
 *   Request for the user to verify the auto-detected Context in `CONTEXT.md`.
+*   **Navigation:** Append: `> Recommended Action: /vector:scan`
 """

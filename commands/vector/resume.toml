@@ -25,5 +25,5 @@ prompt = """
     *   Load **State** (State).
 3.  **Status Report:**
     *   Display the **Last Phase**, **Last Action**, and **Next Step** from the loaded files.
-    *   **Prompt:** "Context loaded. Ready to resume at Phase [Phase]?"
+    *   **Navigation:** Analyze the State/Plan and append: `> Recommended Action: /vector:<command>` (Refer to `GEMINI.md` logic).
 """

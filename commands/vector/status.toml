@@ -24,4 +24,8 @@ prompt = """
     *   **Last Action:** [Last result from State]
     *   **Next Step:** [Next Item from Plan]
 3.  **Constraint:** Read-only operation. Do not modify state.
+
+**Output:**
+*   **Dashboard:** The structured summary.
+*   **Navigation:** Analyze the State/Plan and append: `> Recommended Action: /vector:<command>` (Refer to `GEMINI.md` logic).
 """

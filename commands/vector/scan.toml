@@ -43,6 +43,7 @@ You are entering the **PERCEPTION (Scan)** phase.
 *   **Structured Checklist:** List files found and insights as `- [x] Found ...`.
 *   **Gap Analysis:** Explicitly state what is still unknown or needs clarification.
 *   **Prompt:** "Analysis complete. Ready to proceed to Planning?"
+*   **Navigation:** Append: `> Recommended Action: /vector:plan <objective>`
 *   **Stopping Criteria:** DO NOT generate a plan. DO NOT modify code. STOP after the analysis.
 """
 

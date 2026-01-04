@@ -12,13 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "Compass -> PLAN: Strategy Phase. Develop a rigorous implementation roadmap."
+description = "🗺️ PLAN: Strategy Phase. Develop a rigorous implementation roadmap."
 prompt = """
 You are entering the **STRATEGY (Plan)** phase.
 
 **User Objective:** "{{args}}"
 
 **Goal:** Create a specific, atomic, and verified implementation plan.
+
+**Interaction Standards:**
+1.  **Acknowledge:** Rephrase the objective to confirm alignment.
+2.  **Checklist:** The final plan MUST be a checklist for user approval.
 
 **Protocol:**
 1.  **Context Review:**
@@ -38,9 +42,11 @@ You are entering the **STRATEGY (Plan)** phase.
         *   **Implementation Plan:** [Numbered List of Atomic Steps]
 4.  **State Update:**
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[STRATEGY]`.
+    *   **Constraint:** **DO NOT** overwrite the `## 📝 Scratchpad` or Findings. Only update the Phase line.
 
 **Output:**
 *   **Analysis Summary:** Why this approach was chosen.
-*   **The Plan:** Display the content written to `.gemini/PLAN.md`.
-*   **Prompt:** "Plan established. Ready to Execute?"
+*   **Plan Checklist:** Present the plan as a checklist (`- [ ] Step...`) and ask for approval.
+*   **Prompt:** "Plan established. Ready to Execute? (Please run /vector:work)"
+*   **Stopping Criteria:** DO NOT execute the plan. DO NOT write code. STOP after writing the plan.
 """

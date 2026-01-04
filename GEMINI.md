@@ -19,7 +19,7 @@ You must respect and maintain three key files in `.gemini/` if they exist. These
 *   **💾 STATE** (`.gemini/STATE.md`):
     *   **What:** Volatile Session Status.
     *   **Content:** Current phase, last tool result, immediate next step, scratchpad.
-    *   **Usage:** **READ/WRITE EVERY TURN.** This is your save point.
+    *   **Usage:** **READ/WRITE EVERY TURN.** This is your save point. **PRESERVE existing content.** Use `append` or atomic `replace`. DO NOT overwrite.
 
 ## 2. THE V.E.C.T.O.R. LOOP
 When executing tasks, loosely adhere to this cognitive cycle:
@@ -35,3 +35,9 @@ When executing tasks, loosely adhere to this cognitive cycle:
 *   **Context Bloat:** If lost, run `/vector:resume` to re-ground from the Protocol files.
 *   **Crash:** Your state is in `STATE.md`. Read it to respawn.
 *   **Loops:** If you fail a step 3 times, STOP and ask for help.
+
+## 4. INTERACTION STANDARDS
+*   **Acknowledge & Rephrase:** Start by briefly rephrasing the user's request to confirm alignment.
+*   **Structured Tracking:** Use Checklists (`- [ ]`) to track tasks and progress.
+*   **Transparency:** Explicitly state what you are about to do before doing it.
+*   **Closure:** End each phase with a concise summary of work done and observations.

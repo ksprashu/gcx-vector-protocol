@@ -15,59 +15,41 @@
 description = "🔨 WORK: Execution Phase. Implement and verify atomic changes."
 
 prompt = """
-
 You are entering the **EXECUTION (Act)** phase.
-
-
 
 **User Instruction:** "{{args}}"
 
-*(Use this to select a specific task or guide the immediate action.)*
-
-
-
 **Goal:** Execute the approved plan atomically, with immediate verification.
 
+**Interaction Standards:**
+1.  **Acknowledge:** State the specific task from the plan you are tackling.
+2.  **Transparency:** Explain *what* you are changing before calling tools.
+3.  **Closure:** Summarize the result.
 
+**Scope:**
+*   **ALLOWED:** implementing code, running tests, updating STATE.md.
+*   **FORBIDDEN:** creating new broad plans (use /vector:plan) or open-ended exploration (use /vector:scan).
 
 **Protocol:**
-
 1.  **Task Retrieval:**
-
     *   Read `.gemini/PLAN.md` to identify the next pending task.
-
     *   If "{{args}}" is provided, prioritize that instruction within the context of the plan.
-
 2.  **Execution Loop (Atomic Step):**
-
     *   **Implement:** Use `replace` or `write_file` to make the code change.
-
         *   *Constraint:* Adhere strictly to `.gemini/CONTEXT.md` (Standards).
-
     *   **Verify:** IMMEDIATELY run the build or test command (`run_shell_command`).
-
         *   *Constraint:* Do not proceed if verification fails.
-
     *   **Record:** Update `.gemini/STATE.md` with the result (Success/Failure) and output log.
-
+        *   **Constraint:** **APPEND** to the `## 📝 Scratchpad`. **DO NOT** overwrite previous entries.
 3.  **Error Handling:**
-
     *   If verification fails, **STOP**.
-
     *   Log the error in `.gemini/STATE.md`.
-
     *   Propose a fix or request a strategy review (`/vector:scan`).
 
-
-
 **Output:**
-
-*   **Action Log:** Concise summary of the change and verification result.
-
+*   **Execution Summary:** What was done, what was verified.
 *   **State:** Updated status in `.gemini/STATE.md`.
-
 *   **Prompt:** "Task complete. Proceed to next step?"
-
 """
 
 

@@ -12,23 +12,56 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "🔍 SCAN: Perception Phase. Verify state and map the territory."
-prompt = """
-You are entering the **VERIFY (Scan)** phase.
+description = "🔍 SCAN: Perception Phase. Gather context and verify state."
 
-**Goal:** Gather facts, verify assumptions, and map the relevant code.
+prompt = """
+
+You are entering the **PERCEPTION (Scan)** phase.
+
+
+
+**User Focus:** "{{args}}"
+
+*(If empty, perform a general environment analysis.)*
+
+
+
+**Goal:** rigorosuly map the relevant codebase context and verify assumptions before planning.
+
+
 
 **Protocol:**
-1.  **Read State:** Read `.gemini/ANCHOR.md` (Context) and `.gemini/COMPASS.md` (Objective).
-2.  **Map Territory:**
-    *   Use `list_directory`, `glob`, or `search_file_content` to find relevant files.
-    *   **Do not guess.** Verify file existence and content.
-3.  **Update Pulse:**
-    *   Write your findings to `.gemini/PULSE.md` under the `## 📝 Scratchpad` section.
-    *   Update the `**Phase:**` in PULSE to `[V - VERIFY]`.
+
+1.  **Context Loading:**
+
+    *   Read `.gemini/CONTEXT.md` to understand Project Standards and Architecture.
+
+    *   Read `.gemini/PLAN.md` to understand the Active Roadmap.
+
+2.  **Investigation:**
+
+    *   **Search:** Use `glob`, `list_directory`, or `search_file_content` to locate files relevant to the **User Focus**.
+
+    *   **Verify:** Read key files (`read_file`) to confirm their actual content. Do not rely on file names alone.
+
+    *   **Depedency Check:** If applicable, check configuration files (e.g., `package.json`, `requirements.txt`) to confirm library availability.
+
+3.  **State Update:**
+
+    *   **Write** your raw findings to `.gemini/STATE.md` under the `## 📝 Scratchpad` section.
+
+    *   **Update** the `**Phase:**` in `.gemini/STATE.md` to `[PERCEPTION]`.
+
+
 
 **Output:**
-*   Summary of what you found.
-*   Confirmation that PULSE is updated.
-*   Ask: "Ready to Plan?"
+
+*   **Structured Summary:** List the files found and key insights derived.
+
+*   **Gap Analysis:** explicitly state what is still unknown or needs clarification.
+
+*   **Prompt:** "Analysis complete. Ready to proceed to Planning?"
+
 """
+
+

@@ -12,24 +12,62 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "🔨 WORK: Execution Phase. Transmute requirements into code."
-prompt = """
-You are entering the **TRANSMUTE (Act)** phase.
+description = "🔨 WORK: Execution Phase. Implement and verify atomic changes."
 
-**Goal:** Execute the plan from the Compass, atomically and safely.
+prompt = """
+
+You are entering the **EXECUTION (Act)** phase.
+
+
+
+**User Instruction:** "{{args}}"
+
+*(Use this to select a specific task or guide the immediate action.)*
+
+
+
+**Goal:** Execute the approved plan atomically, with immediate verification.
+
+
 
 **Protocol:**
-1.  **Read Instructions:** Read `.gemini/COMPASS.md` to get the next pending task.
-2.  **Execute Loop (One Task at a Time):**
-    *   **T - Transmute:** Write/Edit the code (`replace`, `write_file`).
-    *   **O - Observe:** Run the test/build (`run_shell_command`). **VERIFY IMMEDIATELY.**
-    *   **R - Record:** Update `.gemini/PULSE.md` with the result (Success/Fail).
-3.  **Safety:**
-    *   If a step fails, **STOP**. Update Pulse with the error. Ask for guidance or switch to `/vector:scan` to investigate.
-    *   **DO NOT** loop blindly.
+
+1.  **Task Retrieval:**
+
+    *   Read `.gemini/PLAN.md` to identify the next pending task.
+
+    *   If "{{args}}" is provided, prioritize that instruction within the context of the plan.
+
+2.  **Execution Loop (Atomic Step):**
+
+    *   **Implement:** Use `replace` or `write_file` to make the code change.
+
+        *   *Constraint:* Adhere strictly to `.gemini/CONTEXT.md` (Standards).
+
+    *   **Verify:** IMMEDIATELY run the build or test command (`run_shell_command`).
+
+        *   *Constraint:* Do not proceed if verification fails.
+
+    *   **Record:** Update `.gemini/STATE.md` with the result (Success/Failure) and output log.
+
+3.  **Error Handling:**
+
+    *   If verification fails, **STOP**.
+
+    *   Log the error in `.gemini/STATE.md`.
+
+    *   Propose a fix or request a strategy review (`/vector:scan`).
+
+
 
 **Output:**
-*   Concise log of action.
-*   Verification result.
-*   Updated Pulse status.
+
+*   **Action Log:** Concise summary of the change and verification result.
+
+*   **State:** Updated status in `.gemini/STATE.md`.
+
+*   **Prompt:** "Task complete. Proceed to next step?"
+
 """
+
+

@@ -12,30 +12,23 @@ gemini extensions install https://github.com/ksprashu/gcx-vector-protocol --auto
 
 The `--auto-update` is optional: if specified, it will update to new versions as they are released.
 
-## 🚀 Getting Started
+This extension implements the **Vector Protocol** for the Gemini CLI.
 
-1.  **Initialize:** Run `/vector:init` in your project root.
-    *   This creates the `.gemini/` directory.
-    *   It creates the **Trinity of State** files: `ANCHOR.md`, `COMPASS.md`, and `PULSE.md`.
+It creates the **Protocol State** files: `CONTEXT.md`, `PLAN.md`, and `STATE.md`.
 
-## 🧠 The Trinity of State
+## The Files
 
-The protocol relies on three files to maintain context, so you don't have to keep repeating yourself.
+1.  **📄 CONTEXT (`.gemini/CONTEXT.md`)**
+    *   Static project rules, tech stack, and constraints.
+    *   *The "Constitution".*
 
-1.  **⚓️ ANCHOR (`.gemini/ANCHOR.md`)**
-    *   **The "Why" and "How".**
-    *   Static truths: Tech stack, coding conventions, architectural invariants.
-    *   *Edit this once at the start of the project.*
+2.  **🗺️ PLAN (`.gemini/PLAN.md`)**
+    *   The active roadmap and implementation strategy.
+    *   *The "Map".*
 
-2.  **🧭 COMPASS (`.gemini/COMPASS.md`)**
-    *   **The "Where".**
-    *   Dynamic roadmap: Current active feature specs, user stories, TODOs.
-    *   *Update this before starting a new feature (Strategy Phase).*
-
-3.  **💓 PULSE (`.gemini/PULSE.md`)**
-    *   **The "Now".**
-    *   Volatile state: Current phase, last tool output, immediate next step, scratchpad.
-    *   *The agent updates this automatically after every turn.*
+3.  **💾 STATE (`.gemini/STATE.md`)**
+    *   Volatile session state, last action, and scratchpad.
+    *   *The "Save Point".*
 
 ## 🔄 The Workflow (V.E.C.T.O.R.)
 

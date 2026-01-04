@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "🧹 RESET: Failsafe. Nuke the Pulse and start fresh."
+description = "🧹 RESET: Failsafe. Clear the Session State."
 prompt = """
-**Goal:** Clear the volatile state (Pulse) but keep the Plan (Compass) and Rules (Anchor).
+**Goal:** Reset the volatile Session State while preserving Context and Plan.
 
 **Protocol:**
-1.  **Archive:** Append the current content of `.gemini/PULSE.md` to a file named `.gemini/PULSE_ARCHIVE.md` (for safety).
-2.  **Reset:** Overwrite `.gemini/PULSE.md` with a fresh, empty template.
-3.  **Notify:** "Pulse has been reset. Compass and Anchor are intact. Ready to start a new vector."
+1.  **Archive:** Append the current content of `.gemini/STATE.md` to `.gemini/STATE_ARCHIVE.md` (Audit Trail).
+2.  **Reset:** Overwrite `.gemini/STATE.md` with a clean initialization template.
+3.  **Report:** "Session State reset. Context and Plan preserved."
 """

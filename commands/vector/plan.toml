@@ -12,24 +12,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "🧭 PLAN: Strategy Phase. Establish the roadmap and requirements."
+description = "Compass -> PLAN: Strategy Phase. Develop a rigorous implementation roadmap."
 prompt = """
-You are entering the **ESTABLISH (Plan)** phase.
+You are entering the **STRATEGY (Plan)** phase.
 
-**Goal:** Define the direction and architectural blueprint.
+**User Objective:** "{{args}}"
+
+**Goal:** Create a specific, atomic, and verified implementation plan.
 
 **Protocol:**
-1.  **Read Context:** Read `.gemini/ANCHOR.md` (Constraints) and `.gemini/PULSE.md` (Current Findings).
-2.  **Develop Strategy:**
-    *   Break the user's request into atomic steps.
-    *   Check for "Dr. Strange" scenarios (what could go wrong?).
-3.  **Update Compass:**
-    *   **WRITE** the detailed plan to `.gemini/COMPASS.md`.
-    *   This is your "Source of Truth" for the next phase.
-4.  **Update Pulse:**
-    *   Update `**Phase:**` in PULSE to `[E - ESTABLISH]`.
+1.  **Context Review:**
+    *   Read `.gemini/CONTEXT.md` (Project Constraints) and `.gemini/STATE.md` (Investigation Findings).
+2.  **Strategic Analysis:**
+    *   **First Principles:** Deconstruct the User Objective into its fundamental requirements.
+    *   **Trade-off Analysis:** Briefly evaluate 2-3 approaches (e.g., Simplest vs. Most Performant vs. Most Robust). Select the best fit for the Project Standards.
+    *   **Risk Assessment (Pre-Mortem):** Identify potential failure modes (breaking changes, side effects, dependency conflicts) and define mitigation steps.
+3.  **Plan Generation:**
+    *   **Draft** a step-by-step plan. Each step must be:
+        *   **Atomic:** One logical change.
+        *   **Verifiable:** Include a specific test or check to confirm success.
+    *   **WRITE** this plan to `.gemini/PLAN.md`.
+    *   **Format:**
+        *   **Objective:** [Clear Goal]
+        *   **Selected Strategy:** [Rationale]
+        *   **Implementation Plan:** [Numbered List of Atomic Steps]
+4.  **State Update:**
+    *   Update `**Phase:**` in `.gemini/STATE.md` to `[STRATEGY]`.
 
 **Output:**
-*   Show the Plan (from COMPASS).
-*   Ask: "Does this plan meet the requirement? Shall we Act?"
+*   **Analysis Summary:** Why this approach was chosen.
+*   **The Plan:** Display the content written to `.gemini/PLAN.md`.
+*   **Prompt:** "Plan established. Ready to Execute?"
 """

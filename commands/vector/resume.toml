@@ -12,19 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "♻️ RESUME: Recovery Phase. Reload state from the Trinity."
+description = "♻️ RESUME: Recovery Phase. Reload context from state files."
 prompt = """
-**Goal:** Recover context after a crash, reload, or long break.
+**Goal:** Restore execution context from the Vector Protocol files.
 
 **Protocol:**
-1.  **Locate Trinity:** Find `.gemini/ANCHOR.md`, `.gemini/COMPASS.md`, and `.gemini/PULSE.md`.
-    *   *If missing:* Suggest `/vector:init`.
-2.  **Load State:**
-    *   Read **ANCHOR** to remember the rules.
-    *   Read **COMPASS** to remember the plan.
-    *   Read **PULSE** to remember where you left off.
-3.  **Orient:**
-    *   Tell the user: "I have reloaded the Vector Protocol."
-    *   "We were in Phase [Phase]. The last action was [Action]."
-    *   "Ready to resume?"
+1.  **State Check:** Verify existence of `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, and `.gemini/STATE.md`.
+    *   *Exception:* If missing, advise running `/vector:init`.
+2.  **Context Loading:**
+    *   Load **Context** (Context).
+    *   Load **Plan** (Plan).
+    *   Load **State** (State).
+3.  **Status Report:**
+    *   Display the **Last Phase**, **Last Action**, and **Next Step** from the loaded files.
+    *   **Prompt:** "Context loaded. Ready to resume at Phase [Phase]?"
 """

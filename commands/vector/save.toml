@@ -13,14 +13,35 @@
 # limitations under the License.
 
 description = "💾 SAVE: Persistence Phase. Commit state to disk and git."
+
 prompt = """
-**Goal:** Persist all work to disk and version control.
+
+**Goal:** Persist execution state to disk and version control.
+
+
+
+**User Message:** "{{args}}"
+
+*(Use this as the commit message.)*
+
+
 
 **Protocol:**
-1.  **Update Pulse:** Ensure `.gemini/PULSE.md` is strictly up to date with the latest context.
-2.  **Git Status:** Check `git status`.
-3.  **Git Commit:**
-    *   Stage changed files (including `.gemini/`).
-    *   Commit with a clear message based on the *Last Action* in Pulse.
-4.  **Confirm:** Report the commit hash and saved state.
+
+1.  **State Sync:** Ensure `.gemini/STATE.md` reflects the latest outcome.
+
+2.  **Git Check:** Run `git status` to verify staged/unstaged changes.
+
+3.  **Commit:**
+
+    *   Stage relevant files (including `.gemini/`).
+
+    *   Commit with the **User Message**.
+
+    *   *Constraint:* If {{args}} is empty, derive a concise message from the **Last Action** in State.
+
+4.  **Confirm:** Report the commit hash.
+
 """
+
+

@@ -52,6 +52,7 @@ You are entering the **EXECUTION (Act)** phase.
 *   **Navigation:**
     *   **IF** Plan has more steps: `> Recommended Action: /vector:work <next_step>`
     *   **IF** Plan is complete: `> Recommended Action: /vector:save <commit_message>`
+*   **Stopping Criteria:** **STOP** after the atomic task. **WAIT** for the user to instruct the next step. **DO NOT** loop automatically.
 """
 
 

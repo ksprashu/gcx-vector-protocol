@@ -1,30 +1,28 @@
 # 🗺️ PLAN
 
 ## Current Objective
-Implement "Next Step Recommendation" logic across the Vector Protocol.
+Enforce strict "Stopping Criteria" and prevent slash command execution in shell.
 
 ## Rationale
-Users often lose track of the strict "Scan -> Plan -> Work" cycle. By embedding a "Navigation Engine" into the prompts, the Protocol becomes self-guiding, reducing friction and ensuring adherence to the workflow.
+The agent's "eagerness" to follow its own recommendations breaks the human-in-the-loop protocol. We must explicitly forbid autonomous phase transitions and clarify the nature of slash commands (User Input vs. Shell Command).
 
 ## Strategy
-1.  **Centralized Logic:** Define the "State -> Command" mapping in `.gemini/GEMINI.md` so all agents share the same navigation rules.
-2.  **Distributed Execution:** Update each TOML prompt to explicitly consult this mapping and output a `> Recommended Action: /vector:command` line.
+1.  **Protocol-Level Constraint:** Update `GEMINI.md` to explicitly ban `run_shell_command("/vector:...")`.
+2.  **Prompt-Level Constraint:** Update `scan.toml` and `plan.toml` to reinforce "WAIT for user input" and "DO NOT execute recommendation".
 
 ## Roadmap
 - [ ] **Step 1: Update `.gemini/GEMINI.md` (Protocol Definition)**
-    - Add "5. NAVIGATION LOGIC" section defining the rules (e.g., Scan -> Plan, Plan -> Work).
-- [ ] **Step 2: Update `commands/vector/init.toml`**
-    - Add instruction: Recommend `/vector:scan`.
-- [ ] **Step 3: Update `commands/vector/scan.toml`**
-    - Add instruction: Recommend `/vector:plan`.
-- [ ] **Step 4: Update `commands/vector/plan.toml`**
-    - Add instruction: Recommend `/vector:work`.
-- [ ] **Step 5: Update `commands/vector/work.toml`**
-    - Add instruction: Recommend `/vector:work` (next task) OR `/vector:save` (done).
-- [ ] **Step 6: Update `commands/vector/status.toml` & `resume.toml`**
-    - Add instruction: Analyze state and recommend next command based on Global Logic.
-- [ ] **Step 7: Verification**
-    - Dry-run the logic by simulating a flow (Init -> Scan -> Plan -> Work) and verifying the recommended output.
+    - Add "6. ANTI-PATTERNS" section.
+    - Rule 1: "NEVER execute `/vector:*` commands via `run_shell_command`."
+    - Rule 2: "NEVER autonomously transition phases. WAIT for user input."
+- [ ] **Step 2: Update `commands/vector/scan.toml`**
+    - Update "Stopping Criteria" to be more aggressive: "WAIT for the user. Do NOT execute the recommended command."
+- [ ] **Step 3: Update `commands/vector/plan.toml`**
+    - Update "Stopping Criteria" similarly.
+- [ ] **Step 4: Update `commands/vector/work.toml`**
+    - Add constraint: "If recommending next step, STOP. Do not loop automatically unless explicitly instructed."
+- [ ] **Step 5: Verification**
+    - Check `GEMINI.md` for the new rules.
 
 ## Active Spec
-*Focus on adding the "Navigation Logic" section and updating the `Output` sections of TOML files.*
+*Focus on adding the "ANTI-PATTERNS" section and hardening the "Stopping Criteria" in TOML files.*

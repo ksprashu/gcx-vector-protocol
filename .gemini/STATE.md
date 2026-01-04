@@ -1,27 +1,17 @@
 # 💾 STATE
 
 **Phase:** [EXECUTION]
-**Objective:** Implement "Next Step Recommendation" logic.
+**Objective:** Enforce strict "Stopping Criteria" and prevent slash command execution.
 
 ## 📝 Scratchpad
-- **User Request:** Add "intelligent prompting for the next step" and "recommend the next command" to the Vector Protocol.
-- **Findings:**
-    - The protocol is defined by TOML prompts and a central `GEMINI.md` context.
-    - Current prompts have static closing questions.
-    - Need to inject logic to analyze the current state (Phase + Plan Status) and output a specific command recommendation.
-- **Target Files:**
-    - `.gemini/GEMINI.md`: Add global "Recommendation Logic".
-    - `commands/vector/init.toml`: Recommend `/vector:scan`.
-    - `commands/vector/scan.toml`: Recommend `/vector:plan`.
-    - `commands/vector/plan.toml`: Recommend `/vector:work`.
-    - `commands/vector/work.toml`: Recommend `/vector:work` (loop) or `/vector:save`/`/vector:scan`.
-    - `commands/vector/status.toml`: Recommend based on state.
-    - `commands/vector/resume.toml`: Recommend based on state.
+- **User Issue:** Agent went Scan -> Plan -> Work autonomously and tried to run `/vector:work` as a shell command.
+- **Investigation:**
+    - Analyzed `GEMINI.md` (Navigation Logic) and `commands/vector/*.toml`.
+    - **Finding 1:** "Recommended Action" in `Navigation Logic` might be interpreted as an imperative instruction to *act* immediately, bypassing the "Stopping Criteria".
+    - **Finding 2:** There is no explicit guardrail preventing the agent from trying to run `/vector:*` commands as shell scripts.
 - **Execution Log:**
-    - Updated `GEMINI.md` with "5. NAVIGATION LOGIC".
-    - Updated `commands/vector/init.toml`.
-    - Updated `commands/vector/scan.toml`.
-    - Updated `commands/vector/plan.toml`.
-    - Updated `commands/vector/work.toml`.
-    - Updated `commands/vector/status.toml` and `commands/vector/resume.toml`.
-    - Verified `GEMINI.md` content.
+    - Updated `GEMINI.md` with "6. ANTI-PATTERNS".
+    - Updated `commands/vector/scan.toml` (Hardened Stopping Criteria).
+    - Updated `commands/vector/plan.toml` (Hardened Stopping Criteria).
+    - Updated `commands/vector/work.toml` (Prevented auto-looping).
+    - Verified `GEMINI.md`.

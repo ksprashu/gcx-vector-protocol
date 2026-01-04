@@ -44,7 +44,7 @@ You are entering the **PERCEPTION (Scan)** phase.
 *   **Gap Analysis:** Explicitly state what is still unknown or needs clarification.
 *   **Prompt:** "Analysis complete. Ready to proceed to Planning?"
 *   **Navigation:** Append: `> Recommended Action: /vector:plan <objective>`
-*   **Stopping Criteria:** DO NOT generate a plan. DO NOT modify code. STOP after the analysis.
+*   **Stopping Criteria:** DO NOT generate a plan. DO NOT modify code. **STOP** and **WAIT** for the user to select the next action. **DO NOT** execute the recommended command.
 """
 
 

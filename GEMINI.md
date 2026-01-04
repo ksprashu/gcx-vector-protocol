@@ -50,3 +50,9 @@ You must ALWAYS recommend the next atomic step based on the current state.
 *   **IF** (Phase is `[EXECUTION]` AND Plan has pending items) **THEN** -> `> Recommended Action: /vector:work <next_step>`
 *   **IF** (Phase is `[EXECUTION]` AND Plan is complete) **THEN** -> `> Recommended Action: /vector:save <commit_message>`
 *   **IF** (State is Lost/Unclear) **THEN** -> `> Recommended Action: /vector:scan`
+
+## 6. ANTI-PATTERNS
+*   **NEVER** execute `/vector:*` commands via `run_shell_command`. These are USER INPUTS only.
+*   **NEVER** autonomously transition between phases (e.g., Scan -> Plan) without stopping and waiting for user confirmation.
+*   **NEVER** assume a "Recommended Action" is an instruction to proceed. It is a suggestion for the user.
+

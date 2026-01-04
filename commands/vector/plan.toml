@@ -49,5 +49,5 @@ You are entering the **STRATEGY (Plan)** phase.
 *   **Plan Checklist:** Present the plan as a checklist (`- [ ] Step...`) and ask for approval.
 *   **Prompt:** "Plan established. Ready to Execute?"
 *   **Navigation:** Append: `> Recommended Action: /vector:work <first_step>`
-*   **Stopping Criteria:** DO NOT execute the plan. DO NOT write code. STOP after writing the plan.
+*   **Stopping Criteria:** DO NOT execute the plan. DO NOT write code. **STOP** and **WAIT** for user approval. **DO NOT** execute the recommended command.
 """

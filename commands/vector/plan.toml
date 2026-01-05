@@ -27,6 +27,7 @@ You are entering the **STRATEGY (Plan)** phase.
 **Protocol:**
 1.  **Context Review:**
     *   Read `.gemini/CONTEXT.md` (Project Constraints) and `.gemini/STATE.md` (Investigation Findings).
+    *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Strategic Analysis:**
     *   **First Principles:** Deconstruct the User Objective into its fundamental requirements.
     *   **Trade-off Analysis:** Briefly evaluate 2-3 approaches (e.g., Simplest vs. Most Performant vs. Most Robust). Select the best fit for the Project Standards.

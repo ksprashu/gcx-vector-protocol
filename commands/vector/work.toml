@@ -34,6 +34,7 @@ You are entering the **EXECUTION (Act)** phase.
 1.  **Task Retrieval:**
     *   Read `.gemini/PLAN.md` to identify the next pending task.
     *   If "{{args}}" is provided, prioritize that instruction within the context of the plan.
+    *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Execution Loop (Atomic Step):**
     *   **Implement:** Use `replace` or `write_file` to make the code change.
         *   *Constraint:* Adhere strictly to `.gemini/CONTEXT.md` (Standards).
@@ -52,7 +53,7 @@ You are entering the **EXECUTION (Act)** phase.
 *   **Navigation:**
     *   **IF** Plan has more steps: `> Recommended Action: /vector:work <next_step>`
     *   **IF** Plan is complete: `> Recommended Action: /vector:save <commit_message>`
-*   **Stopping Criteria:** **STOP** after the atomic task. **WAIT** for the user to instruct the next step. **DO NOT** loop automatically.
+*   **Stopping Criteria:** **STOP** after the atomic task. **WAIT** for the user to instruct the next step. **DO NOT** loop automatically. **DO NOT** execute the recommended command.
 """
 
 

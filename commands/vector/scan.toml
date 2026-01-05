@@ -30,6 +30,7 @@ You are entering the **PERCEPTION (Scan)** phase.
 1.  **Context Loading:**
     *   Read `.gemini/CONTEXT.md` to understand Project Standards and Architecture.
     *   Read `.gemini/PLAN.md` to understand the Active Roadmap.
+    *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Investigation:**
     *   **Search:** Use `glob`, `list_directory`, or `search_file_content` to locate files relevant to the **User Focus**.
     *   **Verify:** Read key files (`read_file`) to confirm their actual content. Do not rely on file names alone.

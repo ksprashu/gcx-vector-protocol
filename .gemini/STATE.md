@@ -1,22 +1,29 @@
 # 💾 STATE
 
 **Phase:** [EXECUTION]
-**Objective:** Enforce strict "Stopping Criteria" and prevent slash command execution in shell.
+**Objective:** Formalize Context Retention Mechanism & Enable Backlog.
 
 ## 📝 Scratchpad
-### Scan Findings
-- **Protocol Source:** The VECTOR Protocol definition is in `GEMINI.md` (root), NOT `.gemini/GEMINI.md` as stated in the current plan.
-- **Extension Info:** `.gemini/GEMINI.md` only contains versioning directives.
-- **Existing Anti-Patterns:** `GEMINI.md` already lists 3 anti-patterns. The plan aims to strengthen them.
-- **TOML Prompts:** `scan.toml`, `plan.toml`, and `work.toml` already have "Stopping Criteria", but we can explicitly add the "shell command" ban.
+*   **User Focus:** Wants "Backlog" / Multi-topic support in Vector Protocol.
+*   **Investigation:**
+    - Scanned `.gemini/PLAN.md`: Found no "Backlog" section. Currently supports only "Active Roadmap".
+    - Scanned `commands/vector/plan.toml`: Found rigid format instructions (Objective, Strategy, Plan).
+    - Scanned `GEMINI.md`: Confirmed protocol definition focuses on "Active roadmap".
+*   **Conclusion:** The feature is missing. The current protocol is single-threaded (one active focus).
+*   **Proposed Solution:** Modify `PLAN.md` structure and `plan.toml` prompt to support a `## 📦 Backlog` section for parking ideas.
 
-### Gap Analysis
-- Need to correct the target file path in the plan (from `.gemini/GEMINI.md` to `GEMINI.md`).
-- Need to formulate specific text updates for the TOML files to satisfy the "explicitly ban run_shell_command" requirement.
+*   **User Focus (Query):** "How is work passed between steps? Is context retained?"
+*   **Analysis of Mechanism:**
+    - **Retention:**
+        - `STATE.md`: The critical persistence layer. `scan` writes "findings" here. `plan` reads these "findings" to build the roadmap. `work` reads the roadmap from `PLAN.md` and appends execution logs back to `STATE.md`.
+        - **Rule:** Protocol explicitly demands "PRESERVE existing content" and "Append" (seen in `scan.toml` and `work.toml`).
+    - **Handoff:**
+        - Scan -> Plan: Handled by human reading `STATE.md` (via LLM summary) + `PLAN.md` context.
+        - Plan -> Work: Handled by `PLAN.md` acting as the "Instruction Tape".
+    - **Vulnerability:** If an agent *overwrites* `STATE.md` instead of appending, context is lost. The current prompts *do* have constraints ("DO NOT overwrite"), but we must ensure they are robust.
 
-### Execution Log
-- **Step 1 (Verify GEMINI.md):** Checked `GEMINI.md`. The "ANTI-PATTERNS" section already exists and matches the requirements. Marked as complete.
-- **Step 2 (Update scan.toml):** Added "CRITICAL: NEVER use run_shell_command..." to `scan.toml` protocol section. Verified content.
-- **Step 3 (Update plan.toml):** Added "CRITICAL: NEVER use run_shell_command..." to `plan.toml` protocol section. Verified content.
-- **Step 4 (Update work.toml):** Added "CRITICAL: NEVER use run_shell_command..." and reinforced Stopping Criteria in `work.toml`. Verified content.
-- **Step 5 (Verification):** Read all modified files. Confirmed all constraints are present and syntactically correct.
+*   **Execution Log:**
+    - **Step 1:** Added "2.1 THE CONTEXT BRIDGE" to `GEMINI.md`. Verified.
+    - **Step 2:** Updated `commands/vector/plan.toml` to include `Backlog` in the Plan Generation Format. Verified.
+    - **Step 3:** Updated `commands/vector/scan.toml` to include logic for recommending "Update Backlog". Verified.
+    - **Step 4:** Migrated `.gemini/PLAN.md` to include `## 📦 Backlog`. Verified.

@@ -41,6 +41,7 @@ You are entering the **STRATEGY (Plan)** phase.
         *   **Objective:** [Clear Goal]
         *   **Selected Strategy:** [Rationale]
         *   **Implementation Plan:** [Numbered List of Atomic Steps]
+        *   **Backlog:** [Optional: Parked ideas/future tasks. PRESERVE existing.]
 4.  **State Update:**
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[STRATEGY]`.
     *   **Constraint:** **DO NOT** overwrite the `## 📝 Scratchpad` or Findings. Only update the Phase line.

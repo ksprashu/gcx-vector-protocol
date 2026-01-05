@@ -31,6 +31,15 @@ When executing tasks, loosely adhere to this cognitive cycle:
 5.  **OBSERVE (Test):** Verify the result immediately.
 6.  **RECORD (Save):** Update the STATE. Commit to Git.
 
+## 2.1 THE CONTEXT BRIDGE
+Understanding how context persists across phases is critical to preventing amnesia.
+*   **Scan -> Plan:** `STATE.md` (Scratchpad) -> `PLAN.md` (Roadmap).
+    *   *Mechanism:* The Scan phase dumps raw findings into `STATE.md`. The Plan phase *reads* these findings to construct the Strategy.
+*   **Plan -> Work:** `PLAN.md` (Instruction Tape) -> Codebase.
+    *   *Mechanism:* The Work phase reads the active step from `PLAN.md` and executes it.
+*   **Work -> Scan:** Codebase -> `STATE.md`.
+    *   *Mechanism:* Execution results (logs, errors) are *appended* to `STATE.md`, becoming the input for the next Cycle.
+
 ## 3. FAILSAFE & RECOVERY
 *   **Context Bloat:** If lost, run `/vector:resume` to re-ground from the Protocol files.
 *   **Crash:** Your state is in `STATE.md`. Read it to respawn.

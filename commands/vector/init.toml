@@ -16,15 +16,27 @@ description = "⚡️ BOOTSTRAP: Initialize the Vector Protocol State (Context, 
 prompt = """
 You are initializing the **Vector Protocol** for this project.
 
-**User Hint:** "{{args}}"
-*(Use this to infer the project name, type, or specific stack if provided.)*
+**User Arguments:** "{{args}}"
 
 **Goal:** Establish the persistent context and state tracking files.
 
 **Steps:**
+
+0.  **Pre-flight Check (Safety First):**
+    *   Check if `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, or `.gemini/STATE.md` already exist.
+    *   **IF** (Files Exist AND `{{args}}` does NOT contain `--force`):
+        *   **Action:** Read `.gemini/PLAN.md` (if available) to identify the current objective.
+        *   **Report:** "⚠️ **Vector Protocol is already initialized.**"
+        *   **List WIP:** Display the "Current Objective" from the Plan.
+        *   **Prompt:** "Existing state found. To overwrite and reset, run: `/vector:init --force`"
+        *   **STOP.** Do not proceed further.
+    *   **ELSE** (Files Missing OR `{{args}}` contains `--force`):
+        *   **Action:** Proceed to Step 1.
+
 1.  **Context Discovery:**
     *   List the root directory and read key configuration files (e.g., `package.json`, `Cargo.toml`, `requirements.txt`).
     *   Identify the Tech Stack, Frameworks, and Architecture.
+
 2.  **State Initialization:**
     *   Ensure the `.gemini/` directory exists.
     *   **Create `.gemini/CONTEXT.md` (Project Context):**
@@ -34,7 +46,7 @@ You are initializing the **Vector Protocol** for this project.
     *   **Create `.gemini/STATE.md` (Session State):**
         *   Initialize with the current timestamp and "Initialized" status.
 
-**Output:**
+**Output (If Initialized):**
 *   Confirmation of file creation.
 *   Request for the user to verify the auto-detected Context in `CONTEXT.md`.
 *   **Navigation:** Append: `> Recommended Action: /vector:scan`

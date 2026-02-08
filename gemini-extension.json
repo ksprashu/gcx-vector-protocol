@@ -10,6 +10,7 @@
     {"path": "commands/vector/work.toml"},
     {"path": "commands/vector/save.toml"},
     {"path": "commands/vector/resume.toml"},
-    {"path": "commands/vector/status.toml"}
+    {"path": "commands/vector/status.toml"},
+    {"path": "commands/vector/improve.toml"}
   ]
 }

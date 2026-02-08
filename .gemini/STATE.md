@@ -3,19 +3,19 @@
 
 ## 1. Status
 - **Phase:** [EXECUTION]
-- **Last Action:** Implemented Rich Plan Template in `plan.toml`.
+- **Last Action:** Updated `README.md` with new commands and workflow.
 - **Timestamp:** 2026-02-08
 
 ## 2. Context
 - **Project:** `gcx-vector-protocol`
-- **Objective:** Design Review & Rich Planning
+- **Objective:** Documentation Update
 
 ## 3. Scratchpad
-- **Task Complete:** Modified `commands/vector/plan.toml`.
+- **Task Complete:** Updated `README.md`.
 - **Changes:**
-    - Enforced Rich Plan Template (Analysis, Design, Roadmap).
-    - Added explicit "Review Protocol".
-    - Updated output prompt to direct user to `.gemini/PLAN.md`.
+    - Documented `/vector:improve`.
+    - Documented "Rich Plan" workflow.
+    - Added "Best Practices".
 - **Verification:**
     - Read the file content to confirm the changes were applied correctly.
 

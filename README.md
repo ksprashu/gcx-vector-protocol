@@ -23,7 +23,7 @@ It creates the **Protocol State** files: `CONTEXT.md`, `PLAN.md`, and `STATE.md`
     *   *The "Constitution".*
 
 2.  **🗺️ PLAN (`.gemini/PLAN.md`)**
-    *   The active roadmap and implementation strategy.
+    *   The active roadmap and implementation strategy. Now includes **Design Specifications**.
     *   *The "Map".*
 
 3.  **💾 STATE (`.gemini/STATE.md`)**
@@ -37,11 +37,11 @@ The extension provides specific commands for each phase of the loop:
 *   **V - VERIFY (`/vector:scan`)**
     *   Grounding phase. The agent reads the Anchor and Compass, checks the codebase, and maps the territory.
 *   **E - ESTABLISH (`/vector:plan`)**
-    *   Strategy phase. The agent drafts the plan in the Compass.
-*   **C - COMPUTE** (Internal)
-    *   The agent uses First Principles thinking during the Plan/Work phases.
+    *   Strategy phase. The agent drafts a **Rich Design Document** in the Compass for your review.
+*   **C - COMPUTE** (`/vector:improve`)
+    *   Ideation phase. The agent brainstorms enhancements and optimizations.
 *   **T - TRANSMUTE (`/vector:work`)**
-    *   Execution phase. The agent writes code based on the Compass.
+    *   Execution phase. The agent writes code based on the Compass with explicit **Transparency**.
 *   **O - OBSERVE** (Internal)
     *   The agent verifies code immediately after writing it (part of `/vector:work`).
 *   **R - RECORD (`/vector:save`)**
@@ -49,11 +49,21 @@ The extension provides specific commands for each phase of the loop:
 
 ## 🛠 Commands
 
-*   `/vector:init` - Bootstrap the Trinity files.
+*   `/vector:init` - Bootstrap the Trinity files (Safe mode included).
 *   `/vector:scan` - Analyze the codebase and current state.
-*   `/vector:plan` - Create or update the implementation plan.
-*   `/vector:work` - Execute the plan (write code + verify).
+*   `/vector:improve` - **[NEW]** Ideation & Brainstorming. Suggests enhancements for production readiness.
+*   `/vector:plan` - Create or update the implementation plan (Design Document).
+*   `/vector:work` - Execute the plan (write code + verify) with step-by-step confirmation.
 *   `/vector:status` - Show the current Pulse dashboard.
 *   `/vector:save` - Commit changes to git and save state.
 *   `/vector:resume` - Reload context after a restart.
 *   `/vector:reset` - Clear the Pulse (failsafe).
+
+## 💡 Best Practices
+
+1.  **Start with Scan:** Always run `/vector:scan` when starting a session to ground the agent.
+2.  **Ideate First:** Use `/vector:improve` to generate ideas before committing to a plan.
+3.  **Review the Plan:** `/vector:plan` now generates a detailed Design Document in `.gemini/PLAN.md`. **Read it.** Edit it. It is your blueprint.
+4.  **Iterate:** If the plan isn't right, run `/vector:plan "<feedback>"` to refine it.
+5.  **Atomic Work:** `/vector:work` is designed to be atomic. It will explain what it's doing. Verify each step.
+6.  **Save Often:** Use `/vector:save` after every successful logical unit of work.

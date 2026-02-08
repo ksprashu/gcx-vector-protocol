@@ -27,6 +27,7 @@
     - **Step 4 Complete:** Updated `commands/vector/plan.toml` to read from Backlog and remove promoted items.
     - **Step 5 Complete:** Updated `scan.toml` and `work.toml`.
     - **Step 6 Complete:** Manually verified flow (Write to Backlog logic is in place).
+    - Bumped extension version to `1.2.0`.
 
 ## 4. Next Steps
 - Commit changes.

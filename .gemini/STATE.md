@@ -20,6 +20,7 @@
     - Verified `commands/vector/improve.toml`: Valid TOML, correct prompt structure.
     - Verified `gemini-extension.json`: Valid JSON, correct command path.
     - All checks passed.
+    - Bumped extension version to `1.1.0`.
 
 ## 4. Next Steps
 - Save the changes to git.

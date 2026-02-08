@@ -17,5 +17,6 @@
     - Output: List of actionable **Enhancement Proposals**.
 
 ## 4. Implementation Roadmap
-- [ ] Create `commands/vector/improve.toml`.
-- [ ] Register command in `gemini-extension.json`.
+- [x] Create `commands/vector/improve.toml`.
+- [x] Register command in `gemini-extension.json`.
+- [x] Final Verification: Confirm file content and JSON validity.

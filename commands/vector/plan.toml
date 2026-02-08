@@ -17,6 +17,7 @@ prompt = """
 You are entering the **STRATEGY (Plan)** phase.
 
 **User Objective:** "{{args}}"
+*(If empty or "Review Backlog", perform a Backlog Review.)*
 
 **Goal:** Create a specific, atomic, and verified implementation plan.
 
@@ -28,22 +29,19 @@ You are entering the **STRATEGY (Plan)** phase.
 2.  **Rich Plan Structure:**
     *   The generated plan MUST be a comprehensive Design Document, not just a checklist.
     *   Include Analysis (Why), Design (How), and Roadmap (What).
-3.  **Review Protocol:**
-    *   Explicitly ask the user to review `.gemini/PLAN.md`.
-    *   Encourage them to edit the file directly or provide feedback via chat (`/vector:plan <feedback>`).
+3.  **Backlog Integration:**
+    *   If items are selected from `.gemini/BACKLOG.md`, move them to `.gemini/PLAN.md` and remove them from the Backlog.
 
 **Protocol:**
 1.  **Context Review:**
-    *   Read `.gemini/CONTEXT.md` (Project Constraints) and `.gemini/STATE.md` (Investigation Findings).
+    *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/STATE.md` (Investigation Findings), and `.gemini/BACKLOG.md` (Icebox).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Strategic Analysis:**
-    *   **First Principles:** Deconstruct the User Objective into its fundamental requirements.
-    *   **Trade-off Analysis:** Briefly evaluate 2-3 approaches (e.g., Simplest vs. Most Performant vs. Most Robust). Select the best fit for the Project Standards.
-    *   **Risk Assessment (Pre-Mortem):** Identify potential failure modes (breaking changes, side effects, dependency conflicts) and define mitigation steps.
+    *   **First Principles:** Deconstruct the User Objective.
+    *   **Trade-off Analysis:** Briefly evaluate approaches.
+    *   **Risk Assessment:** Identify potential failure modes.
 3.  **Plan Generation:**
-    *   **Draft** a step-by-step plan. Each step must be:
-        *   **Atomic:** One logical change.
-        *   **Verifiable:** Include a specific test or check to confirm success.
+    *   **Draft** a step-by-step plan. Each step must be Atomic and Verifiable.
     *   **WRITE** this plan to `.gemini/PLAN.md` using the **Rich Plan Template**.
     *   **Format:**
         *   **1. Objective:** [Clear Goal]
@@ -51,9 +49,11 @@ You are entering the **STRATEGY (Plan)** phase.
         *   **3. Design Specification:** [Technical Details, Data Structures, Function Signatures]
         *   **4. Implementation Roadmap:** [Numbered List of Atomic Steps]
         *   **5. Review:** [Instructions for User Feedback]
-4.  **State Update:**
+4.  **Backlog Management:**
+    *   **IF** items were promoted: **WRITE** (Update) `.gemini/BACKLOG.md` to remove them.
+5.  **State Update:**
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[STRATEGY]`.
-    *   **Constraint:** **DO NOT** overwrite the `## 📝 Scratchpad` or Findings. Only update the Phase line.
+    *   **Constraint:** **DO NOT** overwrite the `## 📝 Scratchpad`. Only update the Phase line.
 
 **Output:**
 *   **Analysis Summary:** Why this approach was chosen.

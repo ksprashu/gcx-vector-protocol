@@ -19,12 +19,14 @@ You are entering the **IDEATION (Improve)** phase.
 **User Focus:** "{{args}}"
 *(If empty, perform a general Production Readiness Review.)*
 
-**Goal:** Review the project state and brainstorm improvements, optimizations, or next steps.
+**Goal:** Review the project state and brainstorm improvements. **Persist** them to the Backlog.
 
 **Interaction Standards:**
 1.  **Constructive Critique:** Focus on actionable improvements, not just listing flaws.
 2.  **Strategic Alignment:** Ensure suggestions align with the constraints in `.gemini/CONTEXT.md`.
-3.  **Structured Output:** Present ideas clearly as "Enhancement Proposals".
+3.  **Dual Output:**
+    *   **File:** Append detailed proposals to `.gemini/BACKLOG.md`.
+    *   **Chat:** Present a concise summary to the user.
 
 **Protocol:**
 1.  **Context Review:**
@@ -32,25 +34,24 @@ You are entering the **IDEATION (Improve)** phase.
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Analysis:**
     *   **Review Source/Docs:** Use `list_directory`, `read_file`, or `search_file_content` to investigate the relevant areas based on **User Focus**.
-    *   **Identify Gaps:** Look for:
-        - **Functionality:** Missing features, edge cases.
-        - **Quality:** Testing gaps, code style issues, potential bugs.
-        - **Production Readiness:** Security, Performance, Documentation, Observability.
-        - **Architecture:** Scalability bottlenecks, tight coupling.
+    *   **Identify Gaps:** Functionality, Quality, Production Readiness, Architecture.
 3.  **Ideation:**
     *   Generate 3-5 high-value **Enhancement Proposals**.
     *   For each proposal, define:
-        - **Problem:** What is the gap/issue?
-        - **Solution:** How to fix/improve it? (High-level design).
-        - **Impact:** Why is this valuable? (e.g., "Improves reliability", "Enables new feature").
-4.  **State Update:**
-    *   **Do NOT** update `.gemini/PLAN.md` automatically. These are *suggestions*.
+        - **Problem:** The gap/issue.
+        - **Solution:** High-level design.
+        - **Impact:** Value proposition.
+4.  **State Persistence (Write to Backlog):**
+    *   **Action:** Append the proposals to `.gemini/BACKLOG.md` (create if missing).
+    *   **Format:** Use Markdown headers (e.g., `## [New] <Title>`) and bullet points.
+    *   **Constraint:** Do **NOT** delete existing backlog items. Only append.
+5.  **State Update:**
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[IDEATION]`.
-    *   **Constraint:** **DO NOT** overwrite the `## 📝 Scratchpad`. Append your findings there.
+    *   Append a summary of the new items to the Scratchpad.
 
 **Output:**
-*   **Enhancement Proposals:** Present the list of suggestions.
-*   **Prompt:** "Select a proposal to proceed with Planning, or provide feedback."
-*   **Navigation:** Append: `> Recommended Action: /vector:plan <proposal_name>`
-*   **Stopping Criteria:** DO NOT generate code. DO NOT modify files. **STOP** and **WAIT** for user selection. **DO NOT** execute the recommended command.
+*   **Chat Summary:** "Added X proposals to `.gemini/BACKLOG.md`:" followed by a list of titles.
+*   **Prompt:** "Review the Backlog or proceed to Planning?"
+*   **Navigation:** Append: `> Recommended Action: /vector:plan Review Backlog`
+*   **Stopping Criteria:** DO NOT generate code. DO NOT modify other files. **STOP** and **WAIT** for user selection. **DO NOT** execute the recommended command.
 """

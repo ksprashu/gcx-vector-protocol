@@ -33,18 +33,20 @@ You are entering the **EXECUTION (Act)** phase.
 *   **FORBIDDEN:** creating new broad plans (use /vector:plan) or open-ended exploration (use /vector:scan).
 
 **Protocol:**
-1.  **Task Retrieval:**
-    *   Read `.gemini/PLAN.md` to identify the next pending task.
-    *   If "{{args}}" is provided, prioritize that instruction within the context of the plan.
+1.  **Context Loading (The 4-File Check):**
+    *   **Read ALL** protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`.
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
-2.  **Execution Loop (Atomic Step):**
+2.  **Task Retrieval:**
+    *   Identify the next pending task from `.gemini/PLAN.md`.
+    *   If "{{args}}" is provided, prioritize that instruction within the context of the plan.
+3.  **Execution Loop (Atomic Step):**
     *   **Implement:** Use `replace` or `write_file` to make the code change.
         *   *Constraint:* Adhere strictly to `.gemini/CONTEXT.md` (Standards).
     *   **Verify:** IMMEDIATELY run the build or test command (`run_shell_command`).
         *   *Constraint:* Do not proceed if verification fails.
     *   **Record:** Update `.gemini/STATE.md` with the result (Success/Failure) and output log.
         *   **Constraint:** **APPEND** to the `## 📝 Scratchpad`. **DO NOT** overwrite previous entries.
-3.  **Error Handling:**
+4.  **Error Handling:**
     *   If verification fails, **STOP**.
     *   Log the error in `.gemini/STATE.md`.
     *   Propose a fix or request a strategy review (`/vector:scan`).

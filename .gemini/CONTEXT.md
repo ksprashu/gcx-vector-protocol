@@ -18,4 +18,20 @@
 
 ## 4. Architecture
 - **Extension:** Standard Gemini CLI Extension structure.
-- **State Management:** Uses `.gemini/` for protocol state.
+- **State Management:** Uses the **4-File System** in `.gemini/` for strict state persistence.
+
+## 5. The 4-File System (State Persistence)
+Adhere to the Single Responsibility Principle for protocol files:
+
+1.  **`.gemini/CONTEXT.md` (ROM / Static):**
+    *   **Role:** Invariant standards, tech stack, and architectural rules.
+    *   **Access:** Read-Only during most operations.
+2.  **`.gemini/PLAN.md` (Sprint / Hot Path):**
+    *   **Role:** The *current* execution roadmap. Only active tasks belong here.
+    *   **Access:** Read/Write by `plan` and `work`.
+3.  **`.gemini/STATE.md` (RAM / Volatile):**
+    *   **Role:** Immediate session status, tool outputs, and scratchpad.
+    *   **Access:** Read/Write by ALL commands.
+4.  **`.gemini/BACKLOG.md` (Icebox / Cold Path):**
+    *   **Role:** Future ideas, enhancements, and non-critical tech debt.
+    *   **Access:** Write-Only by `improve`. Read-Only by `plan`.

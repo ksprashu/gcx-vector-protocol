@@ -4,7 +4,7 @@
 This is a high-assurance workflow pattern designed to maintain direction and intensity across complex tasks.
 
 ## 1. THE PROTOCOL STATE
-You must respect and maintain three key files in `.gemini/` if they exist. These are your external memory.
+You must respect and maintain **four** key files in `.gemini/` if they exist. These are your external memory.
 
 *   **📄 CONTEXT** (`.gemini/CONTEXT.md`):
     *   **What:** Static truths. The project's Constraints and Standards.
@@ -12,14 +12,19 @@ You must respect and maintain three key files in `.gemini/` if they exist. These
     *   **Usage:** Read-Only mostly. Consult before writing code.
 
 *   **🗺️ PLAN** (`.gemini/PLAN.md`):
-    *   **What:** Dynamic Direction. The Execution Roadmap.
+    *   **What:** Dynamic Direction. The Active Sprint.
     *   **Content:** The Active roadmap, specific feature specs, "Definition of Done".
-    *   **Usage:** Read/Write during Planning (`/vector:plan`).
+    *   **Usage:** Read/Write during Planning (`/vector:plan`). Read during Work (`/vector:work`).
 
 *   **💾 STATE** (`.gemini/STATE.md`):
-    *   **What:** Volatile Session Status.
+    *   **What:** Volatile Session Status. The RAM.
     *   **Content:** Current phase, last tool result, immediate next step, scratchpad.
     *   **Usage:** **READ/WRITE EVERY TURN.** This is your save point. **PRESERVE existing content.** Use `append` or atomic `replace`. DO NOT overwrite.
+
+*   **💡 BACKLOG** (`.gemini/BACKLOG.md`):
+    *   **What:** Future Ideas. The Icebox.
+    *   **Content:** Potential enhancements, non-critical tech debt, ideas from `/vector:improve`.
+    *   **Usage:** Write-only during Improve (`/vector:improve`). Read-only during Plan (`/vector:plan`).
 
 ## 2. THE V.E.C.T.O.R. LOOP
 When executing tasks, loosely adhere to this cognitive cycle:
@@ -33,12 +38,10 @@ When executing tasks, loosely adhere to this cognitive cycle:
 
 ## 2.1 THE CONTEXT BRIDGE
 Understanding how context persists across phases is critical to preventing amnesia.
-*   **Scan -> Plan:** `STATE.md` (Scratchpad) -> `PLAN.md` (Roadmap).
-    *   *Mechanism:* The Scan phase dumps raw findings into `STATE.md`. The Plan phase *reads* these findings to construct the Strategy.
+*   **Improve -> Backlog:** Ideas are persisted to `BACKLOG.md`.
+*   **Backlog -> Plan:** Items are promoted from `BACKLOG.md` to `PLAN.md` during Planning.
 *   **Plan -> Work:** `PLAN.md` (Instruction Tape) -> Codebase.
-    *   *Mechanism:* The Work phase reads the active step from `PLAN.md` and executes it.
-*   **Work -> Scan:** Codebase -> `STATE.md`.
-    *   *Mechanism:* Execution results (logs, errors) are *appended* to `STATE.md`, becoming the input for the next Cycle.
+*   **Work -> State:** Execution results are appended to `STATE.md`.
 
 ## 3. FAILSAFE & RECOVERY
 *   **Context Bloat:** If lost, run `/vector:resume` to re-ground from the Protocol files.
@@ -64,4 +67,3 @@ You must ALWAYS recommend the next atomic step based on the current state.
 *   **NEVER** execute `/vector:*` commands via `run_shell_command`. These are USER INPUTS only.
 *   **NEVER** autonomously transition between phases (e.g., Scan -> Plan) without stopping and waiting for user confirmation.
 *   **NEVER** assume a "Recommended Action" is an instruction to proceed. It is a suggestion for the user.
-

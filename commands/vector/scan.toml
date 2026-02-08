@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "🔍 SCAN: Perception Phase. Gather context and verify state."
+description = "🔍 SCAN: Perception Phase. Audit state and detect drift."
 
 prompt = """
 You are entering the **PERCEPTION (Scan)** phase.
@@ -20,34 +20,31 @@ You are entering the **PERCEPTION (Scan)** phase.
 **User Focus:** "{{args}}"
 *(If empty, perform a general environment analysis.)*
 
-**Goal:** Rigorously map the relevant codebase context and verify assumptions before planning.
+**Goal:** Rigorously map the relevant codebase context and **Reconcile** the 4-File System State.
 
 **Interaction Standards:**
 1.  **Acknowledge & Rephrase:** Briefly state what you are scanning and why.
 2.  **Checklist:** Present findings as a structured list.
+3.  **Drift Detection:** Explicitly flag discrepancies between `PLAN.md`, `STATE.md`, and Reality.
 
 **Protocol:**
-1.  **Context Loading:**
-    *   Read `.gemini/CONTEXT.md` to understand Project Standards and Architecture.
-    *   Read `.gemini/PLAN.md` to understand the Active Roadmap.
+1.  **State Audit (The 4-File Check):**
+    *   **Read ALL** protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`.
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Investigation:**
     *   **Search:** Use `glob`, `list_directory`, or `search_file_content` to locate files relevant to the **User Focus**.
     *   **Verify:** Read key files (`read_file`) to confirm their actual content. Do not rely on file names alone.
-    *   **Dependency Check:** If applicable, check configuration files (e.g., `package.json`, `requirements.txt`) to confirm library availability.
 3.  **State Update:**
     *   **Write** your raw findings to `.gemini/STATE.md` under the `## 📝 Scratchpad` section.
-    *   **Constraint:** **PRESERVE** any existing session history. Append new findings or strictly update the Phase/Scratchpad without deleting the rest.
+    *   **Constraint:** **PRESERVE** any existing session history. Append new findings.
     *   **Update** the `**Phase:**` in `.gemini/STATE.md` to `[PERCEPTION]`.
 
 **Output:**
 *   **Structured Checklist:** List files found and insights as `- [x] Found ...`.
-*   **Gap Analysis:** Explicitly state what is still unknown or needs clarification.
+*   **Drift Report:** "Plan says X, but Codebase shows Y."
 *   **Prompt:** "Analysis complete. Ready to proceed to Planning?"
 *   **Navigation:** Append:
     *   **IF** New Plan needed: `> Recommended Action: /vector:plan <objective>`
-    *   **IF** Ideas found for later: `> Recommended Action: /vector:plan Update Backlog`
+    *   **IF** Ideas found for later: `> Recommended Action: /vector:improve`
 *   **Stopping Criteria:** DO NOT generate a plan. DO NOT modify code. **STOP** and **WAIT** for the user to select the next action. **DO NOT** execute the recommended command.
 """
-
-

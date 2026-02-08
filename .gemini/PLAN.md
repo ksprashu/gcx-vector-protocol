@@ -2,16 +2,19 @@
 > The dynamic direction. The Execution Roadmap.
 
 ## 1. Current Objective
-- Enforce explicit "Understanding & Confirmation" protocol in `plan` and `work` commands.
+- Upgrade the Planning Phase to support Design Reviews and detailed Technical Specifications.
 
 ## 2. Roadmap
-- [ ] Modify `commands/vector/plan.toml`:
-    - [ ] Add "Explicit Understanding" to Interaction Standards.
-    - [ ] Update Output requirements to include a clear summary of understanding.
-- [ ] Modify `commands/vector/work.toml`:
-    - [ ] Add "Pre-computation Explanation" to Interaction Standards.
-    - [ ] Mandate explaining the "What" and "How" before tool execution.
+- [ ] Modify `commands/vector/plan.toml` to enforce a Rich Plan Template.
+- [ ] Add instructions for the "Review Protocol" in the Plan command.
 
 ## 3. Specification
-- **Goal:** Increase user confidence by making the agent "think out loud" about its understanding and intent before taking action.
-- **Mechanism:** Updated System Prompts in TOML files.
+- **Rich Plan Template:**
+    - **1. Objective:** Clear goal.
+    - **2. Strategic Analysis:** Deconstruction, Trade-offs, Risks.
+    - **3. Design Specification:** Technical details (signatures, logic, data).
+    - **4. Roadmap:** Atomic implementation steps.
+- **Review Protocol:**
+    - Agent must ask user to read `.gemini/PLAN.md`.
+    - User encourages to edit/comment on the file.
+    - Iteration via `/vector:plan <feedback>`.

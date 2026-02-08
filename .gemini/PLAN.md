@@ -2,15 +2,16 @@
 > The dynamic direction. The Execution Roadmap.
 
 ## 1. Current Objective
-- Implement a safety check in `/vector:init` to prevent accidental overwrites of existing work.
+- Enforce explicit "Understanding & Confirmation" protocol in `plan` and `work` commands.
 
 ## 2. Roadmap
-- [ ] Modify `commands/vector/init.toml` to include a Pre-flight Check.
-- [ ] Verify that the check logic correctly handles existing files and the `--force` flag.
+- [ ] Modify `commands/vector/plan.toml`:
+    - [ ] Add "Explicit Understanding" to Interaction Standards.
+    - [ ] Update Output requirements to include a clear summary of understanding.
+- [ ] Modify `commands/vector/work.toml`:
+    - [ ] Add "Pre-computation Explanation" to Interaction Standards.
+    - [ ] Mandate explaining the "What" and "How" before tool execution.
 
 ## 3. Specification
-- **Pre-flight Check:**
-    - Detect existence of `.gemini/PLAN.md` or `.gemini/STATE.md`.
-    - If found + no `--force`: Read files, report status, and abort.
-    - If found + `--force`: Proceed with overwrite.
-    - If not found: Proceed with initialization.
+- **Goal:** Increase user confidence by making the agent "think out loud" about its understanding and intent before taking action.
+- **Mechanism:** Updated System Prompts in TOML files.

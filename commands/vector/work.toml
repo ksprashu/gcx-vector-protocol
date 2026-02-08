@@ -24,6 +24,8 @@ You are entering the **EXECUTION (Act)** phase.
 **Interaction Standards:**
 1.  **Acknowledge:** State the specific task from the plan you are tackling.
 2.  **Transparency:** Explain *what* you are changing before calling tools.
+    *   State your understanding of the current task.
+    *   Explain the intended action.
 3.  **Closure:** Summarize the result.
 
 **Scope:**
@@ -55,5 +57,3 @@ You are entering the **EXECUTION (Act)** phase.
     *   **IF** Plan is complete: `> Recommended Action: /vector:save <commit_message>`
 *   **Stopping Criteria:** **STOP** after the atomic task. **WAIT** for the user to instruct the next step. **DO NOT** loop automatically. **DO NOT** execute the recommended command.
 """
-
-

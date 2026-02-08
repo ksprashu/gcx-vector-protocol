@@ -21,7 +21,10 @@ You are entering the **STRATEGY (Plan)** phase.
 **Goal:** Create a specific, atomic, and verified implementation plan.
 
 **Interaction Standards:**
-1.  **Acknowledge:** Rephrase the objective to confirm alignment.
+1.  **Explicit Understanding:**
+    *   Start by explaining your understanding of the user's request.
+    *   State *how* you intend to proceed (the approach).
+    *   Acknowledge the command and wait for implicit confirmation (by presenting the plan checklist).
 2.  **Checklist:** The final plan MUST be a checklist for user approval.
 
 **Protocol:**

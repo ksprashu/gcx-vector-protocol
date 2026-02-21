@@ -33,5 +33,6 @@ prompt = """
         *   **IF** (Phase is `[STRATEGY]`) **THEN** -> `> Recommended Action: /vector:work <first_step>`
         *   **IF** (Phase is `[EXECUTION]` AND Plan has pending items) **THEN** -> `> Recommended Action: /vector:work <next_step>`
         *   **IF** (Phase is `[EXECUTION]` AND Plan is complete) **THEN** -> `> Recommended Action: /vector:save <commit_message>`
+        *   **IF** (Phase is `[MAINTENANCE]`) **THEN** -> `> Recommended Action: /vector:scan`
         *   **IF** (State is Lost/Unclear) **THEN** -> `> Recommended Action: /vector:scan`
 """

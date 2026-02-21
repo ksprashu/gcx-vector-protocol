@@ -62,6 +62,7 @@ The extension provides specific commands for each phase of the loop:
 *   `/vector:save` - Commit changes to git and save state.
 *   `/vector:resume` - Reload context after a restart.
 *   `/vector:reset` - Clear the State (failsafe).
+*   `/vector:context` - Audit and update the project Context (CONTEXT.md) with guided, approval-gated changes.
 
 ## 💡 Best Practices
 
@@ -71,3 +72,4 @@ The extension provides specific commands for each phase of the loop:
 4.  **Iterate:** If the plan isn't right, run `/vector:plan "<feedback>"` to refine it.
 5.  **Atomic Work:** `/vector:work` is designed to be atomic. It will explain what it's doing. Verify each step.
 6.  **Save Often:** Use `/vector:save` after every successful logical unit of work.
+7.  **Keep Context Fresh:** When you add a dependency, change architecture, or update standards, run `/vector:context` to keep CONTEXT.md in sync.

@@ -39,16 +39,19 @@ You are entering the **EXECUTION (Act)** phase.
 2.  **Task Retrieval:**
     *   Identify the next pending task from `.gemini/PLAN.md`.
     *   If "{{args}}" is provided, prioritize that instruction within the context of the plan.
+    *   Update `**Phase:**` in `.gemini/STATE.md` to `[EXECUTION]`.
 3.  **Execution Loop (Atomic Step):**
     *   **Implement:** Use `replace` or `write_file` to make the code change.
         *   *Constraint:* Adhere strictly to `.gemini/CONTEXT.md` (Standards).
     *   **Verify:** IMMEDIATELY run the build or test command (`run_shell_command`).
         *   *Constraint:* Do not proceed if verification fails.
     *   **Record:** Update `.gemini/STATE.md` with the result (Success/Failure) and output log.
-        *   **Constraint:** **APPEND** to the `## 📝 Scratchpad`. **DO NOT** overwrite previous entries.
+        *   **Constraint:** **APPEND** to the `## 3. Scratchpad`. **DO NOT** overwrite previous entries.
+    *   **Plan Progress:** Update the completed step in `.gemini/PLAN.md` from `- [ ]` to `- [x]`.
 4.  **Error Handling:**
     *   If verification fails, **STOP**.
     *   Log the error in `.gemini/STATE.md`.
+    *   Mark the failed step in `.gemini/PLAN.md` as `- [!]` with a brief failure reason.
     *   Propose a fix or request a strategy review (`/vector:scan`).
 
 **Output:**

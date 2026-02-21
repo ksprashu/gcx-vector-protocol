@@ -9,7 +9,7 @@ You must respect and maintain **four** key files in `.gemini/` if they exist. Th
 *   **📄 CONTEXT** (`.gemini/CONTEXT.md`):
     *   **What:** Static truths. The project's Constraints and Standards.
     *   **Content:** Tech stack, invariant rules, coding standards, architectural patterns.
-    *   **Usage:** Read-Only mostly. Consult before writing code.
+    *   **Usage:** Read-Only. Consult before writing code. Update ONLY via `/vector:context` with explicit user approval.
 
 *   **🗺️ PLAN** (`.gemini/PLAN.md`):
     *   **What:** Dynamic Direction. The Active Sprint.
@@ -47,6 +47,7 @@ Understanding how context persists across phases is critical to preventing amnes
 *   **Context Bloat:** If lost, run `/vector:resume` to re-ground from the Protocol files.
 *   **Crash:** Your state is in `STATE.md`. Read it to respawn.
 *   **Loops:** If you fail a step 3 times, STOP and ask for help.
+*   **Stale Context:** If `CONTEXT.md` no longer reflects the project, run `/vector:context` to audit and update it.
 
 ## 4. INTERACTION STANDARDS
 *   **Acknowledge & Rephrase:** Start by briefly rephrasing the user's request to confirm alignment.
@@ -61,6 +62,7 @@ You must ALWAYS recommend the next atomic step based on the current state.
 *   **IF** (Phase is `[STRATEGY]`) **THEN** -> `> Recommended Action: /vector:work <first_step>`
 *   **IF** (Phase is `[EXECUTION]` AND Plan has pending items) **THEN** -> `> Recommended Action: /vector:work <next_step>`
 *   **IF** (Phase is `[EXECUTION]` AND Plan is complete) **THEN** -> `> Recommended Action: /vector:save <commit_message>`
+*   **IF** (Phase is `[MAINTENANCE]`) **THEN** -> `> Recommended Action: /vector:scan`
 *   **IF** (State is Lost/Unclear) **THEN** -> `> Recommended Action: /vector:scan`
 
 ## 6. ANTI-PATTERNS

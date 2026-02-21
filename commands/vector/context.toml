@@ -1,0 +1,73 @@
+# Copyright 2026 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+description = "📄 CONTEXT: Maintenance Phase. Audit and update the project Context (CONTEXT.md)."
+prompt = """
+You are entering the **MAINTENANCE (Context Update)** phase.
+
+**User Instruction:** "{{args}}"
+*(If empty, perform a full Context Drift Audit. Otherwise, focus the audit on the area described.)*
+
+**Goal:** Detect staleness between `.gemini/CONTEXT.md` and the actual project state, then **propose** surgical updates for user approval. **DO NOT modify CONTEXT.md without explicit user approval.**
+
+**Interaction Standards:**
+1.  **Acknowledge:** State what you are auditing (full audit or specific area from args).
+2.  **Transparency:** Present proposed changes as explicit ADD / UPDATE / REMOVE diffs before writing anything.
+3.  **Require Approval:** Every proposed change must be individually labelled and confirmed by the user before being applied.
+4.  **Surgical Edits:** Modify only what has genuinely changed. Do not rewrite or reformat existing correct content.
+
+**Protocol:**
+1.  **Load Current Context:**
+    *   **Read** `.gemini/CONTEXT.md` (the current source of truth).
+    *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
+2.  **Drift Detection (Audit):**
+    *   **IF** `{{args}}` is empty (Full Audit):
+        *   Scan project configuration files (e.g., `package.json`, `Cargo.toml`, `requirements.txt`, `pyproject.toml`, `go.mod`, `build.gradle`, `*.config.*`).
+        *   Scan for new top-level directories that suggest architectural additions (e.g., `src/`, `lib/`, `api/`, `tests/`).
+        *   Compare findings against what is documented in `.gemini/CONTEXT.md`.
+    *   **IF** `{{args}}` describes a specific area (Targeted Audit):
+        *   Focus investigation only on the area mentioned (e.g., if "added Redis dependency", scan config files for Redis and check if it's in CONTEXT.md).
+    *   **Identify Discrepancies:** Classify each as:
+        *   **[MISSING]:** Something real exists in the project but is absent from CONTEXT.md.
+        *   **[STALE]:** Something in CONTEXT.md no longer matches the project reality.
+        *   **[OBSOLETE]:** Something in CONTEXT.md refers to a removed dependency or pattern.
+3.  **Proposal Generation:**
+    *   For each discrepancy, create a labelled change proposal:
+        *   **[ADD #N]:** Proposed new content to add.
+        *   **[UPDATE #N]:** Specific line/section to change, shown as `BEFORE:` / `AFTER:`.
+        *   **[REMOVE #N]:** Content to remove, with justification.
+    *   **IF** no discrepancies found:
+        *   Report: "Context is up to date. No changes proposed."
+        *   **STOP.**
+4.  **Await Approval:**
+    *   Present the numbered proposals to the user.
+    *   **Prompt:** "Please confirm which changes to apply (e.g., 'apply all', 'apply #1 #3', or 'skip')."
+    *   **STOP.** Do NOT apply any changes yet. Wait for the user to respond.
+5.  **Apply Approved Changes (After User Confirms):**
+    *   Apply **only** the changes the user approved, using surgical edits.
+    *   **Constraint:** DO NOT alter the structure, headers, or formatting of CONTEXT.md beyond the approved changes.
+6.  **State Update:**
+    *   Update `**Phase:**` in `.gemini/STATE.md` to `[MAINTENANCE]`.
+    *   Append a summary of applied changes to the `## 3. Scratchpad`.
+
+**Output (Proposal Stage):**
+*   **Audit Report:** List of discrepancies found (or "Context is up to date.").
+*   **Change Proposals:** Numbered ADD / UPDATE / REMOVE list.
+*   **Prompt:** "Apply all, apply #N, or skip?"
+*   **Stopping Criteria:** **STOP** after presenting proposals. **WAIT** for user confirmation. **DO NOT** write to `CONTEXT.md` before approval. **DO NOT** execute any recommended command.
+
+**Output (After Approval & Apply):**
+*   **Change Summary:** List of applied changes.
+*   **Navigation:** `> Recommended Action: /vector:scan` (to verify the updated context is reflected in the next scan).
+"""

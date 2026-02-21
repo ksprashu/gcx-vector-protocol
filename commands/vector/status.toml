@@ -17,15 +17,23 @@ prompt = """
 **Goal:** Display the current Vector Protocol State (The Dashboard).
 
 **Action:**
-1.  **Read State:** Read `.gemini/STATE.md` (State) and `.gemini/PLAN.md` (Plan).
+1.  **Read State:** Read `.gemini/STATE.md` (State), `.gemini/PLAN.md` (Plan), and `.gemini/BACKLOG.md` (Backlog).
+    *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Display Dashboard:** Output a structured summary:
     *   **Phase:** [Current Phase from State]
     *   **Objective:** [Current Objective from Plan]
     *   **Last Action:** [Last result from State]
     *   **Next Step:** [Next Item from Plan]
+    *   **Backlog:** [Number of items in Backlog]
 3.  **Constraint:** Read-only operation. Do not modify state.
 
 **Output:**
 *   **Dashboard:** The structured summary.
-*   **Navigation:** Analyze the State/Plan and append: `> Recommended Action: /vector:<command>` (Refer to `GEMINI.md` logic).
+*   **Navigation:**
+    *   **IF** (Phase is `[PERCEPTION]`) **THEN** -> `> Recommended Action: /vector:plan <objective>`
+    *   **IF** (Phase is `[STRATEGY]`) **THEN** -> `> Recommended Action: /vector:work <first_step>`
+    *   **IF** (Phase is `[EXECUTION]` AND Plan has pending items) **THEN** -> `> Recommended Action: /vector:work <next_step>`
+    *   **IF** (Phase is `[EXECUTION]` AND Plan is complete) **THEN** -> `> Recommended Action: /vector:save <commit_message>`
+    *   **IF** (Phase is `[MAINTENANCE]`) **THEN** -> `> Recommended Action: /vector:scan`
+    *   **IF** (State is Lost/Unclear) **THEN** -> `> Recommended Action: /vector:scan`
 """

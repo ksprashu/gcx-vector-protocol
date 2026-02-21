@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "⚡️ BOOTSTRAP: Initialize the Vector Protocol State (Context, Plan, State)."
+description = "⚡️ BOOTSTRAP: Initialize the Vector Protocol State (Context, Plan, State, Backlog)."
 prompt = """
 You are initializing the **Vector Protocol** for this project.
 
@@ -45,6 +45,8 @@ You are initializing the **Vector Protocol** for this project.
         *   Initialize with an empty roadmap template.
     *   **Create `.gemini/STATE.md` (Session State):**
         *   Initialize with the current timestamp and "Initialized" status.
+    *   **Create `.gemini/BACKLOG.md` (Backlog):**
+        *   Initialize with the header: `# 💡 BACKLOG` and `> Future Ideas. The Icebox.`
 
 **Output (If Initialized):**
 *   Confirmation of file creation.

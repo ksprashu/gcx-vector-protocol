@@ -17,13 +17,22 @@ prompt = """
 **Goal:** Restore execution context from the Vector Protocol files.
 
 **Protocol:**
-1.  **State Check:** Verify existence of `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, and `.gemini/STATE.md`.
-    *   *Exception:* If missing, advise running `/vector:init`.
-2.  **Context Loading:**
-    *   Load **Context** (Context).
-    *   Load **Plan** (Plan).
-    *   Load **State** (State).
+1.  **State Check:** Verify existence of `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md`.
+    *   *Exception:* If any are missing, advise running `/vector:init`.
+    *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
+2.  **Context Loading (The 4-File Check):**
+    *   Load **Context** (`.gemini/CONTEXT.md`).
+    *   Load **Plan** (`.gemini/PLAN.md`).
+    *   Load **State** (`.gemini/STATE.md`).
+    *   Load **Backlog** (`.gemini/BACKLOG.md`).
 3.  **Status Report:**
     *   Display the **Last Phase**, **Last Action**, and **Next Step** from the loaded files.
-    *   **Navigation:** Analyze the State/Plan and append: `> Recommended Action: /vector:<command>` (Refer to `GEMINI.md` logic).
+    *   Display **Backlog Items** count (if any).
+    *   **Navigation:**
+        *   **IF** (Phase is `[PERCEPTION]`) **THEN** -> `> Recommended Action: /vector:plan <objective>`
+        *   **IF** (Phase is `[STRATEGY]`) **THEN** -> `> Recommended Action: /vector:work <first_step>`
+        *   **IF** (Phase is `[EXECUTION]` AND Plan has pending items) **THEN** -> `> Recommended Action: /vector:work <next_step>`
+        *   **IF** (Phase is `[EXECUTION]` AND Plan is complete) **THEN** -> `> Recommended Action: /vector:save <commit_message>`
+        *   **IF** (Phase is `[MAINTENANCE]`) **THEN** -> `> Recommended Action: /vector:scan`
+        *   **IF** (State is Lost/Unclear) **THEN** -> `> Recommended Action: /vector:scan`
 """

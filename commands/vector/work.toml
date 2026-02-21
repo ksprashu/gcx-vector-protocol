@@ -33,7 +33,7 @@ You are entering the **EXECUTION (Act)** phase.
 
 **Protocol:**
 0.  **Auto-Recovery + Fast Scan (No manual `/vector:resume` required):**
-    *   Verify `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md` exist.
+    *   Verify `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`, and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md`) exist.
     *   If missing, create ONLY missing files with minimal templates and continue (do not replace existing protocol files).
     *   Perform a brief reconciliation before coding:
         *   Confirm the next unchecked roadmap task in `.gemini/PLAN.md`.

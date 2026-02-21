@@ -30,7 +30,7 @@ You are entering the **PERCEPTION (Scan)** phase.
 
 **Protocol:**
 0.  **Auto-Bootstrap Guardrail:**
-    *   If protocol files are missing, create ONLY missing `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md` with minimal templates before continuing.
+    *   If protocol files are missing, create ONLY missing `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`, and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md` alias) with minimal templates before continuing.
     *   This makes scan safe as a first command in a fresh repo.
 1.  **State Audit (The 5-File Check):**
     *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md` (if it exists), and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md` if Evidence is absent).

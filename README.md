@@ -107,6 +107,16 @@ Grounded Mode is the default behavioral contract for this extension: **evidence 
 7.  **Keep Context Fresh:** When you add a dependency, change architecture, or update standards, run `/vector:context` to keep CONTEXT.md in sync.
 8.  **Cite Evidence IDs:** For scan/plan/work outputs, reference relevant evidence entries (for example `E-003`) so claims are traceable.
 
+
+## 🧩 Ambiguity Resolution & Handoff Contract
+
+To keep the protocol deterministic across restarts and multi-agent handoffs:
+
+* **Objective precedence:** user instruction overrides stale plan text; update `PLAN.md` immediately to match.
+* **Phase precedence:** `STATE.md` is the active phase source of truth; corrections must be appended (not silently rewritten).
+* **Evidence gating:** non-trivial factual decisions should be logged in `EVIDENCE.md` (or `SOURCES.md`) before final recommendations.
+* **Handoff minimum:** before stopping, append to `STATE.md` what changed, what was verified, what failed, and the exact next action.
+
 ## 📝 Release Notes
 
 * **v1.6.0** - Introduced grounded-agent guarantees: binding evidence-first behavior, explicit expected outputs, and documented Grounded Mode evidence artifacts across Vector commands.

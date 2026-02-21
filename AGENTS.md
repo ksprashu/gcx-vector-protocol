@@ -150,6 +150,7 @@ Run this quick checklist before opening or merging a PR:
 
 - Working tree is clean and intentional (`git status --short`).
 - No unresolved conflict markers in touched files (`<<<<<<<`, `=======`, `>>>>>>>`).
+- Branch is updated with the target branch and conflicts are resolved before merge (e.g., rebase/merge target branch, then re-run checks).
 - Canonical/mirror docs are synchronized when one changes (`diff -u AGENTS.md GEMINI.md`).
 - Relevant verification commands were re-run after the latest edits.
 - PR description includes: scope, risk, verification evidence, and rollback notes (if applicable).

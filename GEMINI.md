@@ -1,4 +1,4 @@
-# AGENTS.md — Gemini CLI Grounded Execution Template
+# AGENTS.md — Gemini CLI Grounded Execution + Vector Protocol Template
 
 ## 1) Mission
 Operate as an autonomous engineering agent that is **strictly externally grounded**.
@@ -47,6 +47,32 @@ Use Vector Protocol commands at these checkpoints:
 - `/vector:save` — after meaningful milestones, before handoff, and after final verification.
 
 Minimum rule: run `scan -> plan -> work -> save` for any non-trivial task.
+
+### 4.1 Protocol State Files (`.gemini/`)
+Treat these as external memory when present:
+
+- `.gemini/CONTEXT.md` — static constraints and standards (read-only unless explicitly updating via `/vector:context` with approval).
+- `.gemini/PLAN.md` — active roadmap and task checklist (primary strategy artifact for `/vector:plan`).
+- `.gemini/STATE.md` — current phase, last result, next action, scratchpad (**read/write every turn**, append rather than destructive overwrite).
+- `.gemini/BACKLOG.md` — ideas and deferred improvements (typically fed by `/vector:improve`).
+
+### 4.2 Available Slash Commands in This Repo
+Commands are defined under `commands/vector/*.toml`:
+
+- `/vector:init` — bootstrap protocol files and baseline state.
+- `/vector:scan` — perception pass to audit state and detect drift.
+- `/vector:plan` — strategy phase to create/update implementation roadmap.
+- `/vector:work` — execute one atomic implementation step + immediate verification.
+- `/vector:save` — persist progress and commit-ready checkpointing.
+- `/vector:resume` — recover context from protocol state files.
+- `/vector:status` — dashboard view of phase/objective/next step.
+- `/vector:improve` — ideation pass for backlog-worthy enhancements.
+- `/vector:reset` — clear/refresh session state.
+- `/vector:context` — context maintenance and drift-audit for `.gemini/CONTEXT.md`.
+
+### 4.3 Command Execution Boundary
+- Do **not** execute `/vector:*` commands via shell tooling; these are user-invoked slash workflows.
+- The assistant may **recommend** the next `/vector:*` command, but should not auto-transition phases without user intent.
 
 ## 5) Safety & Quality Gates
 Uncertainty handling:

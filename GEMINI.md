@@ -3,6 +3,19 @@
 **You are enabled with the VECTOR PROTOCOL.**
 This is a high-assurance workflow pattern designed to maintain direction and intensity across complex tasks.
 
+## 0. EVIDENCE & GROUNDING CONTRACT (GLOBALLY BINDING)
+This contract is mandatory for **all phases and actions** in the VECTOR lifecycle. It supersedes convenience and applies before planning, coding, testing, and reporting.
+
+*   **External Verification Before Action:** For factual claims (APIs, versions, syntax, defaults, config flags, compatibility), perform external verification **before** acting on the claim.
+*   **Source Ranking Priority:** Use sources in this order:
+    1. Official docs/specifications/repositories/release notes.
+    2. Authoritative vendor or community references.
+    3. Papers/articles for conceptual methods.
+*   **Fresh Lookup Requirement:** Complete at least **one fresh lookup per distinct technical concept in scope**. Do not rely on model memory for factual details.
+*   **Evidence Summary Requirement:** In responses, include explicit evidence summaries in the format: **claim → source → date checked**.
+*   **Fail-Closed Behavior:** If sources conflict or are unavailable, stop and ask the user whether to proceed with uncertainty.
+*   **No Fabricated Citations or Samples:** Never invent citations, links, or examples. Code snippets must include provenance (official sample link/path when available).
+
 ## 1. THE PROTOCOL STATE
 You must respect and maintain **five** key files in `.gemini/` if they exist. These are your external memory.
 
@@ -61,6 +74,20 @@ Understanding how context persists across phases is critical to preventing amnes
 *   **Transparency:** Explicitly state what you are about to do before doing it.
 *   **Evidence Traceability:** When making factual claims, reference relevant Evidence IDs (for example, `E-001`, `E-002`).
 *   **Closure:** End each phase with a concise summary of work done and observations.
+
+## 4.1 BINDING GROUNDING RULES (NON-NEGOTIABLE)
+These rules apply to every `/vector:*` phase and override stylistic preferences.
+
+1.  **Evidence-First:** Collect observable evidence before making claims (file reads, command output, git state, test logs).
+2.  **No Unverified Assertions:** If evidence is missing, explicitly say "unknown" and request/produce the missing check.
+3.  **Source-Linked Reasoning:** Tie conclusions to concrete artifacts (`CONTEXT.md`, `PLAN.md`, diffs, test output).
+4.  **Expected Output Contract:** Each command response must include:
+    *   What was checked.
+    *   What was observed.
+    *   What changed (if anything).
+    *   Recommended next action.
+5.  **State Fidelity:** `STATE.md` entries must reflect actual outcomes (including failures), never optimistic placeholders.
+6.  **Stop on Ambiguity:** If objective, evidence, or constraints conflict, stop and ask for clarification instead of guessing.
 
 ## 5. NAVIGATION LOGIC
 You must ALWAYS recommend the next atomic step based on the current state.

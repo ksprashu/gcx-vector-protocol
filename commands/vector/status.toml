@@ -25,6 +25,7 @@ prompt = """
     *   **Last Action:** [Last result from State]
     *   **Next Step:** [Next Item from Plan]
     *   **Backlog:** [Number of items in Backlog]
+    *   **Evidence:** [Number of entries in `.gemini/EVIDENCE.md` or `.gemini/SOURCES.md`, if present]
 3.  **Constraint:** Read-only operation. Do not modify state.
 
 **Output:**
@@ -34,6 +35,8 @@ prompt = """
     *   **IF** (Phase is `[STRATEGY]`) **THEN** -> `> Recommended Action: /vector:work <first_step>`
     *   **IF** (Phase is `[EXECUTION]` AND Plan has pending items) **THEN** -> `> Recommended Action: /vector:work <next_step>`
     *   **IF** (Phase is `[EXECUTION]` AND Plan is complete) **THEN** -> `> Recommended Action: /vector:save <commit_message>`
+    *   **IF** (Phase is `[IDEATION]`) **THEN** -> `> Recommended Action: /vector:plan Review Backlog`
+    *   **IF** (Phase is `[IDLE]`) **THEN** -> `> Recommended Action: /vector:scan` (start new cycle) or `/vector:improve` (ideate)
     *   **IF** (Phase is `[MAINTENANCE]`) **THEN** -> `> Recommended Action: /vector:scan`
     *   **IF** (State is Lost/Unclear) **THEN** -> `> Recommended Action: /vector:scan`
 """

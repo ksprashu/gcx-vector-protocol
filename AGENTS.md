@@ -62,7 +62,7 @@ Treat these as external memory when present:
 - `.gemini/PLAN.md` — active roadmap and task checklist (primary strategy artifact for `/vector:plan`).
 - `.gemini/STATE.md` — current phase, last result, next action, scratchpad (**read/write every turn**, append rather than destructive overwrite).
 - `.gemini/BACKLOG.md` — ideas and deferred improvements (typically fed by `/vector:improve`).
-- `.gemini/EVIDENCE.md` (or legacy alias `.gemini/SOURCES.md`) — source ledger for externally-grounded claims, conflicts, and confidence notes.
+- `.gemini/EVIDENCE.md` — source-backed claims, findings, and traceability records; uses `E-001`-style IDs. (`.gemini/SOURCES.md` is an accepted alias for existing projects migrating to this protocol.)
 
 Required baseline: for initialized repos, maintain all five protocol files (`CONTEXT`, `PLAN`, `STATE`, `BACKLOG`, `EVIDENCE`) to keep handoff and recovery deterministic.
 

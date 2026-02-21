@@ -35,8 +35,8 @@ You are entering the **STRATEGY (Plan)** phase.
 
 **Protocol:**
 0.  **Auto-Bootstrap + Resume (No manual `/vector:init` required):**
-    *   Check for `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`, and evidence ledger presence (`.gemini/EVIDENCE.md` preferred, `.gemini/SOURCES.md` accepted alias).
-    *   If any are missing, create ONLY the missing files with sane defaults (context skeleton, plan template, state template, backlog header, evidence ledger template).
+    *   Check for `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`, and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md`).
+    *   If any are missing, create ONLY the missing files with sane defaults (context skeleton, plan template, state template, backlog header, evidence ledger with `E-001` ID convention).
     *   If files exist, treat this command as an implicit `/vector:resume` and load current objective + phase before planning (never overwrite existing protocol content in this step).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 1.  **Context Review:**

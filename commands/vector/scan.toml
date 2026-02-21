@@ -20,7 +20,7 @@ You are entering the **PERCEPTION (Scan)** phase.
 **User Focus:** "{{args}}"
 *(If empty, perform a general environment analysis.)*
 
-**Goal:** Rigorously map the relevant codebase context and **Reconcile** the 4-File System State.
+**Goal:** Rigorously map the relevant codebase context and **Reconcile** the 5-File System State (including Evidence).
 
 **Interaction Standards:**
 1.  **Acknowledge & Rephrase:** Briefly state what you are scanning and why.
@@ -28,12 +28,13 @@ You are entering the **PERCEPTION (Scan)** phase.
 3.  **Drift Detection:** Explicitly flag discrepancies between `PLAN.md`, `STATE.md`, and Reality.
 
 **Protocol:**
-1.  **State Audit (The 4-File Check):**
-    *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md` (if it exists).
+1.  **State Audit (The 5-File Check):**
+    *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md` (if it exists), and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md` if Evidence is absent).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Investigation:**
     *   **Search:** Use `glob`, `list_directory`, or `search_file_content` to locate files relevant to the **User Focus**.
     *   **Verify:** Read key files (`read_file`) to confirm their actual content. Do not rely on file names alone.
+    *   **Evidence Linkage:** Append new evidence entries when external facts are discovered and reference their IDs in findings.
 3.  **State Update:**
     *   **Write** your raw findings to `.gemini/STATE.md` under the `## 3. Scratchpad` section.
     *   **Constraint:** **PRESERVE** any existing session history. Append new findings.
@@ -41,6 +42,7 @@ You are entering the **PERCEPTION (Scan)** phase.
 
 **Output:**
 *   **Structured Checklist:** List files found and insights as `- [x] Found ...`.
+*   **Evidence References:** Cite relevant Evidence IDs for factual findings.
 *   **Drift Report:** "Plan says X, but Codebase shows Y."
 *   **Prompt:** "Analysis complete. Ready to proceed to Planning?"
 *   **Navigation:** Append:

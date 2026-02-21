@@ -14,7 +14,7 @@ The `--auto-update` is optional: if specified, it will update to new versions as
 
 This extension implements the **Vector Protocol** for the Gemini CLI.
 
-It creates the **4-File Protocol State**: `CONTEXT.md`, `PLAN.md`, `STATE.md`, and `BACKLOG.md`.
+It creates the **5-File Protocol State**: `CONTEXT.md`, `PLAN.md`, `STATE.md`, `BACKLOG.md`, and `EVIDENCE.md` (or `SOURCES.md` as a compatible alias).
 
 ## The Files
 
@@ -33,6 +33,17 @@ It creates the **4-File Protocol State**: `CONTEXT.md`, `PLAN.md`, `STATE.md`, a
 4.  **💡 BACKLOG (`.gemini/BACKLOG.md`)**
     *   Future ideas, enhancements, and non-critical tech debt.
     *   *The "Icebox".*
+
+5.  **🔎 EVIDENCE (`.gemini/EVIDENCE.md` or `.gemini/SOURCES.md`)**
+    *   Source-backed claims, findings, and traceability records.
+    *   Lightweight schema per entry:
+        *   **Claim/Question**
+        *   **Source URL (or identifier)**
+        *   **Source type** (`official doc` / `spec` / `release` / `paper` / `article`)
+        *   **Retrieved date/time**
+        *   **Key extracted facts**
+        *   **Confidence/conflict notes**
+    *   *The "Evidence Ledger".*
 
 ## 🔄 The Workflow (V.E.C.T.O.R.)
 
@@ -73,3 +84,4 @@ The extension provides specific commands for each phase of the loop:
 5.  **Atomic Work:** `/vector:work` is designed to be atomic. It will explain what it's doing. Verify each step.
 6.  **Save Often:** Use `/vector:save` after every successful logical unit of work.
 7.  **Keep Context Fresh:** When you add a dependency, change architecture, or update standards, run `/vector:context` to keep CONTEXT.md in sync.
+8.  **Cite Evidence IDs:** For scan/plan/work outputs, reference relevant evidence entries (for example `E-003`) so claims are traceable.

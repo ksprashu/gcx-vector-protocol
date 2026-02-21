@@ -34,7 +34,7 @@ You are entering the **STRATEGY (Plan)** phase.
 
 **Protocol:**
 1.  **Context Review:**
-    *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/PLAN.md` (Current Plan), `.gemini/STATE.md` (Investigation Findings), and `.gemini/BACKLOG.md` (Icebox, if it exists).
+    *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/PLAN.md` (Current Plan), `.gemini/STATE.md` (Investigation Findings), `.gemini/BACKLOG.md` (Icebox, if it exists), and `.gemini/EVIDENCE.md` or `.gemini/SOURCES.md` (source ledger).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Plan Archival (Before Overwriting):**
     *   **IF** `.gemini/PLAN.md` contains a non-empty plan (has an Objective and Roadmap):
@@ -46,6 +46,7 @@ You are entering the **STRATEGY (Plan)** phase.
     *   **Risk Assessment:** Identify potential failure modes.
 4.  **Plan Generation:**
     *   **Draft** a step-by-step plan. Each step must be Atomic and Verifiable.
+    *   **Integrate Evidence:** For assumptions or external facts, cite Evidence IDs from `.gemini/EVIDENCE.md`/`.gemini/SOURCES.md`.
     *   **WRITE** this plan to `.gemini/PLAN.md` using the **Rich Plan Template**.
     *   **Format:**
         *   **1. Objective:** [Clear Goal]
@@ -61,6 +62,7 @@ You are entering the **STRATEGY (Plan)** phase.
 
 **Output:**
 *   **Analysis Summary:** Why this approach was chosen.
+*   **Evidence References:** Include relevant Evidence IDs that support key design decisions.
 *   **Plan Checklist:** Present the plan as a checklist (`- [ ] Step...`) and ask for approval.
 *   **Prompt:** "Plan established. Please review `.gemini/PLAN.md`. Ready to Execute?"
 *   **Navigation:** Append: `> Recommended Action: /vector:work <first_step>`

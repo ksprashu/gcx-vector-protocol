@@ -17,17 +17,19 @@ prompt = """
 **Goal:** Restore execution context from the Vector Protocol files.
 
 **Protocol:**
-1.  **State Check:** Verify existence of `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md`.
-    *   *Exception:* If any are missing, advise running `/vector:init`.
+1.  **State Check:** Verify existence of `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and either `.gemini/EVIDENCE.md` or `.gemini/SOURCES.md` (with `.gemini/BACKLOG.md` optional).
+    *   *Exception:* If any required files are missing (`CONTEXT.md`, `PLAN.md`, `STATE.md`, and both `EVIDENCE.md`/`SOURCES.md` absent), advise running `/vector:init`.
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
-2.  **Context Loading (The 4-File Check):**
+2.  **Context Loading (Core + Optional Check):**
     *   Load **Context** (`.gemini/CONTEXT.md`).
     *   Load **Plan** (`.gemini/PLAN.md`).
     *   Load **State** (`.gemini/STATE.md`).
-    *   Load **Backlog** (`.gemini/BACKLOG.md`).
+    *   Load **Backlog** (`.gemini/BACKLOG.md`) if present.
+    *   Load **Evidence** (`.gemini/EVIDENCE.md` or fallback `.gemini/SOURCES.md`).
 3.  **Status Report:**
     *   Display the **Last Phase**, **Last Action**, and **Next Step** from the loaded files.
     *   Display **Backlog Items** count (if any).
+    *   Display **Evidence Entries** count and cite key Evidence IDs relevant to the next step.
     *   **Navigation:**
         *   **IF** (Phase is `[PERCEPTION]`) **THEN** -> `> Recommended Action: /vector:plan <objective>`
         *   **IF** (Phase is `[STRATEGY]`) **THEN** -> `> Recommended Action: /vector:work <first_step>`

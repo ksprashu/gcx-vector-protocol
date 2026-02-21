@@ -20,31 +20,38 @@ You are entering the **PERCEPTION (Scan)** phase.
 **User Focus:** "{{args}}"
 *(If empty, perform a general environment analysis.)*
 
-**Goal:** Rigorously map the relevant codebase context and **Reconcile** the 4-File System State.
+**Goal:** Rigorously map the relevant codebase context and **Reconcile** the 5-File System State (including Evidence).
 
 **Interaction Standards:**
 1.  **Acknowledge & Rephrase:** Briefly state what you are scanning and why.
 2.  **Checklist:** Present findings as a structured list.
 3.  **Drift Detection:** Explicitly flag discrepancies between `PLAN.md`, `STATE.md`, and Reality.
+4.  **Evidence Discipline:** Collect official references for each major decision in this phase.
 
 **Protocol:**
-1.  **State Audit (The 4-File Check):**
-    *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md` (if it exists).
+1.  **State Audit (The 5-File Check):**
+    *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md` (if it exists), and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md` if Evidence is absent).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Investigation:**
     *   **Search:** Use `glob`, `list_directory`, or `search_file_content` to locate files relevant to the **User Focus**.
     *   **Verify:** Read key files (`read_file`) to confirm their actual content. Do not rely on file names alone.
-3.  **State Update:**
+3.  **External Evidence Pass (Mandatory):**
+    *   Before producing recommendations, collect authoritative external references (official docs/specs/release notes) for every major conclusion and recommended next action.
+    *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
+    *   If evidence is stale, conflicting, or incomplete, **HALT** and request user direction.
+4.  **State Update:**
     *   **Write** your raw findings to `.gemini/STATE.md` under the `## 3. Scratchpad` section.
     *   **Constraint:** **PRESERVE** any existing session history. Append new findings.
     *   **Update** the `**Phase:**` in `.gemini/STATE.md` to `[PERCEPTION]`.
 
 **Output:**
 *   **Structured Checklist:** List files found and insights as `- [x] Found ...`.
+*   **Evidence References:** Cite relevant Evidence IDs for factual findings.
 *   **Drift Report:** "Plan says X, but Codebase shows Y."
+*   **Evidence Table:** Include columns **Topic | Source | Why authoritative | Last-checked**.
 *   **Prompt:** "Analysis complete. Ready to proceed to Planning?"
 *   **Navigation:** Append:
     *   **IF** New Plan needed: `> Recommended Action: /vector:plan <objective>`
     *   **IF** Ideas found for later: `> Recommended Action: /vector:improve`
-*   **Stopping Criteria:** DO NOT generate a plan. DO NOT modify code. **STOP** and **WAIT** for the user to select the next action. **DO NOT** execute the recommended command.
+*   **Stopping Criteria:** DO NOT generate a plan. DO NOT modify code. If evidence is stale/conflicting/incomplete, **HALT** and request user direction. Otherwise, **STOP** and **WAIT** for the user to select the next action. **DO NOT** execute the recommended command.
 """

@@ -39,6 +39,7 @@ You are entering the **EXECUTION (Act)** phase.
 2.  **Task Retrieval:**
     *   Identify the next pending task from `.gemini/PLAN.md`.
     *   If "{{args}}" is provided, prioritize that instruction within the context of the plan.
+    *   Update `**Phase:**` in `.gemini/STATE.md` to `[EXECUTION]`.
 3.  **Execution Loop (Atomic Step):**
     *   **Implement:** Use `replace` or `write_file` to make the code change.
         *   *Constraint:* Adhere strictly to `.gemini/CONTEXT.md` (Standards).

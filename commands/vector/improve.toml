@@ -27,6 +27,7 @@ You are entering the **IDEATION (Improve)** phase.
 3.  **Dual Output:**
     *   **File:** Append detailed proposals to `.gemini/BACKLOG.md`.
     *   **Chat:** Present a concise summary to the user.
+4.  **Evidence Discipline:** Collect official references for each major improvement decision.
 
 **Protocol:**
 1.  **Context Review:**
@@ -35,23 +36,30 @@ You are entering the **IDEATION (Improve)** phase.
 2.  **Analysis:**
     *   **Review Source/Docs:** Use `list_directory`, `read_file`, or `search_file_content` to investigate the relevant areas based on **User Focus**.
     *   **Identify Gaps:** Functionality, Quality, Production Readiness, Architecture.
-3.  **Ideation:**
+3.  **External Evidence Pass (Mandatory):**
+    *   Before recommending improvements, gather authoritative sources for each major proposal.
+    *   Where relevant, ground proposals in benchmarks, performance data, or literature.
+    *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
+    *   If evidence is stale, conflicting, or incomplete, **STOP** and request user direction.
+4.  **Ideation:**
     *   Generate 3-5 high-value **Enhancement Proposals**.
     *   For each proposal, define:
         - **Problem:** The gap/issue.
         - **Solution:** High-level design.
         - **Impact:** Value proposition.
-4.  **State Persistence (Write to Backlog):**
+        - **Evidence Basis:** Benchmark, literature, or official source grounding (as applicable).
+5.  **State Persistence (Write to Backlog):**
     *   **Action:** Append the proposals to `.gemini/BACKLOG.md` (create if missing).
     *   **Format:** Use Markdown headers (e.g., `## [New] <Title>`) and bullet points.
     *   **Constraint:** Do **NOT** delete existing backlog items. Only append.
-5.  **State Update:**
+6.  **State Update:**
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[IDEATION]`.
     *   Append a summary of the new items to the Scratchpad.
 
 **Output:**
 *   **Chat Summary:** "Added X proposals to `.gemini/BACKLOG.md`:" followed by a list of titles.
+*   **Evidence Table:** Include columns **Topic | Source | Why authoritative | Last-checked**.
 *   **Prompt:** "Review the Backlog or proceed to Planning?"
 *   **Navigation:** Append: `> Recommended Action: /vector:plan Review Backlog`
-*   **Stopping Criteria:** DO NOT generate code. DO NOT modify other files. **STOP** and **WAIT** for user selection. **DO NOT** execute the recommended command.
+*   **Stopping Criteria:** DO NOT generate code. DO NOT modify other files. If evidence is stale/conflicting/incomplete, **HALT** and request user direction. Otherwise, **STOP** and **WAIT** for user selection. **DO NOT** execute the recommended command.
 """

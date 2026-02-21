@@ -27,6 +27,7 @@ You are entering the **EXECUTION (Act)** phase.
     *   State your understanding of the current task.
     *   Explain the intended action.
 3.  **Closure:** Summarize the result.
+4.  **Evidence Discipline:** Use official references for each major implementation decision.
 
 **Scope:**
 *   **ALLOWED:** implementing code, running tests, updating STATE.md.
@@ -40,15 +41,21 @@ You are entering the **EXECUTION (Act)** phase.
     *   Identify the next pending task from `.gemini/PLAN.md`.
     *   If "{{args}}" is provided, prioritize that instruction within the context of the plan.
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[EXECUTION]`.
-3.  **Execution Loop (Atomic Step):**
+3.  **External Evidence Pass (Mandatory):**
+    *   Before implementation, gather authoritative official references for each major change decision.
+    *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
+    *   Re-validate factual implementation details immediately before coding.
+    *   If evidence is stale, conflicting, or incomplete, **STOP** and request user direction.
+4.  **Execution Loop (Atomic Step):**
     *   **Implement:** Use `replace` or `write_file` to make the code change.
         *   *Constraint:* Adhere strictly to `.gemini/CONTEXT.md` (Standards).
+    *   **Verify Facts Again (Mandatory):** Re-validate factual implementation details immediately before final verification.
     *   **Verify:** IMMEDIATELY run the build or test command (`run_shell_command`).
         *   *Constraint:* Do not proceed if verification fails.
     *   **Record:** Update `.gemini/STATE.md` with the result (Success/Failure) and output log.
         *   **Constraint:** **APPEND** to the `## 3. Scratchpad`. **DO NOT** overwrite previous entries.
     *   **Plan Progress:** Update the completed step in `.gemini/PLAN.md` from `- [ ]` to `- [x]`.
-4.  **Error Handling:**
+5.  **Error Handling:**
     *   If verification fails, **STOP**.
     *   Log the error in `.gemini/STATE.md`.
     *   Mark the failed step in `.gemini/PLAN.md` as `- [!]` with a brief failure reason.
@@ -56,9 +63,10 @@ You are entering the **EXECUTION (Act)** phase.
 
 **Output:**
 *   **Execution Summary:** What was done, what was verified.
+*   **Evidence Table:** Include columns **Topic | Source | Why authoritative | Last-checked**.
 *   **State:** Updated status in `.gemini/STATE.md`.
 *   **Navigation:**
     *   **IF** Plan has more steps: `> Recommended Action: /vector:work <next_step>`
     *   **IF** Plan is complete: `> Recommended Action: /vector:save <commit_message>`
-*   **Stopping Criteria:** **STOP** after the atomic task. **WAIT** for the user to instruct the next step. **DO NOT** loop automatically. **DO NOT** execute the recommended command.
+*   **Stopping Criteria:** If evidence is stale/conflicting/incomplete, **HALT** and request user direction. Otherwise, **STOP** after the atomic task. **WAIT** for the user to instruct the next step. **DO NOT** loop automatically. **DO NOT** execute the recommended command.
 """

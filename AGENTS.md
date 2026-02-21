@@ -144,3 +144,14 @@ Profile declaration format:
 
 - `Profile: Fast` or `Profile: Deep-Research`
 - Include one-line justification for chosen trade-off.
+
+## 9) Merge-Readiness Checklist (Pre-PR / Pre-Merge)
+Run this quick checklist before opening or merging a PR:
+
+- Working tree is clean and intentional (`git status --short`).
+- No unresolved conflict markers in touched files (`<<<<<<<`, `=======`, `>>>>>>>`).
+- Canonical/mirror docs are synchronized when one changes (`diff -u AGENTS.md GEMINI.md`).
+- Relevant verification commands were re-run after the latest edits.
+- PR description includes: scope, risk, verification evidence, and rollback notes (if applicable).
+
+If any item fails, resolve it before requesting review/merge.

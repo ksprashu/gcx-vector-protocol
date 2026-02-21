@@ -2,17 +2,37 @@
   "name": "gcx-vector-protocol",
   "description": "The Vector Protocol: A rigorous, state-aware development workflow extension for Gemini CLI.",
   "version": "1.5.0",
-  "contextFileName": "GEMINI.md",
+  "contextFileName": "AGENTS.md",
   "commands": [
-    {"path": "commands/vector/init.toml"},
-    {"path": "commands/vector/scan.toml"},
-    {"path": "commands/vector/plan.toml"},
-    {"path": "commands/vector/work.toml"},
-    {"path": "commands/vector/save.toml"},
-    {"path": "commands/vector/resume.toml"},
-    {"path": "commands/vector/status.toml"},
-    {"path": "commands/vector/improve.toml"},
-    {"path": "commands/vector/reset.toml"},
-    {"path": "commands/vector/context.toml"}
+    {
+      "path": "commands/vector/init.toml"
+    },
+    {
+      "path": "commands/vector/scan.toml"
+    },
+    {
+      "path": "commands/vector/plan.toml"
+    },
+    {
+      "path": "commands/vector/work.toml"
+    },
+    {
+      "path": "commands/vector/save.toml"
+    },
+    {
+      "path": "commands/vector/resume.toml"
+    },
+    {
+      "path": "commands/vector/status.toml"
+    },
+    {
+      "path": "commands/vector/improve.toml"
+    },
+    {
+      "path": "commands/vector/reset.toml"
+    },
+    {
+      "path": "commands/vector/context.toml"
+    }
   ]
 }

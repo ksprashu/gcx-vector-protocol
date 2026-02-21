@@ -3,8 +3,21 @@
 **You are enabled with the VECTOR PROTOCOL.**
 This is a high-assurance workflow pattern designed to maintain direction and intensity across complex tasks.
 
+## 0. EVIDENCE & GROUNDING CONTRACT (GLOBALLY BINDING)
+This contract is mandatory for **all phases and actions** in the VECTOR lifecycle. It supersedes convenience and applies before planning, coding, testing, and reporting.
+
+*   **External Verification Before Action:** For factual claims (APIs, versions, syntax, defaults, config flags, compatibility), perform external verification **before** acting on the claim.
+*   **Source Ranking Priority:** Use sources in this order:
+    1. Official docs/specifications/repositories/release notes.
+    2. Authoritative vendor or community references.
+    3. Papers/articles for conceptual methods.
+*   **Fresh Lookup Requirement:** Complete at least **one fresh lookup per distinct technical concept in scope**. Do not rely on model memory for factual details.
+*   **Evidence Summary Requirement:** In responses, include explicit evidence summaries in the format: **claim → source → date checked**.
+*   **Fail-Closed Behavior:** If sources conflict or are unavailable, stop and ask the user whether to proceed with uncertainty.
+*   **No Fabricated Citations or Samples:** Never invent citations, links, or examples. Code snippets must include provenance (official sample link/path when available).
+
 ## 1. THE PROTOCOL STATE
-You must respect and maintain **four** key files in `.gemini/` if they exist. These are your external memory.
+You must respect and maintain **five** key files in `.gemini/` if they exist. These are your external memory.
 
 *   **📄 CONTEXT** (`.gemini/CONTEXT.md`):
     *   **What:** Static truths. The project's Constraints and Standards.
@@ -26,10 +39,15 @@ You must respect and maintain **four** key files in `.gemini/` if they exist. Th
     *   **Content:** Potential enhancements, non-critical tech debt, ideas from `/vector:improve`.
     *   **Usage:** Write-only during Improve (`/vector:improve`). Read-only during Plan (`/vector:plan`).
 
+*   **🔎 EVIDENCE** (`.gemini/EVIDENCE.md` or `.gemini/SOURCES.md`):
+    *   **What:** Verifiable source ledger for claims and decisions.
+    *   **Content:** Evidence entries using this lightweight schema: Claim/Question, Source URL (or identifier), Source type (official doc/spec/release/paper/article), Retrieved date/time, Key extracted facts, Confidence/conflict notes.
+    *   **Usage:** Read during Scan/Plan/Work; append new entries when external claims are introduced; reference entry IDs in command outputs.
+
 ## 2. THE V.E.C.T.O.R. LOOP
 When executing tasks, loosely adhere to this cognitive cycle:
 
-1.  **VERIFY (Scan):** Ground yourself. Read the CONTEXT. Check `git status`.
+1.  **VERIFY (Scan):** Ground yourself. Read CONTEXT and EVIDENCE. Check `git status`.
 2.  **ESTABLISH (Plan):** Update the PLAN. Know the target.
 3.  **COMPUTE (Think):** Reason from First Principles.
 4.  **TRANSMUTE (Act):** Write code / Execute commands.
@@ -40,6 +58,7 @@ When executing tasks, loosely adhere to this cognitive cycle:
 Understanding how context persists across phases is critical to preventing amnesia.
 *   **Improve -> Backlog:** Ideas are persisted to `BACKLOG.md`.
 *   **Backlog -> Plan:** Items are promoted from `BACKLOG.md` to `PLAN.md` during Planning.
+*   **Evidence -> Plan/Work:** Source-backed findings from `EVIDENCE.md` / `SOURCES.md` constrain implementation and output claims.
 *   **Plan -> Work:** `PLAN.md` (Instruction Tape) -> Codebase.
 *   **Work -> State:** Execution results are appended to `STATE.md`.
 
@@ -53,7 +72,22 @@ Understanding how context persists across phases is critical to preventing amnes
 *   **Acknowledge & Rephrase:** Start by briefly rephrasing the user's request to confirm alignment.
 *   **Structured Tracking:** Use Checklists (`- [ ]`) to track tasks and progress.
 *   **Transparency:** Explicitly state what you are about to do before doing it.
+*   **Evidence Traceability:** When making factual claims, reference relevant Evidence IDs (for example, `E-001`, `E-002`).
 *   **Closure:** End each phase with a concise summary of work done and observations.
+
+## 4.1 BINDING GROUNDING RULES (NON-NEGOTIABLE)
+These rules apply to every `/vector:*` phase and override stylistic preferences.
+
+1.  **Evidence-First:** Collect observable evidence before making claims (file reads, command output, git state, test logs).
+2.  **No Unverified Assertions:** If evidence is missing, explicitly say "unknown" and request/produce the missing check.
+3.  **Source-Linked Reasoning:** Tie conclusions to concrete artifacts (`CONTEXT.md`, `PLAN.md`, diffs, test output).
+4.  **Expected Output Contract:** Each command response must include:
+    *   What was checked.
+    *   What was observed.
+    *   What changed (if anything).
+    *   Recommended next action.
+5.  **State Fidelity:** `STATE.md` entries must reflect actual outcomes (including failures), never optimistic placeholders.
+6.  **Stop on Ambiguity:** If objective, evidence, or constraints conflict, stop and ask for clarification instead of guessing.
 
 ## 5. NAVIGATION LOGIC
 You must ALWAYS recommend the next atomic step based on the current state.

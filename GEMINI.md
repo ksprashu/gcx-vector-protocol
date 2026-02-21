@@ -48,8 +48,15 @@ Use Vector Protocol commands at these checkpoints:
 
 Minimum rule: run `scan -> plan -> work -> save` for any non-trivial task.
 
+Canonical source note:
+
+- `AGENTS.md` is the canonical context document for this repository (as referenced by `gemini-extension.json`).
+- `GEMINI.md` should remain a synchronized mirror for compatibility with clients expecting the default filename.
+
 ### 4.1 Protocol State Files (`.gemini/`)
 Treat these as external memory when present:
+
+- `/vector:init` bootstraps this state by creating these files when missing.
 
 - `.gemini/CONTEXT.md` — static constraints and standards (read-only unless explicitly updating via `/vector:context` with approval).
 - `.gemini/PLAN.md` — active roadmap and task checklist (primary strategy artifact for `/vector:plan`).

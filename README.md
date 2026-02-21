@@ -50,13 +50,13 @@ It creates the **5-File Protocol State**: `CONTEXT.md`, `PLAN.md`, `STATE.md`, `
 The extension provides specific commands for each phase of the loop:
 
 *   **V - VERIFY (`/vector:scan`)**
-    *   Grounding phase. The agent reads Context, Plan, and Evidence, checks the codebase, and maps the territory.
+    *   Grounding phase. The agent reads Context, Plan, and Evidence, checks the codebase, and maps the territory. Also auto-bootstraps protocol files if they are missing.
 *   **E - ESTABLISH (`/vector:plan`)**
-    *   Strategy phase. The agent drafts a **Rich Design Document** in the Plan for your review.
+    *   Strategy phase. Also handles implicit init/resume so you can jump straight into planning.
 *   **C - COMPUTE** (`/vector:improve`)
     *   Ideation phase. The agent brainstorms enhancements and persists them to the Backlog.
 *   **T - TRANSMUTE (`/vector:work`)**
-    *   Execution phase. The agent writes code based on the Plan with explicit **Transparency**.
+    *   Execution phase. Also performs a lightweight resume + drift check before making changes.
 *   **O - OBSERVE** (Internal)
     *   The agent verifies code immediately after writing it (part of `/vector:work`).
 *   **R - RECORD (`/vector:save`)**
@@ -64,17 +64,16 @@ The extension provides specific commands for each phase of the loop:
 
 ## 🛠 Commands
 
-*   `/vector:init` - Bootstrap the Protocol State files (Safe mode included) and report created/reused artifacts.
-*   `/vector:scan` - Analyze the codebase and current state with evidence-first findings (files checked, drift found, next action).
-*   `/vector:improve` - Ideation & Brainstorming with evidence-backed rationale; persists proposals to the Backlog plus concise chat summary.
-*   `/vector:plan` - Create/update the implementation plan (Design Document) from observed repository evidence and explicit assumptions.
-*   `/vector:work` - Execute the plan (write code + verify) in evidence-first mode with immediate verification outputs and state log updates.
-*   `/vector:status` - Show the current State dashboard derived from protocol files with explicit source references.
-*   `/vector:save` - Commit changes to git and save state, including commit evidence and post-save state snapshot.
-*   `/vector:resume` - Reload context after a restart and summarize recovered evidence artifacts.
-*   `/vector:reset` - Clear the State (failsafe) with a confirmation summary of what was reset.
-*   `/vector:context` - Audit/update project Context (CONTEXT.md) using approval-gated, evidence-backed ADD/UPDATE/REMOVE proposals.
+### Core (daily use)
+*   `/vector:plan` - Create or update the implementation plan (includes implicit init/resume if needed).
+*   `/vector:work` - Execute the plan (includes lightweight scan/resume checks before coding).
+*   `/vector:save` - Commit changes to git and save state.
 
+### Supporting
+*   `/vector:scan` - Deep perception pass and drift analysis (also safe as first command in a fresh repo).
+*   `/vector:improve` - Ideation & Brainstorming. Suggests enhancements and persists them to the Backlog.
+*   `/vector:status` - Show the current State dashboard.
+*   `/vector:context` - Audit and update the project Context (CONTEXT.md) with guided, approval-gated changes.
 
 ## 🧭 Grounded Mode
 
@@ -92,13 +91,18 @@ Grounded Mode is the default behavioral contract for this extension: **evidence 
 * `STATE.md` scratchpad entries reflecting real outcomes, including failures.
 * Git commit metadata captured during save.
 
+### Recovery / advanced
+*   `/vector:init` - Explicit bootstrap/reset of protocol files (`--force` to overwrite existing state). Use when you want deterministic, explicit initialization.
+*   `/vector:resume` - Explicitly reload context after a restart (optional because `plan`/`work` now do this automatically).
+*   `/vector:reset` - Clear the State (failsafe).
+
 ## 💡 Best Practices
 
-1.  **Start with Scan:** Always run `/vector:scan` when starting a session to ground the agent.
-2.  **Ideate First:** Use `/vector:improve` to generate ideas before committing to a plan.
-3.  **Review the Plan:** `/vector:plan` now generates a detailed Design Document in `.gemini/PLAN.md`. **Read it.** Edit it. It is your blueprint.
+1.  **Default Fast Path:** In most sessions, just run `/vector:plan` → `/vector:work` → `/vector:save`.
+2.  **Use Scan Intentionally:** Run `/vector:scan` for deep drift detection, onboarding to unfamiliar repos, or troubleshooting.
+3.  **Review the Plan:** `/vector:plan` generates a detailed Design Document in `.gemini/PLAN.md`. **Read it.** Edit it. It is your blueprint.
 4.  **Iterate:** If the plan isn't right, run `/vector:plan "<feedback>"` to refine it.
-5.  **Atomic Work:** `/vector:work` is designed to be atomic. It will explain what it's doing. Verify each step.
+5.  **Atomic Work:** `/vector:work` is designed to be atomic and now includes automatic resume checks.
 6.  **Save Often:** Use `/vector:save` after every successful logical unit of work.
 7.  **Keep Context Fresh:** When you add a dependency, change architecture, or update standards, run `/vector:context` to keep CONTEXT.md in sync.
 8.  **Cite Evidence IDs:** For scan/plan/work outputs, reference relevant evidence entries (for example `E-003`) so claims are traceable.

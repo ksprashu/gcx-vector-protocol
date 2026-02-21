@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "🗺️ PLAN: Strategy Phase. Develop a rigorous implementation roadmap."
+description = "🗺️ PLAN: Strategy Phase. Develop a rigorous implementation roadmap (with auto-bootstrap)."
 prompt = """
 You are entering the **STRATEGY (Plan)** phase.
 
@@ -25,7 +25,6 @@ You are entering the **STRATEGY (Plan)** phase.
 1.  **Explicit Understanding:**
     *   Start by explaining your understanding of the user's request.
     *   State *how* you intend to proceed (the approach).
-    *   Acknowledge the command and wait for implicit confirmation (by presenting the plan checklist).
 2.  **Rich Plan Structure:**
     *   The generated plan MUST be a comprehensive Design Document, not just a checklist.
     *   Include Analysis (Why), Design (How), and Roadmap (What).
@@ -35,6 +34,11 @@ You are entering the **STRATEGY (Plan)** phase.
     *   Collect official references for each major planning decision.
 
 **Protocol:**
+0.  **Auto-Bootstrap + Resume (No manual `/vector:init` required):**
+    *   Check for `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md`.
+    *   If any are missing, create ONLY the missing files with sane defaults (context skeleton, plan template, state template, backlog header).
+    *   If files exist, treat this command as an implicit `/vector:resume` and load current objective + phase before planning (never overwrite existing protocol content in this step).
+    *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 1.  **Context Review:**
     *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/PLAN.md` (Current Plan), `.gemini/STATE.md` (Investigation Findings), `.gemini/BACKLOG.md` (Icebox, if it exists), and `.gemini/EVIDENCE.md` or `.gemini/SOURCES.md` (source ledger).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "🔨 WORK: Execution Phase. Implement and verify atomic changes."
+description = "🔨 WORK: Execution Phase. Implement and verify atomic changes (with auto-scan/resume)."
 
 prompt = """
 You are entering the **EXECUTION (Act)** phase.
@@ -24,8 +24,6 @@ You are entering the **EXECUTION (Act)** phase.
 **Interaction Standards:**
 1.  **Acknowledge:** State the specific task from the plan you are tackling.
 2.  **Transparency:** Explain *what* you are changing before calling tools.
-    *   State your understanding of the current task.
-    *   Explain the intended action.
 3.  **Closure:** Summarize the result.
 4.  **Evidence Discipline:** Use official references for each major implementation decision.
 
@@ -34,6 +32,13 @@ You are entering the **EXECUTION (Act)** phase.
 *   **FORBIDDEN:** creating new broad plans (use /vector:plan) or open-ended exploration (use /vector:scan).
 
 **Protocol:**
+0.  **Auto-Recovery + Fast Scan (No manual `/vector:resume` required):**
+    *   Verify `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md` exist.
+    *   If missing, create ONLY missing files with minimal templates and continue (do not replace existing protocol files).
+    *   Perform a brief reconciliation before coding:
+        *   Confirm the next unchecked roadmap task in `.gemini/PLAN.md`.
+        *   Confirm repo state (`git status --short`) and note unstaged work that may affect the step.
+        *   Confirm no obvious drift between requested work and current plan wording.
 1.  **Context Loading (The 5-File Check):**
     *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md` (if it exists), and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md`).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.

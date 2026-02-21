@@ -50,7 +50,7 @@ It creates the **5-File Protocol State**: `CONTEXT.md`, `PLAN.md`, `STATE.md`, `
 The extension provides specific commands for each phase of the loop:
 
 *   **V - VERIFY (`/vector:scan`)**
-    *   Grounding phase. The agent reads the Context and Plan, checks the codebase, and maps the territory.
+    *   Grounding phase. The agent reads Context, Plan, and Evidence, checks the codebase, and maps the territory.
 *   **E - ESTABLISH (`/vector:plan`)**
     *   Strategy phase. The agent drafts a **Rich Design Document** in the Plan for your review.
 *   **C - COMPUTE** (`/vector:improve`)

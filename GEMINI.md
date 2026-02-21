@@ -66,7 +66,15 @@ Treat these as external memory when present:
 
 Required baseline: for initialized repos, maintain all five protocol files (`CONTEXT`, `PLAN`, `STATE`, `BACKLOG`, `EVIDENCE`) to keep handoff and recovery deterministic.
 
-### 4.2 Available Slash Commands in This Repo
+### 4.2 Ambiguity-Handling Contract (File-System First)
+To reduce interpretation drift between sessions, treat protocol files as canonical state and follow these rules:
+
+- **Objective precedence:** If user request and `.gemini/PLAN.md` diverge, preserve user intent, then rewrite the plan so the file state matches reality.
+- **Phase precedence:** `.gemini/STATE.md` is authoritative for phase; if stale, append a correction entry explaining why it changed.
+- **Evidence precedence:** Decisions requiring factual claims are blocked until logged in `.gemini/EVIDENCE.md` or `.gemini/SOURCES.md`.
+- **Handoff completeness:** Before ending a meaningful work unit, ensure `STATE.md` scratchpad has: what changed, what verified, what failed, and exact next action.
+
+### 4.3 Available Slash Commands in This Repo
 Commands are defined under `commands/vector/*.toml`:
 
 - `/vector:init` — bootstrap protocol files and baseline state.
@@ -80,17 +88,9 @@ Commands are defined under `commands/vector/*.toml`:
 - `/vector:reset` — clear/refresh session state.
 - `/vector:context` — context maintenance and drift-audit for `.gemini/CONTEXT.md`.
 
-### 4.3 Command Execution Boundary
+### 4.4 Command Execution Boundary
 - Do **not** execute `/vector:*` commands via shell tooling; these are user-invoked slash workflows.
 - The assistant may **recommend** the next `/vector:*` command, but should not auto-transition phases without user intent.
-
-### 4.4 Ambiguity-Handling Contract (File-System First)
-To reduce interpretation drift between sessions, treat protocol files as canonical state and follow these rules:
-
-- **Objective precedence:** If user request and `.gemini/PLAN.md` diverge, preserve user intent, then rewrite the plan so the file state matches reality.
-- **Phase precedence:** `.gemini/STATE.md` is authoritative for phase; if stale, append a correction entry explaining why it changed.
-- **Evidence precedence:** Decisions requiring factual claims are blocked until logged in `.gemini/EVIDENCE.md` or `.gemini/SOURCES.md`.
-- **Handoff completeness:** Before ending a meaningful work unit, ensure `STATE.md` scratchpad has: what changed, what verified, what failed, and exact next action.
 
 ## 5) Safety & Quality Gates
 Uncertainty handling:

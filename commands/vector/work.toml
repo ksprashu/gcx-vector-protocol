@@ -45,7 +45,7 @@ You are entering the **EXECUTION (Act)** phase.
     *   Before implementation, gather authoritative official references for each major change decision.
     *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
     *   Re-validate factual implementation details immediately before coding.
-    *   If evidence is stale, conflicting, or incomplete, **STOP** and request user direction.
+    *   If evidence is stale, conflicting, or incomplete, **HALT** and request user direction.
 4.  **Execution Loop (Atomic Step):**
     *   **Implement:** Use `replace` or `write_file` to make the code change.
         *   *Constraint:* Adhere strictly to `.gemini/CONTEXT.md` (Standards).

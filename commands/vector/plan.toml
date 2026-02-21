@@ -51,7 +51,7 @@ You are entering the **STRATEGY (Plan)** phase.
     *   Cite those sources directly in the design rationale.
     *   Record rejected alternatives with source-backed reasoning.
     *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
-    *   If evidence is stale, conflicting, or incomplete, **STOP** and request user direction.
+    *   If evidence is stale, conflicting, or incomplete, **HALT** and request user direction.
 5.  **Plan Generation:**
     *   **Draft** a step-by-step plan. Each step must be Atomic and Verifiable.
     *   **WRITE** this plan to `.gemini/PLAN.md` using the **Rich Plan Template**.

@@ -46,7 +46,7 @@ You are entering the **MAINTENANCE (Context Update)** phase.
 3.  **External Evidence Pass (Mandatory):**
     *   Before proposing changes, gather official references for each major discrepancy and recommendation (e.g., official framework docs, language specs, dependency release notes).
     *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
-    *   If evidence is stale, conflicting, or incomplete, **STOP** and request user direction.
+    *   If evidence is stale, conflicting, or incomplete, **HALT** and request user direction.
 4.  **Proposal Generation:**
     *   For each discrepancy, create a labelled change proposal:
         *   **[ADD #N]:** Proposed new content to add.

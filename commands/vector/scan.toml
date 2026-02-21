@@ -38,7 +38,7 @@ You are entering the **PERCEPTION (Scan)** phase.
 3.  **External Evidence Pass (Mandatory):**
     *   Before producing recommendations, collect authoritative external references (official docs/specs/release notes) for every major conclusion and recommended next action.
     *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
-    *   If evidence is stale, conflicting, or incomplete, **STOP** and ask the user how to proceed.
+    *   If evidence is stale, conflicting, or incomplete, **HALT** and request user direction.
 4.  **State Update:**
     *   **Write** your raw findings to `.gemini/STATE.md` under the `## 3. Scratchpad` section.
     *   **Constraint:** **PRESERVE** any existing session history. Append new findings.

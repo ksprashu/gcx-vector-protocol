@@ -30,6 +30,8 @@ You are entering the **STRATEGY (Plan)** phase.
     *   Include Analysis (Why), Design (How), and Roadmap (What).
 3.  **Backlog Integration:**
     *   If items are selected from `.gemini/BACKLOG.md`, move them to `.gemini/PLAN.md` and remove them from the Backlog.
+4.  **Evidence Discipline:**
+    *   Collect official references for each major planning decision.
 
 **Protocol:**
 0.  **Auto-Bootstrap + Resume (No manual `/vector:init` required):**
@@ -38,7 +40,8 @@ You are entering the **STRATEGY (Plan)** phase.
     *   If files exist, treat this command as an implicit `/vector:resume` and load current objective + phase before planning (never overwrite existing protocol content in this step).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 1.  **Context Review:**
-    *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/PLAN.md` (Current Plan), `.gemini/STATE.md` (Investigation Findings), and `.gemini/BACKLOG.md` (Icebox, if it exists).
+    *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/PLAN.md` (Current Plan), `.gemini/STATE.md` (Investigation Findings), `.gemini/BACKLOG.md` (Icebox, if it exists), and `.gemini/EVIDENCE.md` or `.gemini/SOURCES.md` (source ledger).
+    *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Plan Archival (Before Overwriting):**
     *   **IF** `.gemini/PLAN.md` contains a non-empty plan (has an Objective and Roadmap):
         *   **Archive:** Append the current content of `.gemini/PLAN.md` to `.gemini/PLAN_ARCHIVE.md` (create if missing) with a timestamp header.
@@ -47,25 +50,34 @@ You are entering the **STRATEGY (Plan)** phase.
     *   **First Principles:** Deconstruct the User Objective.
     *   **Trade-off Analysis:** Briefly evaluate approaches.
     *   **Risk Assessment:** Identify potential failure modes.
-4.  **Plan Generation:**
+4.  **External Evidence Pass (Mandatory):**
+    *   Before finalizing design decisions, gather official API docs/samples/specs for each major design choice.
+    *   Cite those sources directly in the design rationale.
+    *   Record rejected alternatives with source-backed reasoning.
+    *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
+    *   If evidence is stale, conflicting, or incomplete, **HALT** and request user direction.
+5.  **Plan Generation:**
     *   **Draft** a step-by-step plan. Each step must be Atomic and Verifiable.
+    *   **Integrate Evidence:** For assumptions or external facts, cite Evidence IDs from `.gemini/EVIDENCE.md`/`.gemini/SOURCES.md`.
     *   **WRITE** this plan to `.gemini/PLAN.md` using the **Rich Plan Template**.
     *   **Format:**
         *   **1. Objective:** [Clear Goal]
         *   **2. Strategic Analysis:** [First Principles, Trade-offs, Risks]
-        *   **3. Design Specification:** [Technical Details, Data Structures, Function Signatures]
-        *   **4. Implementation Roadmap:** [Numbered List of Atomic Steps]
-        *   **5. Review:** [Instructions for User Feedback]
-5.  **Backlog Management:**
+        *   **3. Design Specification:** [Technical Details, Data Structures, Function Signatures, Official API/Sample Citations]
+        *   **4. Alternatives Considered:** [Accepted + Rejected options with source-backed reasoning]
+        *   **5. Implementation Roadmap:** [Numbered List of Atomic Steps]
+        *   **6. Review:** [Instructions for User Feedback]
+6.  **Backlog Management:**
     *   **IF** items were promoted: **WRITE** (Update) `.gemini/BACKLOG.md` to remove them.
-6.  **State Update:**
+7.  **State Update:**
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[STRATEGY]`.
     *   **Constraint:** **DO NOT** overwrite the `## 3. Scratchpad`. Only update the Phase line.
 
 **Output:**
 *   **Analysis Summary:** Why this approach was chosen.
+*   **Evidence Table:** Include columns **Topic | Source | Why authoritative | Last-checked**.
 *   **Plan Checklist:** Present the plan as a checklist (`- [ ] Step...`) and ask for approval.
 *   **Prompt:** "Plan established. Please review `.gemini/PLAN.md`. Ready to Execute?"
 *   **Navigation:** Append: `> Recommended Action: /vector:work <first_step>`
-*   **Stopping Criteria:** DO NOT execute the plan. DO NOT write code. **STOP** and **WAIT** for user approval. **DO NOT** execute the recommended command.
+*   **Stopping Criteria:** DO NOT execute the plan. DO NOT write code. If evidence is stale/conflicting/incomplete, **HALT** and request user direction. Otherwise, **STOP** and **WAIT** for user approval. **DO NOT** execute the recommended command.
 """

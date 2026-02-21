@@ -14,7 +14,7 @@ The `--auto-update` is optional: if specified, it will update to new versions as
 
 This extension implements the **Vector Protocol** for the Gemini CLI.
 
-It creates the **4-File Protocol State**: `CONTEXT.md`, `PLAN.md`, `STATE.md`, and `BACKLOG.md`.
+It creates the **5-File Protocol State**: `CONTEXT.md`, `PLAN.md`, `STATE.md`, `BACKLOG.md`, and `EVIDENCE.md` (or `SOURCES.md` as a compatible alias).
 
 ## The Files
 
@@ -34,12 +34,23 @@ It creates the **4-File Protocol State**: `CONTEXT.md`, `PLAN.md`, `STATE.md`, a
     *   Future ideas, enhancements, and non-critical tech debt.
     *   *The "Icebox".*
 
+5.  **🔎 EVIDENCE (`.gemini/EVIDENCE.md` or `.gemini/SOURCES.md`)**
+    *   Source-backed claims, findings, and traceability records.
+    *   Lightweight schema per entry:
+        *   **Claim/Question**
+        *   **Source URL (or identifier)**
+        *   **Source type** (`official doc` / `spec` / `release` / `paper` / `article`)
+        *   **Retrieved date/time**
+        *   **Key extracted facts**
+        *   **Confidence/conflict notes**
+    *   *The "Evidence Ledger".*
+
 ## 🔄 The Workflow (V.E.C.T.O.R.)
 
 The extension provides specific commands for each phase of the loop:
 
 *   **V - VERIFY (`/vector:scan`)**
-    *   Grounding phase. Also auto-bootstraps protocol files if they are missing.
+    *   Grounding phase. The agent reads Context, Plan, and Evidence, checks the codebase, and maps the territory. Also auto-bootstraps protocol files if they are missing.
 *   **E - ESTABLISH (`/vector:plan`)**
     *   Strategy phase. Also handles implicit init/resume so you can jump straight into planning.
 *   **C - COMPUTE** (`/vector:improve`)
@@ -64,6 +75,22 @@ The extension provides specific commands for each phase of the loop:
 *   `/vector:status` - Show the current State dashboard.
 *   `/vector:context` - Audit and update the project Context (CONTEXT.md) with guided, approval-gated changes.
 
+## 🧭 Grounded Mode
+
+Grounded Mode is the default behavioral contract for this extension: **evidence first, conclusions second**.
+
+**Example flow**
+1. Run `/vector:scan` to gather repository evidence (protocol files, git status, config drift checks).
+2. Run `/vector:plan` to create a plan that cites observed constraints and known unknowns.
+3. Run `/vector:work` for one atomic step, verify immediately, and record the result in `STATE.md`.
+4. Run `/vector:save` to persist a commit plus state checkpoint.
+
+**Evidence artifacts you should expect**
+* Checked-file lists and drift notes from scan/context phases.
+* Verification outputs (tests/build/lint) from work phase.
+* `STATE.md` scratchpad entries reflecting real outcomes, including failures.
+* Git commit metadata captured during save.
+
 ### Recovery / advanced
 *   `/vector:init` - Explicit bootstrap/reset of protocol files (`--force` to overwrite existing state). Use when you want deterministic, explicit initialization.
 *   `/vector:resume` - Explicitly reload context after a restart (optional because `plan`/`work` now do this automatically).
@@ -78,3 +105,9 @@ The extension provides specific commands for each phase of the loop:
 5.  **Atomic Work:** `/vector:work` is designed to be atomic and now includes automatic resume checks.
 6.  **Save Often:** Use `/vector:save` after every successful logical unit of work.
 7.  **Keep Context Fresh:** When you add a dependency, change architecture, or update standards, run `/vector:context` to keep CONTEXT.md in sync.
+8.  **Cite Evidence IDs:** For scan/plan/work outputs, reference relevant evidence entries (for example `E-003`) so claims are traceable.
+
+## 📝 Release Notes
+
+* **v1.6.0** - Introduced grounded-agent guarantees: binding evidence-first behavior, explicit expected outputs, and documented Grounded Mode evidence artifacts across Vector commands.
+

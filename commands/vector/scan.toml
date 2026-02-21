@@ -29,7 +29,7 @@ You are entering the **PERCEPTION (Scan)** phase.
 
 **Protocol:**
 1.  **State Audit (The 4-File Check):**
-    *   **Read ALL** protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`.
+    *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md` (if it exists).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Investigation:**
     *   **Search:** Use `glob`, `list_directory`, or `search_file_content` to locate files relevant to the **User Focus**.

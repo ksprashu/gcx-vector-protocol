@@ -34,7 +34,7 @@ You are entering the **STRATEGY (Plan)** phase.
 
 **Protocol:**
 1.  **Context Review:**
-    *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/PLAN.md` (Current Plan), `.gemini/STATE.md` (Investigation Findings), and `.gemini/BACKLOG.md` (Icebox).
+    *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/PLAN.md` (Current Plan), `.gemini/STATE.md` (Investigation Findings), and `.gemini/BACKLOG.md` (Icebox, if it exists).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Plan Archival (Before Overwriting):**
     *   **IF** `.gemini/PLAN.md` contains a non-empty plan (has an Objective and Roadmap):

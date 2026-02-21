@@ -34,7 +34,7 @@ You are entering the **EXECUTION (Act)** phase.
 
 **Protocol:**
 1.  **Context Loading (The 4-File Check):**
-    *   **Read ALL** protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`.
+    *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md` (if it exists).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Task Retrieval:**
     *   Identify the next pending task from `.gemini/PLAN.md`.

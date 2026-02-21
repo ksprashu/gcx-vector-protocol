@@ -23,7 +23,7 @@ You are initializing the **Vector Protocol** for this project.
 **Steps:**
 
 0.  **Pre-flight Check (Safety First):**
-    *   Check if `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, or `.gemini/STATE.md` already exist.
+    *   Check if `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, or `.gemini/BACKLOG.md` already exist.
     *   **IF** (Files Exist AND `{{args}}` does NOT contain `--force`):
         *   **Action:** Read `.gemini/PLAN.md` (if available) to identify the current objective.
         *   **Report:** "⚠️ **Vector Protocol is already initialized.**"

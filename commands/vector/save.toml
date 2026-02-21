@@ -29,12 +29,12 @@ You are entering the **PERSISTENCE (Save)** phase.
 
 **Protocol:**
 1.  **Context Loading:**
-    *   **Read** `.gemini/STATE.md` and `.gemini/PLAN.md`.
+    *   **Read** `.gemini/STATE.md`, `.gemini/PLAN.md`, and `.gemini/BACKLOG.md`.
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **State Sync:** Ensure `.gemini/STATE.md` reflects the latest outcome.
 3.  **Scratchpad Rotation:**
     *   **IF** the `## 3. Scratchpad` section in `.gemini/STATE.md` has more than 20 entries:
-        *   **Archive:** Append the full Scratchpad content to `.gemini/STATE_ARCHIVE.md` with a timestamp header.
+        *   **Archive:** Append the full Scratchpad content to `.gemini/STATE_ARCHIVE.md` (create if missing) with a timestamp header.
         *   **Summarize:** Replace the Scratchpad with a single "Previous Session Summary" line summarizing key outcomes.
     *   **ELSE:** Leave the Scratchpad as-is.
 4.  **Phase Update:** Update `**Phase:**` in `.gemini/STATE.md` to `[IDLE]`.

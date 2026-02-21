@@ -34,17 +34,17 @@ You are entering the **STRATEGY (Plan)** phase.
 
 **Protocol:**
 1.  **Context Review:**
-    *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/STATE.md` (Investigation Findings), and `.gemini/BACKLOG.md` (Icebox).
+    *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/PLAN.md` (Current Plan), `.gemini/STATE.md` (Investigation Findings), and `.gemini/BACKLOG.md` (Icebox).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
-1b. **Plan Archival (Before Overwriting):**
+2.  **Plan Archival (Before Overwriting):**
     *   **IF** `.gemini/PLAN.md` contains a non-empty plan (has an Objective and Roadmap):
-        *   **Archive:** Append the current content of `.gemini/PLAN.md` to `.gemini/PLAN_ARCHIVE.md` with a timestamp header.
+        *   **Archive:** Append the current content of `.gemini/PLAN.md` to `.gemini/PLAN_ARCHIVE.md` (create if missing) with a timestamp header.
     *   **ELSE:** Skip archival.
-2.  **Strategic Analysis:**
+3.  **Strategic Analysis:**
     *   **First Principles:** Deconstruct the User Objective.
     *   **Trade-off Analysis:** Briefly evaluate approaches.
     *   **Risk Assessment:** Identify potential failure modes.
-3.  **Plan Generation:**
+4.  **Plan Generation:**
     *   **Draft** a step-by-step plan. Each step must be Atomic and Verifiable.
     *   **WRITE** this plan to `.gemini/PLAN.md` using the **Rich Plan Template**.
     *   **Format:**
@@ -53,9 +53,9 @@ You are entering the **STRATEGY (Plan)** phase.
         *   **3. Design Specification:** [Technical Details, Data Structures, Function Signatures]
         *   **4. Implementation Roadmap:** [Numbered List of Atomic Steps]
         *   **5. Review:** [Instructions for User Feedback]
-4.  **Backlog Management:**
+5.  **Backlog Management:**
     *   **IF** items were promoted: **WRITE** (Update) `.gemini/BACKLOG.md` to remove them.
-5.  **State Update:**
+6.  **State Update:**
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[STRATEGY]`.
     *   **Constraint:** **DO NOT** overwrite the `## 3. Scratchpad`. Only update the Phase line.
 

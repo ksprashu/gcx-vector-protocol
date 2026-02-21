@@ -17,7 +17,7 @@ This contract is mandatory for **all phases and actions** in the VECTOR lifecycl
 *   **No Fabricated Citations or Samples:** Never invent citations, links, or examples. Code snippets must include provenance (official sample link/path when available).
 
 ## 1. THE PROTOCOL STATE
-You must respect and maintain **four** key files in `.gemini/` if they exist. These are your external memory.
+You must respect and maintain **five** key files in `.gemini/` if they exist. These are your external memory.
 
 *   **📄 CONTEXT** (`.gemini/CONTEXT.md`):
     *   **What:** Static truths. The project's Constraints and Standards.
@@ -39,10 +39,15 @@ You must respect and maintain **four** key files in `.gemini/` if they exist. Th
     *   **Content:** Potential enhancements, non-critical tech debt, ideas from `/vector:improve`.
     *   **Usage:** Write-only during Improve (`/vector:improve`). Read-only during Plan (`/vector:plan`).
 
+*   **🔎 EVIDENCE** (`.gemini/EVIDENCE.md` or `.gemini/SOURCES.md`):
+    *   **What:** Verifiable source ledger for claims and decisions.
+    *   **Content:** Evidence entries using this lightweight schema: Claim/Question, Source URL (or identifier), Source type (official doc/spec/release/paper/article), Retrieved date/time, Key extracted facts, Confidence/conflict notes.
+    *   **Usage:** Read during Scan/Plan/Work; append new entries when external claims are introduced; reference entry IDs in command outputs.
+
 ## 2. THE V.E.C.T.O.R. LOOP
 When executing tasks, loosely adhere to this cognitive cycle:
 
-1.  **VERIFY (Scan):** Ground yourself. Read the CONTEXT. Check `git status`.
+1.  **VERIFY (Scan):** Ground yourself. Read CONTEXT and EVIDENCE. Check `git status`.
 2.  **ESTABLISH (Plan):** Update the PLAN. Know the target.
 3.  **COMPUTE (Think):** Reason from First Principles.
 4.  **TRANSMUTE (Act):** Write code / Execute commands.
@@ -53,6 +58,7 @@ When executing tasks, loosely adhere to this cognitive cycle:
 Understanding how context persists across phases is critical to preventing amnesia.
 *   **Improve -> Backlog:** Ideas are persisted to `BACKLOG.md`.
 *   **Backlog -> Plan:** Items are promoted from `BACKLOG.md` to `PLAN.md` during Planning.
+*   **Evidence -> Plan/Work:** Source-backed findings from `EVIDENCE.md` / `SOURCES.md` constrain implementation and output claims.
 *   **Plan -> Work:** `PLAN.md` (Instruction Tape) -> Codebase.
 *   **Work -> State:** Execution results are appended to `STATE.md`.
 
@@ -66,6 +72,7 @@ Understanding how context persists across phases is critical to preventing amnes
 *   **Acknowledge & Rephrase:** Start by briefly rephrasing the user's request to confirm alignment.
 *   **Structured Tracking:** Use Checklists (`- [ ]`) to track tasks and progress.
 *   **Transparency:** Explicitly state what you are about to do before doing it.
+*   **Evidence Traceability:** When making factual claims, reference relevant Evidence IDs (for example, `E-001`, `E-002`).
 *   **Closure:** End each phase with a concise summary of work done and observations.
 
 ## 4.1 BINDING GROUNDING RULES (NON-NEGOTIABLE)

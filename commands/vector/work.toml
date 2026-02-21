@@ -33,8 +33,8 @@ You are entering the **EXECUTION (Act)** phase.
 *   **FORBIDDEN:** creating new broad plans (use /vector:plan) or open-ended exploration (use /vector:scan).
 
 **Protocol:**
-1.  **Context Loading (The 4-File Check):**
-    *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md` (if it exists).
+1.  **Context Loading (The 5-File Check):**
+    *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md` (if it exists), and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md`).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Task Retrieval:**
     *   Identify the next pending task from `.gemini/PLAN.md`.
@@ -47,6 +47,7 @@ You are entering the **EXECUTION (Act)** phase.
         *   *Constraint:* Do not proceed if verification fails.
     *   **Record:** Update `.gemini/STATE.md` with the result (Success/Failure) and output log.
         *   **Constraint:** **APPEND** to the `## 3. Scratchpad`. **DO NOT** overwrite previous entries.
+    *   **Evidence Traceability:** When reporting execution decisions or factual claims, reference relevant Evidence IDs.
     *   **Plan Progress:** Update the completed step in `.gemini/PLAN.md` from `- [ ]` to `- [x]`.
 4.  **Error Handling:**
     *   If verification fails, **STOP**.
@@ -56,6 +57,7 @@ You are entering the **EXECUTION (Act)** phase.
 
 **Output:**
 *   **Execution Summary:** What was done, what was verified.
+*   **Evidence References:** Include IDs for any evidence-backed assertions.
 *   **State:** Updated status in `.gemini/STATE.md`.
 *   **Navigation:**
     *   **IF** Plan has more steps: `> Recommended Action: /vector:work <next_step>`

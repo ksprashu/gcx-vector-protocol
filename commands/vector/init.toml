@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "⚡️ BOOTSTRAP: Initialize the Vector Protocol State (Context, Plan, State, Backlog)."
+description = "⚡️ BOOTSTRAP: Initialize the Vector Protocol State (Context, Plan, State, Backlog, Evidence)."
 prompt = """
 You are initializing the **Vector Protocol** for this project.
 
@@ -23,7 +23,7 @@ You are initializing the **Vector Protocol** for this project.
 **Steps:**
 
 0.  **Pre-flight Check (Safety First):**
-    *   Check if `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, or `.gemini/BACKLOG.md` already exist.
+    *   Check if `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`, `.gemini/EVIDENCE.md`, or `.gemini/SOURCES.md` already exist.
     *   **IF** (Files Exist AND `{{args}}` does NOT contain `--force`):
         *   **Action:** Read `.gemini/PLAN.md` (if available) to identify the current objective.
         *   **Report:** "⚠️ **Vector Protocol is already initialized.**"
@@ -47,6 +47,16 @@ You are initializing the **Vector Protocol** for this project.
         *   Initialize with the current timestamp and "Initialized" status.
     *   **Create `.gemini/BACKLOG.md` (Backlog):**
         *   Initialize with the header: `# 💡 BACKLOG` and `> Future Ideas. The Icebox.`
+    *   **Create `.gemini/EVIDENCE.md` (Evidence Ledger):**
+        *   Initialize with a compact template and ID convention (`E-001`, `E-002`, ...).
+        *   Include schema fields for each entry:
+            * Claim/Question
+            * Source URL (or identifier)
+            * Source type (official doc/spec/release/paper/article)
+            * Retrieved date/time
+            * Key extracted facts
+            * Confidence/conflict notes
+        *   Note: `.gemini/SOURCES.md` is an accepted alias when migrating existing projects.
 
 **Output (If Initialized):**
 *   Confirmation of file creation.

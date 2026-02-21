@@ -35,7 +35,7 @@ You are entering the **PERCEPTION (Scan)** phase.
     *   **Search:** Use `glob`, `list_directory`, or `search_file_content` to locate files relevant to the **User Focus**.
     *   **Verify:** Read key files (`read_file`) to confirm their actual content. Do not rely on file names alone.
 3.  **State Update:**
-    *   **Write** your raw findings to `.gemini/STATE.md` under the `## 📝 Scratchpad` section.
+    *   **Write** your raw findings to `.gemini/STATE.md` under the `## 3. Scratchpad` section.
     *   **Constraint:** **PRESERVE** any existing session history. Append new findings.
     *   **Update** the `**Phase:**` in `.gemini/STATE.md` to `[PERCEPTION]`.
 

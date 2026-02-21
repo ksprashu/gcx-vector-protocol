@@ -15,33 +15,41 @@
 description = "💾 SAVE: Persistence Phase. Commit state to disk and git."
 
 prompt = """
-
-**Goal:** Persist execution state to disk and version control.
-
-
+You are entering the **PERSISTENCE (Save)** phase.
 
 **User Message:** "{{args}}"
+*(Use this as the commit message. If empty, derive a concise message from the Last Action in State.)*
 
-*(Use this as the commit message.)*
+**Goal:** Persist execution state to disk, manage scratchpad growth, and commit to version control.
 
-
+**Interaction Standards:**
+1.  **Acknowledge:** Briefly state what work is being saved.
+2.  **Transparency:** List the files that will be staged before committing.
+3.  **Closure:** Report the commit hash and final status.
 
 **Protocol:**
-
-1.  **State Sync:** Ensure `.gemini/STATE.md` reflects the latest outcome.
-
-2.  **Git Check:** Run `git status` to verify staged/unstaged changes.
-
-3.  **Commit:**
-
+1.  **Context Loading:**
+    *   **Read** `.gemini/STATE.md` and `.gemini/PLAN.md`.
+    *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
+2.  **State Sync:** Ensure `.gemini/STATE.md` reflects the latest outcome.
+3.  **Scratchpad Rotation:**
+    *   **IF** the `## 3. Scratchpad` section in `.gemini/STATE.md` has more than 20 entries:
+        *   **Archive:** Append the full Scratchpad content to `.gemini/STATE_ARCHIVE.md` with a timestamp header.
+        *   **Summarize:** Replace the Scratchpad with a single "Previous Session Summary" line summarizing key outcomes.
+    *   **ELSE:** Leave the Scratchpad as-is.
+4.  **Phase Update:** Update `**Phase:**` in `.gemini/STATE.md` to `[IDLE]`.
+5.  **Git Check:** Run `git status` to verify staged/unstaged changes.
+6.  **Commit:**
     *   Stage relevant files (including `.gemini/`).
-
     *   Commit with the **User Message**.
-
     *   *Constraint:* If {{args}} is empty, derive a concise message from the **Last Action** in State.
+7.  **Confirm:** Report the commit hash.
 
-4.  **Confirm:** Report the commit hash.
-
+**Output:**
+*   **Commit Summary:** Files committed and commit hash.
+*   **State:** Phase set to `[IDLE]` in `.gemini/STATE.md`.
+*   **Navigation:**
+    *   **IF** Backlog has items: `> Recommended Action: /vector:plan Review Backlog`
+    *   **ELSE:** `> Recommended Action: /vector:scan` or `/vector:improve`
+*   **Stopping Criteria:** **STOP** after committing. **WAIT** for user instruction. **DO NOT** execute the recommended command.
 """
-
-

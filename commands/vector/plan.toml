@@ -36,6 +36,10 @@ You are entering the **STRATEGY (Plan)** phase.
 1.  **Context Review:**
     *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/STATE.md` (Investigation Findings), and `.gemini/BACKLOG.md` (Icebox).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
+1b. **Plan Archival (Before Overwriting):**
+    *   **IF** `.gemini/PLAN.md` contains a non-empty plan (has an Objective and Roadmap):
+        *   **Archive:** Append the current content of `.gemini/PLAN.md` to `.gemini/PLAN_ARCHIVE.md` with a timestamp header.
+    *   **ELSE:** Skip archival.
 2.  **Strategic Analysis:**
     *   **First Principles:** Deconstruct the User Objective.
     *   **Trade-off Analysis:** Briefly evaluate approaches.
@@ -53,7 +57,7 @@ You are entering the **STRATEGY (Plan)** phase.
     *   **IF** items were promoted: **WRITE** (Update) `.gemini/BACKLOG.md` to remove them.
 5.  **State Update:**
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[STRATEGY]`.
-    *   **Constraint:** **DO NOT** overwrite the `## 📝 Scratchpad`. Only update the Phase line.
+    *   **Constraint:** **DO NOT** overwrite the `## 3. Scratchpad`. Only update the Phase line.
 
 **Output:**
 *   **Analysis Summary:** Why this approach was chosen.

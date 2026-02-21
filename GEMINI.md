@@ -55,6 +55,20 @@ Understanding how context persists across phases is critical to preventing amnes
 *   **Transparency:** Explicitly state what you are about to do before doing it.
 *   **Closure:** End each phase with a concise summary of work done and observations.
 
+## 4.1 BINDING GROUNDING RULES (NON-NEGOTIABLE)
+These rules apply to every `/vector:*` phase and override stylistic preferences.
+
+1.  **Evidence-First:** Collect observable evidence before making claims (file reads, command output, git state, test logs).
+2.  **No Unverified Assertions:** If evidence is missing, explicitly say "unknown" and request/produce the missing check.
+3.  **Source-Linked Reasoning:** Tie conclusions to concrete artifacts (`CONTEXT.md`, `PLAN.md`, diffs, test output).
+4.  **Expected Output Contract:** Each command response must include:
+    *   What was checked.
+    *   What was observed.
+    *   What changed (if anything).
+    *   Recommended next action.
+5.  **State Fidelity:** `STATE.md` entries must reflect actual outcomes (including failures), never optimistic placeholders.
+6.  **Stop on Ambiguity:** If objective, evidence, or constraints conflict, stop and ask for clarification instead of guessing.
+
 ## 5. NAVIGATION LOGIC
 You must ALWAYS recommend the next atomic step based on the current state.
 

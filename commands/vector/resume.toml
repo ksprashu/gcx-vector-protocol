@@ -18,7 +18,7 @@ prompt = """
 
 **Protocol:**
 1.  **State Check:** Verify existence of `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and either `.gemini/EVIDENCE.md` or `.gemini/SOURCES.md` (with `.gemini/BACKLOG.md` optional).
-    *   *Exception:* If any are missing, advise running `/vector:init`.
+    *   *Exception:* If any required files are missing (`CONTEXT.md`, `PLAN.md`, `STATE.md`, and both `EVIDENCE.md`/`SOURCES.md` absent), advise running `/vector:init`.
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Context Loading (The 5-File Check):**
     *   Load **Context** (`.gemini/CONTEXT.md`).

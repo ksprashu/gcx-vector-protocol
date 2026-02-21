@@ -39,13 +39,13 @@ It creates the **4-File Protocol State**: `CONTEXT.md`, `PLAN.md`, `STATE.md`, a
 The extension provides specific commands for each phase of the loop:
 
 *   **V - VERIFY (`/vector:scan`)**
-    *   Grounding phase. The agent reads the Context and Plan, checks the codebase, and maps the territory.
+    *   Grounding phase. Also auto-bootstraps protocol files if they are missing.
 *   **E - ESTABLISH (`/vector:plan`)**
-    *   Strategy phase. The agent drafts a **Rich Design Document** in the Plan for your review.
+    *   Strategy phase. Also handles implicit init/resume so you can jump straight into planning.
 *   **C - COMPUTE** (`/vector:improve`)
     *   Ideation phase. The agent brainstorms enhancements and persists them to the Backlog.
 *   **T - TRANSMUTE (`/vector:work`)**
-    *   Execution phase. The agent writes code based on the Plan with explicit **Transparency**.
+    *   Execution phase. Also performs a lightweight resume + drift check before making changes.
 *   **O - OBSERVE** (Internal)
     *   The agent verifies code immediately after writing it (part of `/vector:work`).
 *   **R - RECORD (`/vector:save`)**
@@ -53,23 +53,28 @@ The extension provides specific commands for each phase of the loop:
 
 ## 🛠 Commands
 
-*   `/vector:init` - Bootstrap the Protocol State files (Safe mode included).
-*   `/vector:scan` - Analyze the codebase and current state.
-*   `/vector:improve` - Ideation & Brainstorming. Suggests enhancements and persists them to the Backlog.
-*   `/vector:plan` - Create or update the implementation plan (Design Document).
-*   `/vector:work` - Execute the plan (write code + verify) with step-by-step confirmation.
-*   `/vector:status` - Show the current State dashboard.
+### Core (daily use)
+*   `/vector:plan` - Create or update the implementation plan (includes implicit init/resume if needed).
+*   `/vector:work` - Execute the plan (includes lightweight scan/resume checks before coding).
 *   `/vector:save` - Commit changes to git and save state.
-*   `/vector:resume` - Reload context after a restart.
-*   `/vector:reset` - Clear the State (failsafe).
+
+### Supporting
+*   `/vector:scan` - Deep perception pass and drift analysis (also safe as first command in a fresh repo).
+*   `/vector:improve` - Ideation & Brainstorming. Suggests enhancements and persists them to the Backlog.
+*   `/vector:status` - Show the current State dashboard.
 *   `/vector:context` - Audit and update the project Context (CONTEXT.md) with guided, approval-gated changes.
+
+### Recovery / advanced
+*   `/vector:init` - Explicit bootstrap/reset of protocol files (`--force` to overwrite existing state). Use when you want deterministic, explicit initialization.
+*   `/vector:resume` - Explicitly reload context after a restart (optional because `plan`/`work` now do this automatically).
+*   `/vector:reset` - Clear the State (failsafe).
 
 ## 💡 Best Practices
 
-1.  **Start with Scan:** Always run `/vector:scan` when starting a session to ground the agent.
-2.  **Ideate First:** Use `/vector:improve` to generate ideas before committing to a plan.
-3.  **Review the Plan:** `/vector:plan` now generates a detailed Design Document in `.gemini/PLAN.md`. **Read it.** Edit it. It is your blueprint.
+1.  **Default Fast Path:** In most sessions, just run `/vector:plan` → `/vector:work` → `/vector:save`.
+2.  **Use Scan Intentionally:** Run `/vector:scan` for deep drift detection, onboarding to unfamiliar repos, or troubleshooting.
+3.  **Review the Plan:** `/vector:plan` generates a detailed Design Document in `.gemini/PLAN.md`. **Read it.** Edit it. It is your blueprint.
 4.  **Iterate:** If the plan isn't right, run `/vector:plan "<feedback>"` to refine it.
-5.  **Atomic Work:** `/vector:work` is designed to be atomic. It will explain what it's doing. Verify each step.
+5.  **Atomic Work:** `/vector:work` is designed to be atomic and now includes automatic resume checks.
 6.  **Save Often:** Use `/vector:save` after every successful logical unit of work.
 7.  **Keep Context Fresh:** When you add a dependency, change architecture, or update standards, run `/vector:context` to keep CONTEXT.md in sync.

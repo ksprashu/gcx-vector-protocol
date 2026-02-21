@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "🔍 SCAN: Perception Phase. Audit state and detect drift."
+description = "🔍 SCAN: Perception Phase. Audit state and detect drift (auto-bootstrap aware)."
 
 prompt = """
 You are entering the **PERCEPTION (Scan)** phase.
@@ -28,9 +28,12 @@ You are entering the **PERCEPTION (Scan)** phase.
 3.  **Drift Detection:** Explicitly flag discrepancies between `PLAN.md`, `STATE.md`, and Reality.
 
 **Protocol:**
-1.  **State Audit (The 4-File Check):**
-    *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md` (if it exists).
+0.  **Auto-Bootstrap Guardrail:**
+    *   If protocol files are missing, create ONLY missing `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md` with minimal templates before continuing.
+    *   This makes scan safe as a first command in a fresh repo.
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
+1.  **State Audit (The 4-File Check):**
+    *   **Read ALL** protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/BACKLOG.md` (if it exists).
 2.  **Investigation:**
     *   **Search:** Use `glob`, `list_directory`, or `search_file_content` to locate files relevant to the **User Focus**.
     *   **Verify:** Read key files (`read_file`) to confirm their actual content. Do not rely on file names alone.

@@ -64,6 +64,16 @@ The extension provides specific commands for each phase of the loop:
 
 ## 🛠 Commands
 
+### Recommended command footprint (concise by default)
+
+If you want a low-cognitive-load workflow, you only need the core 3 commands:
+
+1. `/vector:plan`
+2. `/vector:work`
+3. `/vector:save`
+
+Everything else remains available as situational power tools. See the staged simplification plan in [`docs/COMMAND_SURFACE_SIMPLIFICATION_PLAN.md`](docs/COMMAND_SURFACE_SIMPLIFICATION_PLAN.md).
+
 ### Core (daily use)
 *   `/vector:plan` - Create or update the implementation plan (includes implicit init/resume if needed).
 *   `/vector:work` - Execute the plan (includes lightweight scan/resume checks before coding).
@@ -120,4 +130,3 @@ To keep the protocol deterministic across restarts and multi-agent handoffs:
 ## 📝 Release Notes
 
 * **v1.6.0** - Introduced grounded-agent guarantees: binding evidence-first behavior, explicit expected outputs, and documented Grounded Mode evidence artifacts across Vector commands.
-

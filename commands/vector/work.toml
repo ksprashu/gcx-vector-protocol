@@ -51,7 +51,11 @@ You are entering the **EXECUTION (Act)** phase.
     *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
     *   Re-validate factual implementation details immediately before coding.
     *   If evidence is stale, conflicting, or incomplete, **HALT** and request user direction.
-4.  **Execution Loop (Atomic Step):**
+4.  **N-Trial Execution (If `trials=N` or multiple options requested):**
+    *   **Isolated Execution (Parallel):** Call the `generalist` sub-agent $N$ times concurrently. Instruct each sub-agent to strictly output the patch/code or write to isolated scratchpad files (e.g., `.gemini/trials/trial_1/`), preventing them from overwriting the main codebase.
+    *   **Verification & Selection:** Review the $N$ generated code blocks or isolated files, validate them against the plan, and select the most robust solution.
+    *   **Apply & Self-Heal:** Apply the selected solution to the actual codebase. If verification fails, automatically fallback to the next best trial's implementation.
+5.  **Execution Loop (Atomic Step):**
     *   **Implement:** Use `replace` or `write_file` to make the code change.
         *   *Constraint:* Adhere strictly to `.gemini/CONTEXT.md` (Standards).
     *   **Verify Facts Again (Mandatory):** Re-validate factual implementation details immediately before final verification.
@@ -61,7 +65,7 @@ You are entering the **EXECUTION (Act)** phase.
         *   **Constraint:** **APPEND** to the `## 3. Scratchpad`. **DO NOT** overwrite previous entries.
     *   **Evidence Traceability:** When reporting execution decisions or factual claims, reference relevant Evidence IDs.
     *   **Plan Progress:** Update the completed step in `.gemini/PLAN.md` from `- [ ]` to `- [x]`.
-5.  **Error Handling:**
+6.  **Error Handling:**
     *   If verification fails, **STOP**.
     *   Log the error in `.gemini/STATE.md`.
     *   Mark the failed step in `.gemini/PLAN.md` as `- [!]` with a brief failure reason.

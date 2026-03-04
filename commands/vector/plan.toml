@@ -57,7 +57,11 @@ You are entering the **STRATEGY (Plan)** phase.
     *   Record rejected alternatives with source-backed reasoning.
     *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
     *   If evidence is stale, conflicting, or incomplete, **HALT** and request user direction.
-5.  **Plan Generation:**
+5.  **N-Trial Synthesis (If `trials=N` or multiple options requested):**
+    *   **Delegate (Parallel):** Call the `generalist` sub-agent $N$ times concurrently. Instruct each to draft a distinct, brief proposal based on the objective and constraints.
+    *   **Evaluate:** Wait for all $N$ responses, then generate a brief evaluation matrix (Pros/Cons/Completeness).
+    *   **Synthesize:** Extract the best elements from the evaluated proposals to form a single, optimal plan.
+6.  **Plan Generation:**
     *   **Draft** a step-by-step plan. Each step must be Atomic and Verifiable.
     *   **Integrate Evidence:** For assumptions or external facts, cite Evidence IDs from `.gemini/EVIDENCE.md`/`.gemini/SOURCES.md`.
     *   **WRITE** this plan to `.gemini/PLAN.md` using the **Rich Plan Template**.

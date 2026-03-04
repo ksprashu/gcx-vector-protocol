@@ -35,3 +35,13 @@ Adhere to the Single Responsibility Principle for protocol files:
 4.  **`.gemini/BACKLOG.md` (Icebox / Cold Path):**
     *   **Role:** Future ideas, enhancements, and non-critical tech debt.
     *   **Access:** Write-Only by `improve`. Read-Only by `plan`.
+
+## 6. Release Standards
+- **Versioning:** Semantic Versioning (Major.Minor.Patch) MUST be respected.
+    - **Major:** Breaking changes to the Protocol or Commands.
+    - **Minor:** New features (e.g., new commands) or significant workflow improvements.
+    - **Patch:** Bug fixes, docs updates, or minor tweaks.
+- **Manifest:** `gemini-extension.json` version MUST be incremented on every release-worthy change.
+
+## 7. Cognitive Patterns
+- **N-Trial Synthesis:** A multi-agent evaluation workflow. When exploring options or ensuring robustness, orchestrating agents must spawn parallel sub-agents (e.g., $N$ instances of `generalist`), evaluate their isolated outputs against a rubric, and synthesize the single best artifact (plan or code block) before proceeding.

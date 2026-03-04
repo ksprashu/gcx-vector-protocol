@@ -2,47 +2,40 @@
 > The dynamic direction. The Execution Roadmap.
 
 ## 1. Objective
-- **Goal:** Enforce "File-First State" architecture with SOLID-based file responsibilities.
-- **Outcome:** A robust workflow where `CONTEXT`, `PLAN`, `STATE`, and `BACKLOG` serve distinct, focused roles, optimizing LLM context usage and persistence.
+- **Goal:** Implement an autonomous "Best-of-N" evaluation loop within the Vector Protocol using parallel sub-agents (e.g., `generalist`), enabling cheaper models (like Gemini 2.5 Flash) to generate, evaluate, and consolidate multiple attempts of a plan or implementation autonomously.
 
 ## 2. Strategic Analysis
-- **Philosophy:** "Context is Volatile; Files are Persistent." The LLM should never rely solely on chat history for critical state.
-- **Architecture:** "The 4-File System"
-    1.  **`.gemini/CONTEXT.md` (ROM):** Static Constraints & Standards.
-    2.  **`.gemini/PLAN.md` (Sprint):** Active Execution Roadmap (Hot Path).
-    3.  **`.gemini/STATE.md` (RAM):** Volatile Session Status (Scratchpad).
-    4.  **`.gemini/BACKLOG.md` (Icebox):** Ideas & Future Enhancements (Cold Path).
-
-- **Workflow:**
-    - `improve` -> **READ** `CONTEXT` -> **WRITE** (Append) to `BACKLOG.md` (Icebox) + Summary in Chat.
-    - `plan` -> **READ** `BACKLOG.md` -> **WRITE** (Move) to `PLAN.md` (Sprint) -> **WRITE** (Remove/Mark) in `BACKLOG.md`.
-    - `work` -> **READ** `PLAN.md` (Hot Path) -> **WRITE** (Update Status) in `STATE.md`.
-    - `scan` -> **READ** All 4 files -> **WRITE** (Reconcile/Report) to `STATE.md`.
+- **First Principles:** The Gemini CLI supports parallel tool execution and sub-agent delegation (`generalist`). A single invocation of a Vector Protocol command (like `/vector:plan` or `/vector:work`) can orchestrate N independent, parallel sub-agent calls to draft proposals or code. The main orchestrating agent then receives all N responses, evaluates them against a rubric, and synthesizes the final optimal result into the protocol state (`PLAN.md` or the codebase).
+- **Trade-offs:** 
+  - *Context Window Size:* Parallel responses from `generalist` will rapidly consume the main agent's context window. We must instruct the sub-agents to be terse or return only the final structured artifact.
+  - *Compute Cost:* Even with a cheaper model like Flash, running 3-5 concurrent prompts uses more tokens. However, the higher quality synthesis offsets the cost of iterative manual debugging.
+- **Risk Assessment:** 
+  - *Sub-agent hallucinations:* Evaluated away by the main agent's synthesis step.
+  - *Implementation conflicts:* If N sub-agents write to the *same* files during `/vector:work`, they will overwrite each other. 
+  - *Mitigation:* For `/vector:work`, sub-agents must draft code in isolated temporary files or purely return code blocks for the main agent to apply.
 
 ## 3. Design Specification
-### File Structure Updates
-- **`.gemini/BACKLOG.md`**: New file for `improve` outputs.
-- **`.gemini/CONTEXT.md`**: Update to document the 4-File System.
-- **`.gemini/GEMINI.md`**: Update Protocol Definition.
+We will introduce a new cognitive pattern to the Vector Protocol called **"N-Trial Synthesis"**.
 
-### Command Updates
-- **`commands/vector/improve.toml`**:
-    - Update prompt to **APPEND** proposals to `BACKLOG.md` AND summarize in chat.
-- **`commands/vector/plan.toml`**:
-    - Update prompt to **READ** `BACKLOG.md`, **SELECT** items, **WRITE** to `PLAN.md` (Active), and **UPDATE** `BACKLOG.md` (Archived).
-- **`commands/vector/scan.toml`**:
-    - Update prompt to **AUDIT** all 4 files and **WRITE** discrepancies to `STATE.md`.
-- **`commands/vector/work.toml`**:
-    - Enforce "Context Loading": Step 1 is always `read_file` of `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`.
-    - Ensure Step 3 (Record) always **WRITES** outcome to `STATE.md`.
+### Phase 1: Planning (`/vector:plan --trials=N`)
+1.  **Drafting (Parallel):** The orchestrating agent calls the `generalist` tool $N$ times concurrently. Each call provides the objective and constraints from `CONTEXT.md`.
+2.  **Evaluation:** The main agent receives $N$ distinct plans. It generates a brief evaluation matrix (Pros/Cons/Completeness).
+3.  **Synthesis:** The main agent extracts the best elements from the evaluated plans and writes a single, consolidated `PLAN.md`.
 
-## 4. Implementation Roadmap
-- [x] **Step 1: Protocol Definition (`GEMINI.md`)**: Update "The Vector Protocol" to include `BACKLOG.md` and define the "4-File System".
-- [x] **Step 2: Update Context (`.gemini/CONTEXT.md`)**: Document the file responsibilities as project standards.
-- [x] **Step 3: Enhance `improve` Command**: Update to persist findings to `.gemini/BACKLOG.md`.
-- [x] **Step 4: Enhance `plan` Command**: Update to integrate Backlog review (Read/Write).
-- [x] **Step 5: Enhance `scan` & `work`**: Update for full state awareness (Read/Write) and strict context loading.
-- [x] **Step 6: Verification**: Create dummy backlog item, move to plan, and verify flow.
+### Phase 2: Implementation (`/vector:work --trials=N`)
+1.  **Isolated Execution:** The orchestrating agent calls `generalist` $N$ times. Crucially, each `generalist` is instructed to *only output the patch/code* or write to isolated scratchpad files (`.gemini/trials/trial_1/`, etc.).
+2.  **Verification:** The main agent reviews the output code blocks, validates them against the plan, and applies the most robust solution to the actual codebase.
+3.  **Self-Healing:** If the applied code fails tests, the main agent falls back to Trial 2's implementation automatically, updating `STATE.md`.
 
-## 5. Review
-- Confirmed: All commands have explicit Read/Write responsibilities defined.
+## 4. Alternatives Considered
+- **New Slash Command (`/vector:explore`):** Rejected. It's better to enhance the existing `plan` and `work` commands with instructions on how to handle N-trials natively, maintaining protocol simplicity.
+- **Sequential Trials:** Rejected. Running trials sequentially is too slow. Parallel execution of the `generalist` agent maximizes speed, which is the primary benefit of the Flash model.
+
+## 5. Implementation Roadmap
+- [x] **Step 1:** Update `commands/vector/plan.toml` prompt to explicitly document the "N-Trial Synthesis" protocol when the user requests multiple options or trials.
+- [x] **Step 2:** Update `commands/vector/work.toml` prompt to establish the isolated execution strategy (instructing the agent to use `generalist` to generate code blocks, evaluate them, and then apply the winner).
+- [x] **Step 3:** Update `.gemini/CONTEXT.md` to officially define the "Best-of-N" / "N-Trial" cognitive pattern as a standard capability of the Vector Protocol.
+- [x] **Step 4:** Increment extension version in `gemini-extension.json` (Minor version bump).
+
+## 6. Review
+- User, please review this roadmap for enabling Best-of-N evaluations natively within the protocol. Ready to proceed?

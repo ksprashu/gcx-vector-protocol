@@ -51,7 +51,7 @@ You are entering the **EXECUTION (Act)** phase.
     *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
     *   Re-validate factual implementation details immediately before coding.
     *   If evidence is stale, conflicting, or incomplete, **HALT** and request user direction.
-4.  **N-Trial Execution (If `trials=N` or multiple options requested):**
+4.  **N-Trial Execution (If `trials=N` or multiple options requested. If N is unspecified, default to: N=3 for Flash models, N=1 for Pro models, N=5 for Flash-Lite models):**
     *   **Isolated Execution (Parallel):** Call the `generalist` sub-agent $N$ times concurrently. Instruct each sub-agent to strictly output the patch/code or write to isolated scratchpad files (e.g., `.gemini/trials/trial_1/`), preventing them from overwriting the main codebase.
     *   **Verification & Selection:** Review the $N$ generated code blocks or isolated files, validate them against the plan, and select the most robust solution.
     *   **Apply & Self-Heal:** Apply the selected solution to the actual codebase. If verification fails, automatically fallback to the next best trial's implementation.

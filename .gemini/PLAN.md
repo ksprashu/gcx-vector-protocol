@@ -2,42 +2,44 @@
 > The dynamic direction. The Execution Roadmap.
 
 ## 1. Objective
-- **Goal:** Convert `gcx-vector-protocol` extension into a single, comprehensive agent skill named `vector-protocol`.
+- **Goal:** Decompose the single `vector-protocol` mega-skill into granular, phase-specific skills for better intent-based selection.
 
 ## 2. Strategic Analysis
-- **First Principles:** The Vector Protocol is a procedural onboarding guide for an agent to work on a specific project. This is exactly what Skills are designed for.
+- **First Principles:** The Gemini CLI agent selects tools (skills) based on their name and description in the manifest. A single mega-skill forces the agent to load irrelevant instructions for every task. Decomposing into `vector-scan`, `vector-plan`, etc., allows for "Just-in-Time" context loading.
 - **Trade-offs:** 
-  - *Slash Commands:* Explicit user control, less agentic autonomy.
-  - *Skills:* High agentic autonomy, proactive triggering, context-efficient via Progressive Disclosure.
-  - *Decision:* Convert to a single skill with sub-references for each phase to maintain protocol integrity while improving usability.
+  - *Granular Skills:* Improved triggering accuracy, lower context bloat per turn, clearer intent.
+  - *Single Skill:* Easier to maintain, all context available at once.
+  - *Decision:* Proceed with decomposition to align with the agent's internal tool-selection heuristics.
 - **Risk Assessment:**
-  - *Context Bloat:* Managed by reference files.
-  - *Triggering Reliability:* Handled by a clear description in `SKILL.md` frontmatter.
+  - *Context Fragmentation:* Solved by including "Core Rules" (5-File System, Grounding) in every skill's `SKILL.md`.
+  - *Registry Bloat:* Managed by clear naming conventions (`vector-*`).
 
 ## 3. Design Specification
-- **Skill Name:** `vector-protocol`
-- **Trigger Description:** "A rigorous, state-aware development workflow extension for Gemini CLI. Implements the Research -> Strategy -> Execution lifecycle with strict grounding and persistent state management. Use when starting a new task, managing project state via the 5-file system, or requiring high-signal engineering workflows."
-- **Structure:**
-  - `skills/vector-protocol/SKILL.md`: Protocol overview, Mission (from `AGENTS.md`), Hierarchy of Truth, 5-File System rules.
-  - `skills/vector-protocol/references/perception.md`: `scan.toml` + `context.toml` instructions.
-  - `skills/vector-protocol/references/strategy.md`: `plan.toml` instructions.
-  - `skills/vector-protocol/references/execution.md`: `work.toml` instructions.
-  - `skills/vector-protocol/references/persistence.md`: `save.toml`, `resume.toml`, `status.toml`, `reset.toml`.
-  - `skills/vector-protocol/references/ideation.md`: `improve.toml` instructions.
-- **API Citations:** `skill-creator` (Core Principle: Concise is Key, Progressive Disclosure).
+- **Skill 1: `vector-scan` (Perception)**
+  - Description: "Audit project state, detect drift in protocol files, and sync context. Use during the PERCEPTION phase to ensure the agent's mental model matches the repository truth."
+- **Skill 2: `vector-plan` (Strategy)**
+  - Description: "Develop a rigorous implementation roadmap with analysis, design, and atomic steps. Use during the STRATEGY phase to define how an objective will be achieved before writing code."
+- **Skill 3: `vector-work` (Execution)**
+  - Description: "Execute atomic, verifiable implementation steps from the project plan. Use during the EXECUTION phase to implement changes, run tests, and record results."
+- **Skill 4: `vector-persist` (Persistence)**
+  - Description: "Persist progress, sync state, rotate scratchpads, and commit changes. Use during the PERSISTENCE phase or when a meaningful milestone is reached."
+- **Skill 5: `vector-improve` (Ideation)**
+  - Description: "Analyze the codebase to find and log backlog-worthy improvements. Use during the IDEATION phase to capture technical debt or future features."
+- **Shared logic:** Every skill will include the "Mission" and "5-File System" rules to ensure consistent behavior.
 
 ## 4. Alternatives Considered
-- **Multiple Skills:** Create a skill for each command (e.g., `vector-scan`, `vector-plan`). *Rejected:* This fragments the protocol and makes it harder for the agent to maintain the overall lifecycle context. A single skill with references is more cohesive.
-- **Keep Commands:** Retain the TOML commands. *Decision:* Move logic to the skill as the primary interface, potentially deprecating commands once the skill is verified.
+- **Keep Mega-Skill + References:** *Rejected.* While references are loaded "as needed", the agent still has to *know* which reference to load. Having separate skills makes the phase-specific instructions the *primary* content for that specific intent.
+- **Namespace by Phase (`scan-vector`, `plan-vector`):** *Rejected.* `vector-*` prefix is more standard for extension-specific grouping.
 
 ## 5. Implementation Roadmap
-- [x] **Step 1: Initialization** - Run `init_skill.cjs` to bootstrap `skills/vector-protocol/`.
-- [x] **Step 2: Logic Drafting (Parallel)** - Use $N=3$ `generalist` sub-agents to draft Markdown from TOML logic.
-- [x] **Step 3: Content Implementation** - Finalize `SKILL.md` and reference files.
-- [x] **Step 4: Validation & Packaging** - Run `package_skill.cjs` to create the `.skill` bundle.
-- [x] **Step 5: Manifest Update** - Prepare `gemini-extension.json` for the new skill.
-- [x] **Step 6: Installation & Handoff** - Install the skill and provide reload instructions.
+- [x] **Step 1: Initialization** - Use `init_skill.cjs` to create directories for `vector-scan`, `vector-plan`, `vector-work`, `vector-persist`, and `vector-improve`.
+- [x] **Step 2: Logic Transfer** - Port content from `skills/vector-protocol/references/*.md` into the new `SKILL.md` files.
+- [x] **Step 3: Core Rule Integration** - Add Mission and 5-File System rules to each `SKILL.md`.
+- [x] **Step 4: Packaging** - Run `package_skill.cjs` on all 5 new skill directories.
+- [x] **Step 5: Manifest Update** - Update `gemini-extension.json` to version 1.9.0, register new skills, and remove the old `vector-protocol` skill registration.
+- [x] **Step 6: Local Installation** - Install the 5 `.skill` files using `gemini skills install --scope workspace`.
+- [x] **Step 7: Verification** - Verify installation via `gemini skills list`.
 
 ## 6. Review
-User, please review the conversion plan. Ready to execute?
-*(Recommendation: We should decide whether to deprecate the TOML commands after the skill is fully functional.)*
+User, please review the decomposition plan. Ready to execute?
+*(Note: This will significantly improve my ability to trigger the correct protocol phase autonomously.)*

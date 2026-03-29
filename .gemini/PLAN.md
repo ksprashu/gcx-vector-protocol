@@ -2,45 +2,33 @@
 > The dynamic direction. The Execution Roadmap.
 
 ## 1. Objective
-- **Goal:** Implement a unified, table-driven "Dashboard" output format across all Vector Protocol CLI commands (`scan`, `plan`, `work`, `status`, `resume`, `improve`, `save`). This will give the user a clean, visual representation of the current phase, objective, completed tasks, pending tasks, and backlog items.
+- **Goal:** Verify the protocol's ideation-to-planning flow by promoting the "Verify File System Logic" backlog item, and address the architectural drift in `.gemini/CONTEXT.md` by officially migrating the documentation from the "4-File System" to the "5-File System" (incorporating `EVIDENCE.md`).
 
 ## 2. Strategic Analysis
-- **First Principles:** The Vector Protocol relies on `.toml` files to define the system instructions for each command. By updating the `**Output:**` sections within these prompts, we can force the LLM to format its responses as rich Markdown tables (e.g., Status: ✅/⏳/🔄) instead of simple bullet points.
+- **First Principles:** The `.gemini/CONTEXT.md` file serves as the strict, invariant rulebook for the agent. If it contains outdated structural definitions (e.g., claiming a 4-file system when 5 files are actively required), it creates cognitive dissonance and potential hallucination risks during the auto-recovery (`resume`, `scan`) and persistence phases. 
 - **Trade-offs:** 
-  - *Readability vs. Tokens:* Generating Markdown tables consumes slightly more output tokens, but the resulting boost in readability and user experience (UX) is highly worthwhile for a CLI workflow.
+  - *Complexity vs. Clarity:* Adding a 5th core file (`EVIDENCE.md`) slightly increases state management overhead but drastically improves auditability and traceability, which is a core tenet of the Vector Protocol.
 - **Risk Assessment:** 
-  - *Formatting Consistency:* The LLM might use inconsistent headers if not strictly defined. We mitigate this by explicitly specifying the exact columns for each table type in the prompt instructions.
+  - *Documentation Misses:* We must ensure *all* references to "4-File System" within `CONTEXT.md` are updated.
 
 ## 3. Design Specification
-We will introduce standard table definitions to the prompt outputs.
-
-**Standard Tables to be Introduced:**
-1.  **State & Progress Dashboard:** 
-    *   `| Phase | Objective | Last Action | Next Step | Pending Tasks | Completed |`
-2.  **Plan / Work Checklist:**
-    *   `| Status (✅/⏳/🔄) | Task | Details |`
-3.  **Scan / Audit Findings:**
-    *   `| Status (✅/❌/⚠️) | Item | Insight / Drift |`
-4.  **Ideation / Backlog:**
-    *   `| Type (Plan/Backlog) | Status | Item | Value / Impact |`
-
-**Files to modify:**
-- `commands/vector/plan.toml`
-- `commands/vector/work.toml`
-- `commands/vector/scan.toml`
-- `commands/vector/status.toml`
-- `commands/vector/resume.toml`
-- `commands/vector/improve.toml`
-- `commands/vector/save.toml`
+The `CONTEXT.md` file needs to be updated in two places:
+1.  **Section 4. Architecture:** Update "Uses the **4-File System**..." to "**5-File System**".
+2.  **Section 5. The 4-File System (State Persistence):** 
+    - Rename header to "The 5-File System".
+    - Append the `EVIDENCE.md` specification to the list:
+      ```markdown
+      5.  **`.gemini/EVIDENCE.md` (Ledger / Traceability):**
+          *   **Role:** Factual evidence, reference URLs, and source traceability (`E-001` IDs).
+          *   **Access:** Append-Only during validation passes.
+      ```
 
 ## 4. Alternatives Considered
-- **CLI Framework TUI (Text User Interface):** Modify the core Gemini CLI binary to render interactive TUIs for these tables. *Rejected:* This falls outside the scope of an extension and would require changes to the core CLI. Markdown tables are natively supported, beautifully rendered by most terminal markdown viewers, and perfectly fit the extension pattern.
+- **Deprecating `EVIDENCE.md`:** We could remove the 5th file and revert to a pure 4-file system to match the docs. *Rejected:* The `EVIDENCE.md` ledger is critical for the "strictly externally grounded" mandate defined in the project's `AGENTS.md`. Updating the `CONTEXT.md` is the correct path.
 
 ## 5. Implementation Roadmap
-- [x] **Step 1:** Update `plan.toml` and `work.toml` to output the State Dashboard and Plan Checklist tables.
-- [x] **Step 2:** Update `scan.toml` and `status.toml` to output the State Dashboard and Findings/Backlog tables.
-- [x] **Step 3:** Update `resume.toml`, `improve.toml`, and `save.toml` to incorporate the State Dashboard and their respective specific tables (Ideation, Saved state).
-- [x] **Step 4:** Increment extension minor version in `gemini-extension.json`.
+- [x] **Step 1:** Update `CONTEXT.md` Section 4 and Section 5 to officially define the "5-File System" architecture and document the role of `EVIDENCE.md`.
+- [x] **Step 2:** Empty the `.gemini/BACKLOG.md` (as the dummy verification item has now been successfully promoted and processed).
 
 ## 6. Review
-- User, please review this roadmap for establishing the rich Markdown dashboard and checklists. Ready to execute?
+- User, please review this roadmap for verifying the flow and fixing the context drift. Ready to execute?

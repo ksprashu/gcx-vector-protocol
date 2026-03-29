@@ -1,0 +1,46 @@
+# 🗺️ PLAN
+> The dynamic direction. The Execution Roadmap.
+
+## 1. Objective
+- **Goal:** Implement a unified, table-driven "Dashboard" output format across all Vector Protocol CLI commands (`scan`, `plan`, `work`, `status`, `resume`, `improve`, `save`). This will give the user a clean, visual representation of the current phase, objective, completed tasks, pending tasks, and backlog items.
+
+## 2. Strategic Analysis
+- **First Principles:** The Vector Protocol relies on `.toml` files to define the system instructions for each command. By updating the `**Output:**` sections within these prompts, we can force the LLM to format its responses as rich Markdown tables (e.g., Status: ✅/⏳/🔄) instead of simple bullet points.
+- **Trade-offs:** 
+  - *Readability vs. Tokens:* Generating Markdown tables consumes slightly more output tokens, but the resulting boost in readability and user experience (UX) is highly worthwhile for a CLI workflow.
+- **Risk Assessment:** 
+  - *Formatting Consistency:* The LLM might use inconsistent headers if not strictly defined. We mitigate this by explicitly specifying the exact columns for each table type in the prompt instructions.
+
+## 3. Design Specification
+We will introduce standard table definitions to the prompt outputs.
+
+**Standard Tables to be Introduced:**
+1.  **State & Progress Dashboard:** 
+    *   `| Phase | Objective | Last Action | Next Step | Pending Tasks | Completed |`
+2.  **Plan / Work Checklist:**
+    *   `| Status (✅/⏳/🔄) | Task | Details |`
+3.  **Scan / Audit Findings:**
+    *   `| Status (✅/❌/⚠️) | Item | Insight / Drift |`
+4.  **Ideation / Backlog:**
+    *   `| Type (Plan/Backlog) | Status | Item | Value / Impact |`
+
+**Files to modify:**
+- `commands/vector/plan.toml`
+- `commands/vector/work.toml`
+- `commands/vector/scan.toml`
+- `commands/vector/status.toml`
+- `commands/vector/resume.toml`
+- `commands/vector/improve.toml`
+- `commands/vector/save.toml`
+
+## 4. Alternatives Considered
+- **CLI Framework TUI (Text User Interface):** Modify the core Gemini CLI binary to render interactive TUIs for these tables. *Rejected:* This falls outside the scope of an extension and would require changes to the core CLI. Markdown tables are natively supported, beautifully rendered by most terminal markdown viewers, and perfectly fit the extension pattern.
+
+## 5. Implementation Roadmap
+- [x] **Step 1:** Update `plan.toml` and `work.toml` to output the State Dashboard and Plan Checklist tables.
+- [x] **Step 2:** Update `scan.toml` and `status.toml` to output the State Dashboard and Findings/Backlog tables.
+- [x] **Step 3:** Update `resume.toml`, `improve.toml`, and `save.toml` to incorporate the State Dashboard and their respective specific tables (Ideation, Saved state).
+- [x] **Step 4:** Increment extension minor version in `gemini-extension.json`.
+
+## 6. Review
+- User, please review this roadmap for establishing the rich Markdown dashboard and checklists. Ready to execute?

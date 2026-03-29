@@ -101,4 +101,4 @@ We will update the `N-Trial Synthesis` step in `plan.toml` and the `N-Trial Exec
 - [x] **Step 3:** Increment extension minor version in `gemini-extension.json`.
 
 ## 6. Review
-- User, please review this roadmap for establishing the default `N` heuristics. Ready to proceed?
+- User, please review this roadmap for establishing the default `N` heuristics. Ready to proceed?\n### Archive Date: 2026-03-29\n- Implemented dynamic Best-of-N heuristics in plan/work commands.\n- Validated Gemini model tiers against official docs.\n- Deployed unified Markdown table Dashboards across all protocol commands (version 1.8.0).\n- Resolved '4-File System' architectural drift in CONTEXT.md and validated backlog promotion flow.

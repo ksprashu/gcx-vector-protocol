@@ -18,9 +18,9 @@
 
 ## 4. Architecture
 - **Extension:** Standard Gemini CLI Extension structure.
-- **State Management:** Uses the **4-File System** in `.gemini/` for strict state persistence.
+- **State Management:** Uses the **5-File System** in `.gemini/` for strict state persistence.
 
-## 5. The 4-File System (State Persistence)
+## 5. The 5-File System (State Persistence)
 Adhere to the Single Responsibility Principle for protocol files:
 
 1.  **`.gemini/CONTEXT.md` (ROM / Static):**
@@ -35,6 +35,9 @@ Adhere to the Single Responsibility Principle for protocol files:
 4.  **`.gemini/BACKLOG.md` (Icebox / Cold Path):**
     *   **Role:** Future ideas, enhancements, and non-critical tech debt.
     *   **Access:** Write-Only by `improve`. Read-Only by `plan`.
+5.  **`.gemini/EVIDENCE.md` (Ledger / Traceability):**
+    *   **Role:** Factual evidence, reference URLs, and source traceability (`E-001` IDs).
+    *   **Access:** Append-Only during validation passes.
 
 ## 6. Release Standards
 - **Versioning:** Semantic Versioning (Major.Minor.Patch) MUST be respected.

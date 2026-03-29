@@ -79,9 +79,10 @@ You are entering the **STRATEGY (Plan)** phase.
     *   **Constraint:** **DO NOT** overwrite the `## 3. Scratchpad`. Only update the Phase line.
 
 **Output:**
+*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Pending Tasks | Completed Tasks |`
 *   **Analysis Summary:** Why this approach was chosen.
-*   **Evidence Table:** Include columns **Topic | Source | Why authoritative | Last-checked**.
-*   **Plan Checklist:** Present the plan as a checklist (`- [ ] Step...`) and ask for approval.
+*   **Evidence Table:** Output a Markdown table with columns: `| Topic | Source | Why authoritative | Last-checked |`
+*   **Plan Checklist Table:** Present the plan as a Markdown table with columns: `| Status (✅/⏳/🔄) | Task | Details |` and ask for approval.
 *   **Prompt:** "Plan established. Please review `.gemini/PLAN.md`. Ready to Execute?"
 *   **Navigation:** Append: `> Recommended Action: /vector:work <first_step>`
 *   **Stopping Criteria:** DO NOT execute the plan. DO NOT write code. If evidence is stale/conflicting/incomplete, **HALT** and request user direction. Otherwise, **STOP** and **WAIT** for user approval. **DO NOT** execute the recommended command.

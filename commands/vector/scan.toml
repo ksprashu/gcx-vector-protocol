@@ -48,10 +48,10 @@ You are entering the **PERCEPTION (Scan)** phase.
     *   **Update** the `**Phase:**` in `.gemini/STATE.md` to `[PERCEPTION]`.
 
 **Output:**
-*   **Structured Checklist:** List files found and insights as `- [x] Found ...`.
-*   **Evidence References:** Cite relevant Evidence IDs for factual findings.
-*   **Drift Report:** "Plan says X, but Codebase shows Y."
-*   **Evidence Table:** Include columns **Topic | Source | Why authoritative | Last-checked**.
+*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Pending Tasks | Completed Tasks |`
+*   **Scan Findings Table:** List findings as a Markdown table with columns: `| Status (✅/❌/⚠️) | Item | Insight / Result | Evidence ID |`
+*   **Drift Report Table:** Explicitly flag discrepancies as a Markdown table with columns: `| Source | Expected | Actual | Impact |`
+*   **Evidence Table:** Output a Markdown table with columns: `| Topic | Source | Why authoritative | Last-checked |`
 *   **Prompt:** "Analysis complete. Ready to proceed to Planning?"
 *   **Navigation:** Append:
     *   **IF** New Plan needed: `> Recommended Action: /vector:plan <objective>`

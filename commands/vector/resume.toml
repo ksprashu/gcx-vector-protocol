@@ -26,10 +26,9 @@ prompt = """
     *   Load **State** (`.gemini/STATE.md`).
     *   Load **Backlog** (`.gemini/BACKLOG.md`) if present.
     *   Load **Evidence** (`.gemini/EVIDENCE.md` or fallback `.gemini/SOURCES.md`).
-3.  **Status Report:**
-    *   Display the **Last Phase**, **Last Action**, and **Next Step** from the loaded files.
-    *   Display **Backlog Items** count (if any).
-    *   Display **Evidence Entries** count and cite key Evidence IDs relevant to the next step.
+3. **Output:**
+    *   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Backlog | Evidence |`
+    *   **Evidence Table:** Output a Markdown table with columns: `| ID | Topic | Source | Why authoritative | Last-checked |` for entries relevant to the next step.
     *   **Navigation:**
         *   **IF** (Phase is `[PERCEPTION]`) **THEN** -> `> Recommended Action: /vector:plan <objective>`
         *   **IF** (Phase is `[STRATEGY]`) **THEN** -> `> Recommended Action: /vector:work <first_step>`

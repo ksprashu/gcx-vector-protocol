@@ -46,8 +46,8 @@ You are entering the **PERSISTENCE (Save)** phase.
 7.  **Confirm:** Report the commit hash.
 
 **Output:**
-*   **Commit Summary:** Files committed and commit hash.
-*   **State:** Phase set to `[IDLE]` in `.gemini/STATE.md`.
+*   **Save Status Table:** Output a Markdown table with columns: `| Status (💾) | Action | Result / Commit Hash | Details |`
+*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Backlog | Evidence |`
 *   **Navigation:**
     *   **IF** Backlog has items: `> Recommended Action: /vector:plan Review Backlog`
     *   **ELSE:** `> Recommended Action: /vector:scan` or `/vector:improve`

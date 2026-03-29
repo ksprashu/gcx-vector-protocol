@@ -57,8 +57,9 @@ You are entering the **IDEATION (Improve)** phase.
     *   Append a summary of the new items to the Scratchpad.
 
 **Output:**
-*   **Chat Summary:** "Added X proposals to `.gemini/BACKLOG.md`:" followed by a list of titles.
-*   **Evidence Table:** Include columns **Topic | Source | Why authoritative | Last-checked**.
+*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Backlog | Evidence |`
+*   **Enhancement Proposals Table:** List proposals as a Markdown table with columns: `| Status (🆕) | Title | Impact | Evidence ID |`
+*   **Evidence Table:** Output a Markdown table with columns: `| Topic | Source | Why authoritative | Last-checked |`
 *   **Prompt:** "Review the Backlog or proceed to Planning?"
 *   **Navigation:** Append: `> Recommended Action: /vector:plan Review Backlog`
 *   **Stopping Criteria:** DO NOT generate code. DO NOT modify other files. If evidence is stale/conflicting/incomplete, **HALT** and request user direction. Otherwise, **STOP** and **WAIT** for user selection. **DO NOT** execute the recommended command.

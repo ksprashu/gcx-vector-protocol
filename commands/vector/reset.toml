@@ -19,5 +19,10 @@ prompt = """
 **Protocol:**
 1.  **Archive:** Append the current content of `.gemini/STATE.md` to `.gemini/STATE_ARCHIVE.md` (Audit Trail).
 2.  **Reset:** Overwrite `.gemini/STATE.md` with a clean initialization template.
-3.  **Report:** "Session State reset. Context and Plan preserved."
+3.  **State Update:** Update `**Phase:**` in `.gemini/STATE.md` to `[IDLE]`.
+
+**Output:**
+*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Backlog | Evidence |`
+*   **Report:** "Session State reset. Context and Plan preserved."
+*   **Navigation:** Append: `> Recommended Action: /vector:scan`
 """

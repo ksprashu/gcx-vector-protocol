@@ -59,7 +59,8 @@ You are initializing the **Vector Protocol** for this project.
         *   Note: `.gemini/SOURCES.md` is an accepted alias when migrating existing projects.
 
 **Output (If Initialized):**
-*   Confirmation of file creation.
-*   Request for the user to verify the auto-detected Context in `CONTEXT.md`.
+*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Backlog | Evidence |` (Phase is `[IDLE]`, Objective is `Project Initialization`).
+*   **Confirmation:** List the 5 files created/updated.
+*   **Prompt:** Request for the user to verify the auto-detected Context in `CONTEXT.md`.
 *   **Navigation:** Append: `> Recommended Action: /vector:scan`
 """

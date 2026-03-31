@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "♻️ RESUME: Recovery Phase. Reload context from state files."
+description = "♻️ RESUME: (Deprecated) Recovery Phase. Auto-handled by plan/work."
 prompt = """
 **Goal:** Restore execution context from the Vector Protocol files.
 

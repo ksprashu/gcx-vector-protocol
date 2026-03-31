@@ -1,49 +1,48 @@
 # 🗺️ PLAN
 > The dynamic direction. The Execution Roadmap.
 
-## 1. Objective
-- **Goal:** Implement a "Dual-Mode" planning system within `/vector:plan`. It will intelligently route between a lean **Standard Mode** (for tactical fixes) and a comprehensive **Deep Mode** (for iterative, collaborative architectural design of new features/concepts).
+## 1. Concept Objective (Status: APPROVED)
+- **Goal:** Conduct a comprehensive codebase audit of all 10 Vector Protocol commands (`init`, `scan`, `plan`, `work`, `save`, `resume`, `status`, `improve`, `reset`, `context`) to eradicate UX inconsistencies, standardize the new Dashboard output formats, and address functional redundancies.
 
-## 2. Strategic Analysis
-- **First Principles:** Different tasks have different cognitive and token requirements. Simple tasks require rigid checklists; complex tasks require collaborative ideation, trade-off analysis, and iterative refinement before execution begins.
-- **Trade-offs:** 
-  - *Adding a new command (`/vector:deepplan`) vs. Dual-Mode `/vector:plan`:* Adding a command clutters the CLI surface and violates our simplification plan. A smart, dual-mode prompt inside `plan.toml` maintains a clean UX while delivering the necessary flexibility.
-- **Risk Assessment:** 
-  - *Mode Confusion:* The AI might choose the wrong mode. *Mitigation:* We will explicitly instruct the AI to state which mode it selected and why, and allow the user to override it (e.g., "re-plan this using deep mode").
+## 2. Problem Breakdown
+- **Functional (UX) Breakdown:** 
+  - Recent updates (v1.8.0) introduced rich Markdown tables and the `State Dashboard Table`. However, commands like `init.toml`, `reset.toml`, and `context.toml` were not updated and still use legacy bulleted lists. This breaks the user's mental model of a unified dashboard.
+  - The `COMMAND_SURFACE_SIMPLIFICATION_PLAN.md` aims to reduce cognitive load. Having commands that do the exact same thing (like `/vector:resume` vs the auto-resume built into `/vector:plan`) creates friction.
+- **Technical Breakdown:**
+  - `init.toml`: Missing the Dashboard Table output. The prompt mentions `.gemini/EVIDENCE.md` but lacks the formal "5-File System" nomenclature.
+  - `reset.toml`: Missing the Dashboard Table output. Extremely barebones output.
+  - `context.toml`: Uses legacy `Output (Proposal Stage)` and `Output (After Approval & Apply)` blocks with bullet points instead of a structured `Context Audit Table`.
+  - `resume.toml`: Functionally redundant since `plan`, `work`, and `scan` now all contain "Auto-Recovery + Fast Scan" logic that implicitly resumes.
 
-## 3. Design Specification
-We will update `commands/vector/plan.toml` with the following routing logic and templates:
-
-**Routing Logic:**
-- If the objective implies a new feature, complex refactor, or includes keywords like "deep", "design", or "concept", use **DEEP MODE**.
-- Otherwise, use **STANDARD MODE**.
-
-**Template A: Standard Mode (Tactical)**
-```markdown
-## 1. Objective
-## 2. Implementation Roadmap
-## 3. Review
-```
-
-**Template B: Deep Mode (Collaborative)**
-```markdown
-## 1. Concept Objective (Status: DRAFT)
-## 2. Problem Breakdown (Functional & Technical)
 ## 3. Design Discussion & Trade-offs
+- **Addressing Redundancy (The `resume` problem):** We could delete `resume.toml`. However, our `COMMAND_SURFACE_SIMPLIFICATION_PLAN.md` explicitly mandates: *"Do not remove existing commands in this proposal."* (Phase 1). 
+  - *Trade-off Solution:* Instead of deleting it, we prefix its description in `resume.toml` with `(Deprecated)` or `(Legacy)` and update its documentation, adhering to the safety constraints while signaling to users that they don't need it.
+- **Standardizing Output Profiles:** Every command, regardless of function, should begin its `**Output:**` section with the exact same `State Dashboard Table` structure. This ensures that no matter what command a user types, they immediately understand their current context.
+
 ## 4. Proposed Solution
-## 5. Alternatives & Sub-Agent Suggestions
-## 6. Feedback & Revision History
+We will surgically update the outlier commands to bring them up to the v1.9.0 protocol standards:
+1.  **`context.toml`:** 
+    - Add `State Dashboard Table`.
+    - Convert change proposals into a `Context Audit Table` with columns: `| Status (ADD/UPD/REM) | Item | Diff / Detail |`.
+2.  **`init.toml`:**
+    - Add `State Dashboard Table`.
+    - Update prompt verbiage to explicitly reference establishing the "5-File System".
+3.  **`reset.toml`:**
+    - Add `State Dashboard Table` to confirm the reset to `[IDLE]`.
+4.  **`resume.toml`:**
+    - Update the `description` field to: `"♻️ RESUME: (Deprecated) Recovery Phase. Auto-handled by plan/work."`
+
+## 5. Alternatives Considered
+- **Aggressive Pruning:** Delete `resume.toml` and `init.toml` entirely, relying solely on auto-bootstrap. *Rejected:* `init --force` is still required for hard-resetting a project, and the Simplification Plan strictly forbids command deletion in the current phase to protect advanced user workflows.
+
+## 6. Revision History
+- **v1 (2026-03-29):** Initial DRAFT. Proposed standardizing `init`, `reset`, `context` outputs, and deprecating `resume`.
+
 ## 7. Implementation Roadmap
+- [x] **Step 1:** Update `commands/vector/context.toml` to output the `State Dashboard Table` and `Context Audit Table`.
+- [x] **Step 2:** Update `commands/vector/init.toml` and `commands/vector/reset.toml` to output the `State Dashboard Table`.
+- [x] **Step 3:** Deprecate `resume.toml` by updating its description field.
+- [x] **Step 4:** Increment extension minor version in `gemini-extension.json` to 1.10.0 (Consistency Pass).
+
 ## 8. Review (Awaiting User APPROVAL)
-```
-
-## 4. Alternatives Considered
-- **Separate Commands:** Creating `/vector:design` and `/vector:plan`. *Rejected:* Violates the `COMMAND_SURFACE_SIMPLIFICATION_PLAN.md` goal of keeping the daily workflow to just 3 core commands.
-
-## 5. Implementation Roadmap
-- [x] **Step 1:** Update `commands/vector/plan.toml` to include the Dual-Mode routing logic and both markdown templates. Add instructions for handling iterative feedback cycles.
-- [x] **Step 2:** Update `.gemini/CONTEXT.md` to formally document the Dual-Mode Planning standard and the iterative `DRAFT -> APPROVED` lifecycle.
-- [x] **Step 3:** Increment extension minor version in `gemini-extension.json` to 1.9.0.
-
-## 6. Review
-- User, please review this roadmap for establishing Dual-Mode planning. Ready to execute?
+- User, please review this Concept Document. Should we proceed with standardizing these outlier commands and formally deprecating `resume` via its description? Provide feedback or reply with "APPROVED" to proceed.

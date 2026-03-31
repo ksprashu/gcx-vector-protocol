@@ -72,10 +72,15 @@ You are entering the **EXECUTION (Act)** phase.
     *   Propose a fix or request a strategy review (`/vector:scan`).
 
 **Output:**
-*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Pending Tasks | Completed Tasks |`
+*   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
+    *   `- **Phase:** [PHASE]`
+    *   `- **Objective:** [GOAL]`
+    *   `- **Last Action:** [ACTION]`
+    *   `- **Next Step:** [ACTION]`
+    *   `- **Pending/Completed Tasks:** [X / Y]`
 *   **Execution Summary:** What was done, what was verified.
 *   **Evidence Table:** Output a Markdown table with columns: `| Topic | Source | Why authoritative | Last-checked |`
-*   **Work Checklist Table:** Present the execution progress as a Markdown table with columns: `| Status (✅/❌/⏳/🔄) | Task | Details |`
+*   **Progress Checklist:** Present the execution progress as a simple bulleted checklist (`- [x] Task Name: Details` or `- [ ] Task Name: Details`), NOT a table.
 *   **State:** Updated status in `.gemini/STATE.md`.
 *   **Navigation:**
     *   **IF** Plan has more steps: `> Recommended Action: /vector:work <next_step>`

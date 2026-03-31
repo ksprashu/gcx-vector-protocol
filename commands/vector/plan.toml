@@ -66,10 +66,15 @@ You are entering the **STRATEGY (Plan)** phase.
 8.  **State Update:** Update `**Phase:**` in `.gemini/STATE.md` to `[STRATEGY]`.
 
 **Output:**
-*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Mode (Std/Deep) | Status (Draft/Approved) | Pending Tasks | Completed Tasks |`
+*   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
+    *   `- **Phase:** [PHASE]`
+    *   `- **Objective:** [GOAL]`
+    *   `- **Mode:** [Std/Deep]`
+    *   `- **Status:** [Draft/Approved]`
+    *   `- **Pending/Completed Tasks:** [X / Y]`
 *   **Analysis Summary:** Why this mode and approach were chosen.
 *   **Evidence Table:** Output a Markdown table with columns: `| Topic | Source | Why authoritative | Last-checked |`
-*   **Plan Checklist Table:** Present the plan as a Markdown table with columns: `| Status (✅/⏳/🔄) | Task | Details |`
+*   **Progress Checklist:** Present the plan as a simple bulleted checklist (`- [ ] Task Name: Details`), NOT a table.
 *   **Prompt:** If Deep Mode: "Concept DRAFT established. Please review `.gemini/PLAN.md` and provide feedback." If Standard Mode: "Plan established. Ready to Execute?"
 *   **Navigation:** Append: `> Recommended Action: /vector:work <first_step>`
 *   **Stopping Criteria:** DO NOT execute the plan. DO NOT write code. STOP and WAIT for user feedback/approval.

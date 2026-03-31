@@ -46,8 +46,12 @@ You are entering the **PERSISTENCE (Save)** phase.
 7.  **Confirm:** Report the commit hash.
 
 **Output:**
-*   **Save Status Table:** Output a Markdown table with columns: `| Status (💾) | Action | Result / Commit Hash | Details |`
-*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Backlog | Evidence |`
+*   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
+    *   `- **Phase:** [PHASE]`
+    *   `- **Objective:** [GOAL]`
+    *   `- **Last Action:** [ACTION]`
+    *   `- **Next Step:** [ACTION]`
+*   **Save Summary:** List actions and results (e.g., git commit hash) as bullet points.
 *   **Navigation:**
     *   **IF** Backlog has items: `> Recommended Action: /vector:plan Review Backlog`
     *   **ELSE:** `> Recommended Action: /vector:scan` or `/vector:improve`

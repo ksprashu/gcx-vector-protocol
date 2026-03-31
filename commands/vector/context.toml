@@ -67,14 +67,22 @@ You are entering the **MAINTENANCE (Context Update)** phase.
     *   Append a summary of applied changes to the `## 3. Scratchpad`.
 
 **Output (Proposal Stage):**
-*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Pending Tasks | Completed Tasks |`
-*   **Context Audit Table:** List discrepancies as a Markdown table with columns: `| Status (ADD/UPD/REM) | Item | Diff / Detail | Evidence ID |`
+*   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
+    *   `- **Phase:** [PHASE]`
+    *   `- **Objective:** [GOAL]`
+    *   `- **Last Action:** [ACTION]`
+    *   `- **Next Step:** [ACTION]`
+*   **Context Audit:** List discrepancies as simple bullet points (Status: Item - Detail [Evidence ID]).
 *   **Evidence Table:** Output a Markdown table with columns: `| Topic | Source | Why authoritative | Last-checked |`
 *   **Prompt:** "Apply all, apply #N, or skip?"
 *   **Stopping Criteria:** If evidence is stale/conflicting/incomplete, **HALT** and request user direction. Otherwise, **STOP** after presenting proposals. **WAIT** for user confirmation. **DO NOT** write to `CONTEXT.md` before approval. **DO NOT** execute any recommended command.
 
 **Output (After Approval & Apply):**
-*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Pending Tasks | Completed Tasks |`
-*   **Change Summary Table:** List applied changes as a Markdown table with columns: `| Status (✅) | Item | Result |`
+*   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
+    *   `- **Phase:** [PHASE]`
+    *   `- **Objective:** [GOAL]`
+    *   `- **Last Action:** [ACTION]`
+    *   `- **Next Step:** [ACTION]`
+*   **Change Summary:** List applied changes as simple bullet points (Status: Item - Result).
 *   **Navigation:** `> Recommended Action: /vector:scan` (to verify the updated context is reflected in the next scan).
 """

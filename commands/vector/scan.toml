@@ -48,9 +48,14 @@ You are entering the **PERCEPTION (Scan)** phase.
     *   **Update** the `**Phase:**` in `.gemini/STATE.md` to `[PERCEPTION]`.
 
 **Output:**
-*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Pending Tasks | Completed Tasks |`
-*   **Scan Findings Table:** List findings as a Markdown table with columns: `| Status (✅/❌/⚠️) | Item | Insight / Result | Evidence ID |`
-*   **Drift Report Table:** Explicitly flag discrepancies as a Markdown table with columns: `| Source | Expected | Actual | Impact |`
+*   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
+    *   `- **Phase:** [PHASE]`
+    *   `- **Objective:** [GOAL]`
+    *   `- **Last Action:** [ACTION]`
+    *   `- **Next Step:** [ACTION]`
+    *   `- **Pending/Completed Tasks:** [X / Y]`
+*   **Scan Findings:** List findings as simple bullet points (Status: Item - Insight [Evidence ID]).
+*   **Drift Report:** List discrepancies as bullet points (Source: Expected vs Actual - Impact).
 *   **Evidence Table:** Output a Markdown table with columns: `| Topic | Source | Why authoritative | Last-checked |`
 *   **Prompt:** "Analysis complete. Ready to proceed to Planning?"
 *   **Navigation:** Append:

@@ -22,7 +22,11 @@ prompt = """
 3.  **State Update:** Update `**Phase:**` in `.gemini/STATE.md` to `[IDLE]`.
 
 **Output:**
-*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Backlog | Evidence |`
+*   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
+    *   `- **Phase:** [PHASE]`
+    *   `- **Objective:** [GOAL]`
+    *   `- **Last Action:** [ACTION]`
+    *   `- **Next Step:** [ACTION]`
 *   **Report:** "Session State reset. Context and Plan preserved."
 *   **Navigation:** Append: `> Recommended Action: /vector:scan`
 """

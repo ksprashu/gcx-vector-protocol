@@ -57,8 +57,14 @@ You are entering the **IDEATION (Improve)** phase.
     *   Append a summary of the new items to the Scratchpad.
 
 **Output:**
-*   **State Dashboard Table:** Output a Markdown table with columns: `| Phase | Objective | Last Action | Next Step | Backlog | Evidence |`
-*   **Enhancement Proposals Table:** List proposals as a Markdown table with columns: `| Status (🆕) | Title | Impact | Evidence ID |`
+*   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
+    *   `- **Phase:** [PHASE]`
+    *   `- **Objective:** [GOAL]`
+    *   `- **Last Action:** [ACTION]`
+    *   `- **Next Step:** [ACTION]`
+    *   `- **Backlog Items:** [COUNT]`
+    *   `- **Evidence Entries:** [COUNT]`
+*   **Enhancement Proposals:** List proposals as simple bullet points (Status: Title - Impact [Evidence ID]).
 *   **Evidence Table:** Output a Markdown table with columns: `| Topic | Source | Why authoritative | Last-checked |`
 *   **Prompt:** "Review the Backlog or proceed to Planning?"
 *   **Navigation:** Append: `> Recommended Action: /vector:plan Review Backlog`

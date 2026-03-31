@@ -46,5 +46,12 @@ Adhere to the Single Responsibility Principle for protocol files:
     - **Patch:** Bug fixes, docs updates, or minor tweaks.
 - **Manifest:** `gemini-extension.json` version MUST be incremented on every release-worthy change.
 
-## 7. Cognitive Patterns
-- **N-Trial Synthesis:** A multi-agent evaluation workflow. When exploring options or ensuring robustness, orchestrating agents must spawn parallel sub-agents (e.g., $N$ instances of `generalist`), evaluate their isolated outputs against a rubric, and synthesize the single best artifact (plan or code block) before proceeding.
+## 8. Collaborative Planning Standards (CPS)
+To balance architectural rigor with execution speed, the protocol employs a **Dual-Mode Planning** system:
+
+-   **Standard Mode (Tactical):** Default for bugs and minor tweaks. Provides a concise Objective and Roadmap.
+-   **Deep Mode (Collaborative):** Default for new features, complex refactors, and concepts. Initiates an iterative feedback loop:
+    -   **Draft:** The AI proposes a rich concept document including functional/technical breakdowns and design trade-offs.
+    -   **Review:** The user reviews the plan and provides feedback (via subsequent `/vector:plan` calls).
+    -   **Approved:** Execution (`/vector:work`) is blocked until the user provides a definitive `APPROVED` signal in the plan.
+-   **Revision History:** Deep Mode plans MUST maintain a log of iterations to ensure design decisions are traceable.

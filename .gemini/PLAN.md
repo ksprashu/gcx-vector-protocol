@@ -2,33 +2,48 @@
 > The dynamic direction. The Execution Roadmap.
 
 ## 1. Objective
-- **Goal:** Verify the protocol's ideation-to-planning flow by promoting the "Verify File System Logic" backlog item, and address the architectural drift in `.gemini/CONTEXT.md` by officially migrating the documentation from the "4-File System" to the "5-File System" (incorporating `EVIDENCE.md`).
+- **Goal:** Implement a "Dual-Mode" planning system within `/vector:plan`. It will intelligently route between a lean **Standard Mode** (for tactical fixes) and a comprehensive **Deep Mode** (for iterative, collaborative architectural design of new features/concepts).
 
 ## 2. Strategic Analysis
-- **First Principles:** The `.gemini/CONTEXT.md` file serves as the strict, invariant rulebook for the agent. If it contains outdated structural definitions (e.g., claiming a 4-file system when 5 files are actively required), it creates cognitive dissonance and potential hallucination risks during the auto-recovery (`resume`, `scan`) and persistence phases. 
+- **First Principles:** Different tasks have different cognitive and token requirements. Simple tasks require rigid checklists; complex tasks require collaborative ideation, trade-off analysis, and iterative refinement before execution begins.
 - **Trade-offs:** 
-  - *Complexity vs. Clarity:* Adding a 5th core file (`EVIDENCE.md`) slightly increases state management overhead but drastically improves auditability and traceability, which is a core tenet of the Vector Protocol.
+  - *Adding a new command (`/vector:deepplan`) vs. Dual-Mode `/vector:plan`:* Adding a command clutters the CLI surface and violates our simplification plan. A smart, dual-mode prompt inside `plan.toml` maintains a clean UX while delivering the necessary flexibility.
 - **Risk Assessment:** 
-  - *Documentation Misses:* We must ensure *all* references to "4-File System" within `CONTEXT.md` are updated.
+  - *Mode Confusion:* The AI might choose the wrong mode. *Mitigation:* We will explicitly instruct the AI to state which mode it selected and why, and allow the user to override it (e.g., "re-plan this using deep mode").
 
 ## 3. Design Specification
-The `CONTEXT.md` file needs to be updated in two places:
-1.  **Section 4. Architecture:** Update "Uses the **4-File System**..." to "**5-File System**".
-2.  **Section 5. The 4-File System (State Persistence):** 
-    - Rename header to "The 5-File System".
-    - Append the `EVIDENCE.md` specification to the list:
-      ```markdown
-      5.  **`.gemini/EVIDENCE.md` (Ledger / Traceability):**
-          *   **Role:** Factual evidence, reference URLs, and source traceability (`E-001` IDs).
-          *   **Access:** Append-Only during validation passes.
-      ```
+We will update `commands/vector/plan.toml` with the following routing logic and templates:
+
+**Routing Logic:**
+- If the objective implies a new feature, complex refactor, or includes keywords like "deep", "design", or "concept", use **DEEP MODE**.
+- Otherwise, use **STANDARD MODE**.
+
+**Template A: Standard Mode (Tactical)**
+```markdown
+## 1. Objective
+## 2. Implementation Roadmap
+## 3. Review
+```
+
+**Template B: Deep Mode (Collaborative)**
+```markdown
+## 1. Concept Objective (Status: DRAFT)
+## 2. Problem Breakdown (Functional & Technical)
+## 3. Design Discussion & Trade-offs
+## 4. Proposed Solution
+## 5. Alternatives & Sub-Agent Suggestions
+## 6. Feedback & Revision History
+## 7. Implementation Roadmap
+## 8. Review (Awaiting User APPROVAL)
+```
 
 ## 4. Alternatives Considered
-- **Deprecating `EVIDENCE.md`:** We could remove the 5th file and revert to a pure 4-file system to match the docs. *Rejected:* The `EVIDENCE.md` ledger is critical for the "strictly externally grounded" mandate defined in the project's `AGENTS.md`. Updating the `CONTEXT.md` is the correct path.
+- **Separate Commands:** Creating `/vector:design` and `/vector:plan`. *Rejected:* Violates the `COMMAND_SURFACE_SIMPLIFICATION_PLAN.md` goal of keeping the daily workflow to just 3 core commands.
 
 ## 5. Implementation Roadmap
-- [x] **Step 1:** Update `CONTEXT.md` Section 4 and Section 5 to officially define the "5-File System" architecture and document the role of `EVIDENCE.md`.
-- [x] **Step 2:** Empty the `.gemini/BACKLOG.md` (as the dummy verification item has now been successfully promoted and processed).
+- [x] **Step 1:** Update `commands/vector/plan.toml` to include the Dual-Mode routing logic and both markdown templates. Add instructions for handling iterative feedback cycles.
+- [x] **Step 2:** Update `.gemini/CONTEXT.md` to formally document the Dual-Mode Planning standard and the iterative `DRAFT -> APPROVED` lifecycle.
+- [x] **Step 3:** Increment extension minor version in `gemini-extension.json` to 1.9.0.
 
 ## 6. Review
-- User, please review this roadmap for verifying the flow and fixing the context drift. Ready to execute?
+- User, please review this roadmap for establishing Dual-Mode planning. Ready to execute?

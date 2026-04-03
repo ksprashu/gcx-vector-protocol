@@ -2,26 +2,18 @@
 > The dynamic direction. The Execution Roadmap.
 
 ## 1. Objective
-- **Goal:** Replace heavy Markdown tables ("State Dashboard Table" and "Work Checklist Table") across all Vector commands with simpler, native-feeling CLI bulleted lists and checkboxes (`- [ ]`), per user feedback. We will retain the `Evidence Table` as a Markdown table.
+- **Goal:** Update the README.md and documentation to reflect the new tiered command model (Phase 1 Simplification), remove the deprecated `resume` command, update the manifest, and analyze the system state for backlog improvements.
 
 ## 2. Strategic Analysis
-- **First Principles:** Command line interfaces should prioritize high signal-to-noise ratios. Tables with ASCII borders add cognitive load and wrap poorly on narrow screens.
-- **Trade-offs:** We lose structured columnar alignment but drastically improve readability and visual simplicity.
+- **Context:** The `resume` command is deprecated as `plan` and `work` now handle implicit state recovery. Users have requested a simpler command surface.
+- **Approach:** Standard Mode (Tactical). Remove deprecated code, update manifest, refactor docs into tiers, and update backlog.
 
-## 3. Design Specification
-The `Output` instruction in all commands will replace the dashboard/checklist table prompts with:
-*   **Session Dashboard:** A simple bulleted list containing `Phase`, `Objective`, `Status` (where applicable), and `Next Step`.
-*   **Progress Checklist:** A standard markdown checklist `- [ ] Task Name: Details`.
-*   **Evidence Table:** (Remains unchanged).
+## 3. Implementation Roadmap
+- [x] **Step 1:** Delete `commands/vector/resume.toml`.
+- [x] **Step 2:** Update `gemini-extension.json` (remove `resume`, bump version to `1.11.0`).
+- [x] **Step 3:** Refactor `README.md` (Commands tiering, remove `/vector:resume`).
+- [x] **Step 4:** System state review and Backlog update.
+- [x] **Step 5:** Final verification and version check.
 
-## 4. Alternatives Considered
-- Keep tables but simplify headers. *Rejected:* Still feels too "heavy" for daily CLI interaction.
-
-## 5. Implementation Roadmap
-- [x] **Step 1:** Update `plan.toml` and `work.toml` to use bulleted checklists and a text-based Session Dashboard.
-- [x] **Step 2:** Update `status.toml`, `scan.toml`, and `improve.toml` to simplify their dashboard and findings outputs.
-- [x] **Step 3:** Update the remaining utility commands (`init`, `reset`, `resume`, `save`, `context`).
-- [x] **Step 4:** Increment extension version to `1.10.1` (UX Polish).
-
-## 6. Review
-- (Auto-Approved) User explicitly requested simple text checklists/bullet lists rather than a table.
+## 4. Review
+- (Auto-Approved) Follows explicit user instructions to remove deprecated commands and implement the simplification docs.

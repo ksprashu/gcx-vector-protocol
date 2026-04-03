@@ -117,4 +117,28 @@ The `Output` instruction in all commands will replace the dashboard/checklist ta
 - [ ] **Step 4:** Increment extension version to `1.10.1` (UX Polish).
 
 ## 6. Review
-- (Auto-Approved) User explicitly requested simple text checklists/bullet lists rather than a table.
+- (Auto-Approved) User explicitly requested simple text checklists/bullet lists rather than a table.# 🗺️ PLAN
+> The dynamic direction. The Execution Roadmap.
+
+## 1. Objective
+- **Goal:** Update the README.md and documentation to reflect the new tiered command model (Phase 1 Simplification), remove the deprecated `resume` command, update the manifest, and analyze the system state for backlog improvements.
+
+## 2. Strategic Analysis
+- **Context:** The `resume` command is deprecated as `plan` and `work` now handle implicit state recovery. Users have requested a simpler command surface.
+- **Approach:** Standard Mode (Tactical). Remove deprecated code, update manifest, refactor docs into tiers, and update backlog.
+
+## 3. Implementation Roadmap
+- [ ] **Step 1:** Delete `commands/vector/resume.toml`.
+- [ ] **Step 2:** Update `gemini-extension.json` (remove `resume`, bump version to `1.11.0`).
+- [ ] **Step 3:** Refactor `README.md` (Commands tiering, remove `/vector:resume`).
+- [ ] **Step 4:** System state review and Backlog update.
+- [ ] **Step 5:** Final verification and version check.
+
+## 4. Review
+- (Auto-Approved) Follows explicit user instructions to remove deprecated commands and implement the simplification docs.
+
+
+---
+Archived on: Fri Apr  3 14:56:39 IST 2026
+---
+

@@ -15,3 +15,8 @@
 - **Problem:** As identified in the `COMMAND_SURFACE_SIMPLIFICATION_PLAN.md` (Phase 2), users may still feel friction deciding which command to run, despite the tiered documentation.
 - **Solution:** Implement the `/vector:next` command. This command would read `.gemini/STATE.md` and `.gemini/PLAN.md` and act as a dynamic router, automatically suggesting or executing the logical next step.
 - **Impact:** Creates a seamless, low-friction workflow loop for the developer, turning the Vector Protocol into a guided wizard.
+
+## [New] Command Argument Validation (Reliability)
+- **Problem:** Some commands (like `/vector:plan` or `/vector:work`) rely on the `{{args}}` placeholder. If a user provides invalid or empty arguments where they are required, the agent might behave unpredictably.
+- **Solution:** Add explicit guardrails in the `.toml` prompts to check for required arguments and provide usage examples if they are missing.
+- **Impact:** Improves UX and prevents common execution errors.

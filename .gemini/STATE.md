@@ -2,48 +2,36 @@
 > Volatile Session Status. The "Save Point".
 
 ## 1. Status
-- **Phase:** [IDLE]
-- **Last Action:** Persisted collision fix and updated protocol state.
+- **Phase:** [EXECUTION]
+- **Last Action:** Merged parallel evolutions and unified protocol files into version 1.12.0.
 - **Timestamp:** 2026-04-03
 
 ## 2. Context
 - **Project:** `gcx-vector-protocol`
-- **Objective:** Rename the extension in skills-vector-protocol to resolve the collision.
+- **Objective:** Resolve git pull conflicts and unify the Skill-Based Refactor with the Command Surface Simplification.
 
 ## 3. Scratchpad
-- **Execution Log (2026-04-03 - Name Collision Fix):**
-    - [x] **Step 1:** Renamed `"gcx-vector-protocol"` to `"skills-vector-protocol"` in `skills-vector-protocol/gemini-extension.json`.
-    - [x] **Step 2:** Verified `name` in `skills-vector-protocol` manifest and updated session state.
-- **Previous Session Summary (2026-03-29):** Standardized command outputs and formally deprecated resume (v1.10.0).
-- **UX Formatting Simplification (2026-03-29):**
-    - [x] **Step 1:** Updated `plan.toml` and `work.toml` output formats to bulleted lists.
-- [x] **Step 2:** Updated `status.toml`, `scan.toml`, and `improve.toml` to use simple bulleted lists for findings and dashboards.
-- [x] **Step 3:** Updated `init.toml`, `reset.toml`, `resume.toml`, `save.toml`, and `context.toml` output formats.
-- [x] **Step 4:** Incremented version to 1.10.1 (UX Polish).
+- **Previous Session Summary (Merged):**
+    - Local (HEAD) completed the "Skill-conversion" refactor (v1.10.0), moving `plan.toml` and other logic to skills.
+    - Remote (1.11.0) completed the "Command Simplification" phase, removing `resume.toml` and updating README documentation.
+    - Conflicted files detected after `git pull`: `.gemini/EVIDENCE.md`, `.gemini/PLAN.md`, `.gemini/PLAN_ARCHIVE.md`, `.gemini/STATE.md`, `.gemini/STATE_ARCHIVE.md`, `commands/vector/plan.toml`, and `gemini-extension.json`.
 
-- **Scan Findings (2026-04-03):**
-    - [Found] All 5 protocol files (`CONTEXT.md`, `PLAN.md`, `STATE.md`, `BACKLOG.md`, `EVIDENCE.md`) are present and valid.
-    - [Verified] `gemini-extension.json` and `STATE.md` both reflect version `1.11.0`.
-    - [Verified] No "skill" files or references exist within the `gcx-vector-protocol` repository.
-    - [Drift Detection] Collision identified: The sibling repository `skills-vector-protocol` also uses the name `gcx-vector-protocol` and contains a `skills` array (v1.12.0). The CLI is likely loading these skills due to the name collision and higher version number.
-    - [Recommendation] To resolve "pollution", rename the extension in `skills-vector-protocol/gemini-extension.json` or remove that directory from the workspace.
+- **Merge Execution Log (2026-04-03):**
+    - [x] **Step 1:** Updated `gemini-extension.json` to version 1.12.0, kept the `skills` list, and removed `plan.toml` (replaced by automated skill).
+    - [x] **Step 2:** Formally removed `commands/vector/plan.toml` from the repository.
+    - [x] **Step 3:** Merged and renumbered Evidence IDs in `.gemini/EVIDENCE.md` to include all unique findings.
+    - [x] **Step 4:** Resolved merge conflicts in `.gemini/PLAN.md`, `.gemini/STATE.md`, and `.gemini/PLAN_ARCHIVE.md`.
 
-- **Execution Log (2026-04-03):**
-    - [Started] Task: Command Surface Simplification Phase 1.
-    - [Synced] `.gemini/PLAN.md` updated with new tasks.
-    - [Archived] Previous plan moved to `.gemini/PLAN_ARCHIVE.md`.
-    - [x] **Step 1:** Removed `commands/vector/resume.toml`.
-    - [x] **Step 2:** Updated `gemini-extension.json` to v1.11.0.
-    - [x] **Step 3:** Refactored `README.md` into Tiered Command Model and added v1.11.0 release notes.
-    - [x] **Step 4:** Updated `BACKLOG.md` with system review improvements (Argument validation).
-    - [x] **Step 5:** Verified all changes.
+- **Name Collision Fix (2026-04-03):**
+    - [x] Renamed `"gcx-vector-protocol"` to `"skills-vector-protocol"` in sibling repository `skills-vector-protocol/gemini-extension.json` to resolve tool collision.
 
 - **Ideation Pass (2026-04-03):**
     - Conducted Production Readiness Review for the Vector Protocol.
     - Appended 3 new items to `.gemini/BACKLOG.md`:
-        1. Protocol Invariant Validator (State Linter) for markdown schema enforcement.
+        1. Protocol Invariant Validator (State Linter).
         2. Automated Evidence Schema for RAG optimization.
-        3. Cross-Session Efficacy Telemetry to track DORA-style metrics for the agent loop.
+        3. Cross-Session Efficacy Telemetry.
 
 ## 4. Next Steps
-- Review Backlog or proceed to Planning.
+- Update `README.md` and `AGENTS.md` to reflect the final 1.12.0 state (Automated Planning + Tiered Commands).
+- Perform final verification and commit the resolved state.

@@ -2,18 +2,15 @@
 > The dynamic direction. The Execution Roadmap.
 
 ## 1. Objective
-- **Goal:** Update the README.md and documentation to reflect the new tiered command model (Phase 1 Simplification), remove the deprecated `resume` command, update the manifest, and analyze the system state for backlog improvements.
+- **Goal:** Rename the extension in `skills-vector-protocol` to resolve the CLI name collision with `gcx-vector-protocol`.
 
 ## 2. Strategic Analysis
-- **Context:** The `resume` command is deprecated as `plan` and `work` now handle implicit state recovery. Users have requested a simpler command surface.
-- **Approach:** Standard Mode (Tactical). Remove deprecated code, update manifest, refactor docs into tiers, and update backlog.
+- **Context:** The `skills-vector-protocol` extension manifest currently uses the name `"gcx-vector-protocol"`. Because it has a higher version number (`1.12.0`), the Gemini CLI prioritizes it, loading its skills and polluting the agent's available tools in this workspace.
+- **Approach:** Standard Mode (Tactical). We will modify the `gemini-extension.json` in the `skills-vector-protocol` repository to change its `name` attribute to `"skills-vector-protocol"`.
 
 ## 3. Implementation Roadmap
-- [x] **Step 1:** Delete `commands/vector/resume.toml`.
-- [x] **Step 2:** Update `gemini-extension.json` (remove `resume`, bump version to `1.11.0`).
-- [x] **Step 3:** Refactor `README.md` (Commands tiering, remove `/vector:resume`).
-- [x] **Step 4:** System state review and Backlog update.
-- [x] **Step 5:** Final verification and version check.
+- [x] **Step 1:** Modify `name` in `/Users/ksprashanth/code/github/skills-vector-protocol/gemini-extension.json` from `"gcx-vector-protocol"` to `"skills-vector-protocol"`.
+- [x] **Step 2:** Verify the change and update session state.
 
 ## 4. Review
-- (Auto-Approved) Follows explicit user instructions to remove deprecated commands and implement the simplification docs.
+- (Auto-Approved) Follows explicit user instructions to rename the extension and resolve the collision.

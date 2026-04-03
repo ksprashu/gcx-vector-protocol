@@ -29,7 +29,13 @@ prompt = """
 3.  **Constraint:** Read-only operation. Do not modify state.
 
 **Output:**
-*   **Dashboard:** The structured summary.
+*   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
+    *   `- **Phase:** [PHASE]`
+    *   `- **Objective:** [GOAL]`
+    *   `- **Last Action:** [ACTION]`
+    *   `- **Next Step:** [ACTION]`
+    *   `- **Backlog Items:** [COUNT]`
+    *   `- **Evidence Entries:** [COUNT]`
 *   **Navigation:**
     *   **IF** (Phase is `[PERCEPTION]`) **THEN** -> `> Recommended Action: /vector:plan <objective>`
     *   **IF** (Phase is `[STRATEGY]`) **THEN** -> `> Recommended Action: /vector:work <first_step>`

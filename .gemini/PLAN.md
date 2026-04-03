@@ -2,19 +2,21 @@
 > The dynamic direction. The Execution Roadmap.
 
 ## 1. Objective
-- **Goal:** Convert Vector Protocol slash commands to skills with automated planning.
+- **Goal:** Resolve git pull conflicts, merge the Skill-Based Refactor (v1.10.0 local) with the Command Surface Simplification (v1.11.0 remote), and finalize the extension as version 1.12.0.
 
 ## 2. Strategic Analysis
-- **First Principles:** The goal is to automate structured planning while maintaining user control over scanning and execution. We will refine the `vector-plan` skill to trigger automatically upon receiving an objective, back `/vector:work` and `/vector:scan` slash commands with skills, and convert other commands into skills like `vector-persist` and `vector-improve`.
-- **Trade-offs:** 
-  - *Automated Planning:* Reduces manual overhead but requires clear objective setting.
-  - *Manual Execution/Scanning:* Keeps the user in control, which is the requested behavior.
-- **Risk Assessment:** Ensure `AGENTS.md` clearly dictates the automated planning behavior so the LLM knows to activate the skill.
+- **Merge Strategy:** 
+  - **Skills vs. TOML:** Accept the local refactor which moves planning and other logic to skills. Remove `plan.toml` and `resume.toml`.
+  - **UX & Docs:** Retain the remote's Tiered Command Model and README improvements, but update them to explain the automated planning skill.
+  - **Versioning:** Bump to v1.12.0.
+- **Risk Assessment:** Ensure automated planning mandate in `AGENTS.md` is correct and consistent with `README.md`.
 
 ## 3. Implementation Roadmap
-- [x] **Task 1: Harmonize `vector-plan` skill** - Incorporate detailed logic from `plan.toml` into `skills/vector-plan/SKILL.md` and update `AGENTS.md` to mandate automated planning when a new objective is received.
-- [x] **Task 2: Refine `vector-scan` skill** - Update `skills/vector-scan/SKILL.md` with perception and drift detection logic from `scan.toml` and `context.toml`.
-- [x] **Task 3: Refine `vector-work` skill** - Update `skills/vector-work/SKILL.md` with atomic implementation and N-trial execution logic from `work.toml`.
-- [x] **Task 4: Implement `vector-persist` skill** - Consolidate logic from `init.toml`, `save.toml`, and `resume.toml` into `skills/vector-persist/SKILL.md` for lifecycle management.
-- [x] **Task 5: Implement `vector-improve` skill** - Port logic from `improve.toml` into `skills/vector-improve/SKILL.md` for backlog management.
-- [x] **Task 6: Update `gemini-extension.json`** - Ensure all skills and commands are correctly mapped to their refined definitions.
+- [x] **Task 1: Resolve `gemini-extension.json`** - Merge skills list, update version to 1.12.0, remove `plan.toml` and `resume.toml`.
+- [x] **Task 2: Resolve `plan.toml`** - formally remove the file as it's replaced by the `vector-plan` skill.
+- [x] **Task 3: Merge `.gemini/` protocol files** - Consolidate Evidence, Plan, State, and Archives.
+- [ ] **Task 4: Update Documentation** - Sync `README.md` and `AGENTS.md` to reflect the final 1.12.0 state (Automated Planning + Tiered Commands).
+- [ ] **Task 5: Final Verification** - Verify extension manifest and skill registration.
+
+## 4. Review
+- (In-Progress) Resolving conflicts and unifying the two divergent branches.

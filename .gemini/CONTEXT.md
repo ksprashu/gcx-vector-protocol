@@ -18,9 +18,9 @@
 
 ## 4. Architecture
 - **Extension:** Standard Gemini CLI Extension structure.
-- **State Management:** Uses the **4-File System** in `.gemini/` for strict state persistence.
+- **State Management:** Uses the **5-File System** in `.gemini/` for strict state persistence.
 
-## 5. The 4-File System (State Persistence)
+## 5. The 5-File System (State Persistence)
 Adhere to the Single Responsibility Principle for protocol files:
 
 1.  **`.gemini/CONTEXT.md` (ROM / Static):**
@@ -35,6 +35,9 @@ Adhere to the Single Responsibility Principle for protocol files:
 4.  **`.gemini/BACKLOG.md` (Icebox / Cold Path):**
     *   **Role:** Future ideas, enhancements, and non-critical tech debt.
     *   **Access:** Write-Only by `improve`. Read-Only by `plan`.
+5.  **`.gemini/EVIDENCE.md` (Ledger / Traceability):**
+    *   **Role:** Factual evidence, reference URLs, and source traceability (`E-001` IDs).
+    *   **Access:** Append-Only during validation passes.
 
 ## 6. Release Standards
 - **Versioning:** Semantic Versioning (Major.Minor.Patch) MUST be respected.
@@ -43,5 +46,12 @@ Adhere to the Single Responsibility Principle for protocol files:
     - **Patch:** Bug fixes, docs updates, or minor tweaks.
 - **Manifest:** `gemini-extension.json` version MUST be incremented on every release-worthy change.
 
-## 7. Cognitive Patterns
-- **N-Trial Synthesis:** A multi-agent evaluation workflow. When exploring options or ensuring robustness, orchestrating agents must spawn parallel sub-agents (e.g., $N$ instances of `generalist`), evaluate their isolated outputs against a rubric, and synthesize the single best artifact (plan or code block) before proceeding.
+## 8. Collaborative Planning Standards (CPS)
+To balance architectural rigor with execution speed, the protocol employs a **Dual-Mode Planning** system:
+
+-   **Standard Mode (Tactical):** Default for bugs and minor tweaks. Provides a concise Objective and Roadmap.
+-   **Deep Mode (Collaborative):** Default for new features, complex refactors, and concepts. Initiates an iterative feedback loop:
+    -   **Draft:** The AI proposes a rich concept document including functional/technical breakdowns and design trade-offs.
+    -   **Review:** The user reviews the plan and provides feedback (via subsequent `/vector:plan` calls).
+    -   **Approved:** Execution (`/vector:work`) is blocked until the user provides a definitive `APPROVED` signal in the plan.
+-   **Revision History:** Deep Mode plans MUST maintain a log of iterations to ensure design decisions are traceable.

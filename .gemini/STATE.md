@@ -2,28 +2,26 @@
 > Volatile Session Status. The "Save Point".
 
 ## 1. Status
-- **Phase:** [IDLE]
-- **Last Action:** Executed Task 6 to finalize extension manifest.
-- **Timestamp:** 2026-03-04
+- **Phase:** [EXECUTION]
+- **Last Action:** Resolved `gemini-extension.json`, `plan.toml`, and `.gemini/EVIDENCE.md` conflicts.
+- **Timestamp:** 2026-04-03
 
 ## 2. Context
 - **Project:** `gcx-vector-protocol`
-- **Objective:** Convert entire extension into agent skills using skill creator.
+- **Objective:** Resolve git pull conflicts and unify the Skill-Based Refactor with the Command Surface Simplification.
 
 ## 3. Scratchpad
+- **Previous Session Summary (Merged):**
+    - Local (HEAD) completed the "Skill-conversion" refactor (v1.10.0), moving `plan.toml` and other logic to skills.
+    - Remote (1.11.0) completed the "Command Simplification" phase, removing `resume.toml` and updating README documentation.
+    - Conflicted files detected after `git pull`: `.gemini/EVIDENCE.md`, `.gemini/PLAN.md`, `.gemini/PLAN_ARCHIVE.md`, `.gemini/STATE.md`, `.gemini/STATE_ARCHIVE.md`, `commands/vector/plan.toml`, and `gemini-extension.json`.
 
-- Executed Task 6: Updated `gemini-extension.json` to version 1.10.0, registered all new granular skills, and removed the retired `plan.toml` and `resume.toml` commands.
-
-- Executed Task 5: Ported logic from `improve.toml` into `skills/vector-improve/SKILL.md` to establish the Ideation phase workflow for backlog management.
-
-- Executed Task 4: Created `skills/vector-persist/SKILL.md` consolidating the logic from `init.toml` and `save.toml` for lifecycle management.
-
-- Executed Task 3: Updated `skills/vector-work/SKILL.md` to incorporate the robust atomic execution loop and N-trial execution logic from `work.toml`.
-
-- Executed Task 2: Updated `skills/vector-scan/SKILL.md` to incorporate both general perception scanning logic (from `scan.toml`) and specific context maintenance drift detection logic (from `context.toml`).
-
-- Executed Task 1: Updated `skills/vector-plan/SKILL.md` with deep planning logic from TOML. Updated `AGENTS.md` and `GEMINI.md` to mandate automated planning via skill instead of manual command.
-- **Previous Session Summary:** Decomposed `vector-protocol` mega-skill into 5 phase-specific granular skills (`vector-scan`, `vector-plan`, `vector-work`, `vector-persist`, `vector-improve`) to enable intent-based selection. Verified all skills are installed and enabled in the workspace.
+- **Merge Execution Log (2026-04-03):**
+    - [x] **Step 1:** Updated `gemini-extension.json` to version 1.12.0, kept the `skills` list, and removed `plan.toml` (replaced by automated skill).
+    - [x] **Step 2:** Formally removed `commands/vector/plan.toml` from the repository.
+    - [x] **Step 3:** Merged and renumbered Evidence IDs in `.gemini/EVIDENCE.md` to include all unique findings.
+    - [x] **Step 4:** Consolidated the current Plan into a unified roadmap in `.gemini/PLAN.md`.
 
 ## 4. Next Steps
-- Waiting for new user objective or further refinement of the granular skills.
+- Resolve conflicts in `PLAN_ARCHIVE.md` and `STATE_ARCHIVE.md`.
+- Update `README.md` and `AGENTS.md` to explain the automated planning skill and tiered command model.

@@ -20,3 +20,18 @@
 - **Problem:** Some commands (like `/vector:plan` or `/vector:work`) rely on the `{{args}}` placeholder. If a user provides invalid or empty arguments where they are required, the agent might behave unpredictably.
 - **Solution:** Add explicit guardrails in the `.toml` prompts to check for required arguments and provide usage examples if they are missing.
 - **Impact:** Improves UX and prevents common execution errors.
+
+## [New] Protocol Invariant Validator (State Linter)
+- **Problem:** The 5-File System relies on the LLM adhering strictly to Markdown structural conventions (e.g., `[x]` checklists, `E-001` format). Hallucinated formatting breaks the state machine.
+- **Solution:** Introduce a CLI script/tool (e.g., `vector-lint` or an extension command) that strictly enforces the markdown schemas and ensures referential integrity (e.g., an Evidence ID cited in `PLAN.md` actually exists in `EVIDENCE.md`).
+- **Impact:** Hardens the protocol, prevents state corruption, and keeps context machine-readable for deterministic handoffs.
+
+## [New] Automated Evidence Schema (Structured Data Transition)
+- **Problem:** `EVIDENCE.md` is currently unstructured text. As it grows, retrieving and validating prior evidence becomes token-expensive and prone to retrieval hallucination.
+- **Solution:** Transition the Evidence Ledger to a structured format (e.g., Markdown with YAML frontmatter per entry, or a companion `EVIDENCE.json`).
+- **Impact:** Reduces token consumption during `scan` and `work` by enabling programmatic, targeted retrieval (RAG optimization), making the protocol scalable for enterprise monorepos.
+
+## [New] Cross-Session Efficacy Telemetry (Metrics Tracking)
+- **Problem:** There is currently no feedback loop to measure how often "context drift" occurs or how frequently the execution agent falls back during tasks.
+- **Solution:** Introduce lightweight, local metric logging (e.g., into `.gemini/METRICS.md` or `.json`) to track phase durations, drift counts, and verification failure rates.
+- **Impact:** Provides quantitative DORA-style metrics to track workflow efficiency, helping refine extension prompts and measure ROI.

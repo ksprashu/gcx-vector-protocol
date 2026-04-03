@@ -1,6 +1,6 @@
 ---
 name: vector-persist
-description: Persist progress, sync state, rotate scratchpads, and commit changes. Use during the PERSISTENCE phase or when a meaningful milestone is reached.
+description: Persist progress, sync state, rotate scratchpads, initialize protocol files, and commit changes. Use during the PERSISTENCE phase or when a meaningful milestone is reached.
 ---
 
 # 🎯 Mission
@@ -27,22 +27,56 @@ Adhere to the Single Responsibility Principle for protocol files:
 
 ---
 
-# 💾 Persistence Phase (Save, Resume, Status)
+# 💾 Persistence Phase (Persist / Save / Init)
 
-## Save & Commit
-1. **State Sync:** Ensure `STATE.md` reflects the final outcome of the work.
-2. **Scratchpad Rotation:** If the scratchpad exceeds 20 entries, archive it to `STATE_ARCHIVE.md` and replace it with a summary.
-3. **Git Integration:** Stage changed files (including `.gemini/`) and commit with a concise message.
-4. **Report:** Provide the commit hash and final status.
+You are entering the **PERSISTENCE (Save / Init)** phase.
 
-## Resume & Recovery
-1. **Protocol Check:** Verify existence of core state files.
-2. **Context Loading:** Reload the Context, Plan, State, and Evidence to restore the agent's mental model.
-3. **Status Dashboard:** Display a structured view of the current Phase, Objective, and Next Step.
+**User Message/Arguments:** The specific arguments or commit message provided by the user. If the user invokes an initialization command, use Mode 1. Otherwise, use Mode 2.
 
-## Initialization
-- Create the `.gemini/ directory and bootstrap the 5-File System.
-- Perform initial Context Discovery to populate `CONTEXT.md`.
+## Mode 1: Initialization (Bootstrap)
+**Goal:** Establish the persistent context and state tracking files.
 
-## Reset
-- Archive the current `STATE.md` to `STATE_ARCHIVE.md` and reset to a clean template for a fresh session.
+### Protocol:
+0.  **Pre-flight Check:**
+    *   Check if the 5 protocol files exist.
+    *   **IF** files exist AND the user did not specify `--force`:
+        *   Read `.gemini/PLAN.md` (if available) to identify current objective.
+        *   Report: "⚠️ **Vector Protocol is already initialized.**"
+        *   STOP. Do not overwrite.
+    *   **ELSE:** Proceed.
+1.  **Context Discovery:**
+    *   Read key configuration files (`package.json`, `Cargo.toml`, etc.) to identify the Tech Stack.
+2.  **State Initialization:**
+    *   Create `.gemini/CONTEXT.md` (pre-fill tech stack).
+    *   Create `.gemini/PLAN.md` (empty roadmap template).
+    *   Create `.gemini/STATE.md` (timestamp and "Initialized" status).
+    *   Create `.gemini/BACKLOG.md` (header: `# 💡 BACKLOG`).
+    *   Create `.gemini/EVIDENCE.md` (evidence ledger template).
+3.  **Output:**
+    *   **Session Dashboard:** Bulleted list.
+    *   **Confirmation:** List the files created.
+    *   **Navigation:** `> Recommended Action: /vector:scan`
+
+---
+
+## Mode 2: Save & Commit
+**Goal:** Persist execution state to disk, manage scratchpad growth, and commit to version control.
+
+### Protocol:
+1.  **Context Loading:** Read `.gemini/STATE.md`, `.gemini/PLAN.md`, and `.gemini/BACKLOG.md`.
+2.  **State Sync:** Ensure `.gemini/STATE.md` reflects the latest outcome.
+3.  **Scratchpad Rotation:**
+    *   **IF** the `## 3. Scratchpad` section in `.gemini/STATE.md` has more than 20 entries:
+        *   Append the full Scratchpad content to `.gemini/STATE_ARCHIVE.md`.
+        *   Replace the active Scratchpad with a single "Previous Session Summary" line.
+    *   **ELSE:** Leave the Scratchpad as-is.
+4.  **Phase Update:** Update `**Phase:**` in `.gemini/STATE.md` to `[IDLE]`.
+5.  **Git Check:** Run `git status`.
+6.  **Commit:**
+    *   Stage relevant files (including `.gemini/`).
+    *   Commit with the **User Message**. If empty, derive a concise message from the Last Action in State.
+7.  **Output:**
+    *   **Session Dashboard:** Bulleted list.
+    *   **Save Summary:** Actions and commit hash.
+    *   **Navigation:** `> Recommended Action: /vector:scan` or `/vector:improve`
+    *   **Stopping Criteria:** STOP after committing. WAIT for user instruction. DO NOT execute recommended command.

@@ -47,12 +47,12 @@ It creates the **5-File Protocol State**: `CONTEXT.md`, `PLAN.md`, `STATE.md`, `
 
 ## 🔄 The Workflow (V.E.C.T.O.R.)
 
-The extension provides a hybrid of automated skills and manual commands for each phase:
+The extension provides specific commands for each phase of the loop:
 
 *   **V - VERIFY (`/vector:scan`)**
     *   Grounding phase. The agent reads Context, Plan, and Evidence, checks the codebase, and maps the territory. Also auto-bootstraps protocol files if they are missing.
-*   **E - ESTABLISH (Automated `vector-plan` skill)**
-    *   Strategy phase. The agent **automatically** triggers planning when a new objective is received. No manual command is required.
+*   **E - ESTABLISH (`/vector:plan`)**
+    *   Strategy phase. Also handles implicit init/resume so you can jump straight into planning.
 *   **C - COMPUTE** (`/vector:improve`)
     *   Ideation phase. The agent brainstorms enhancements and persists them to the Backlog.
 *   **T - TRANSMUTE (`/vector:work`)**
@@ -64,36 +64,34 @@ The extension provides a hybrid of automated skills and manual commands for each
 
 ## 🛠 Commands
 
-The Vector Protocol uses a **tiered command model** to balance daily efficiency with advanced control.
+### Recommended command footprint (concise by default)
 
-### Tier 1: Core Loop (Daily Use)
-The standard development cycle. These commands handle state recovery automatically.
+If you want a low-cognitive-load workflow, you only need the core 3 commands:
 
-*   **`vector-plan` (Skill)** - Automatically creates or updates the implementation plan upon receiving a new task.
-*   **`/vector:work`** - Execute the plan (includes atomic verification).
-*   **`/vector:save`** - Commit changes to git and persist protocol state.
+1. `/vector:plan`
+2. `/vector:work`
+3. `/vector:save`
 
-### Tier 2: Supporting Tools (Situational)
-Use these for deep analysis, brainstorming, or infrastructure maintenance.
+Everything else remains available as situational power tools. See the staged simplification plan in [`docs/COMMAND_SURFACE_SIMPLIFICATION_PLAN.md`](docs/COMMAND_SURFACE_SIMPLIFICATION_PLAN.md).
 
-*   **`/vector:scan`** - Deep perception pass and drift analysis. Safe as a first command.
-*   **`/vector:improve`** - Ideation & Brainstorming. Persists ideas to the Backlog.
-*   **`/vector:context`** - Audit and update the project CONTEXT.md.
+### Core (daily use)
+*   `/vector:plan` - Create or update the implementation plan (includes implicit init/resume if needed).
+*   `/vector:work` - Execute the plan (includes lightweight scan/resume checks before coding).
+*   `/vector:save` - Commit changes to git and save state.
 
-### Tier 3: Maintenance & Recovery (Rare)
-Advanced tools for manual state management and troubleshooting.
-
-*   **`/vector:status`** - Show the current State dashboard.
-*   **`/vector:init`** - Explicit bootstrap of protocol files.
-*   **`/vector:reset`** - Clear the protocol State (failsafe).
+### Supporting
+*   `/vector:scan` - Deep perception pass and drift analysis (also safe as first command in a fresh repo).
+*   `/vector:improve` - Ideation & Brainstorming. Suggests enhancements and persists them to the Backlog.
+*   `/vector:status` - Show the current State dashboard.
+*   `/vector:context` - Audit and update the project Context (CONTEXT.md) with guided, approval-gated changes.
 
 ## 🧭 Grounded Mode
 
 Grounded Mode is the default behavioral contract for this extension: **evidence first, conclusions second**.
 
 **Example flow**
-1. Run `/vector:scan` to gather repository evidence.
-2. The agent **automatically** runs the `vector-plan` skill to establish a roadmap.
+1. Run `/vector:scan` to gather repository evidence (protocol files, git status, config drift checks).
+2. Run `/vector:plan` to create a plan that cites observed constraints and known unknowns.
 3. Run `/vector:work` for one atomic step, verify immediately, and record the result in `STATE.md`.
 4. Run `/vector:save` to persist a commit plus state checkpoint.
 
@@ -102,6 +100,11 @@ Grounded Mode is the default behavioral contract for this extension: **evidence 
 * Verification outputs (tests/build/lint) from work phase.
 * `STATE.md` scratchpad entries reflecting real outcomes, including failures.
 * Git commit metadata captured during save.
+
+### Recovery / advanced
+*   `/vector:init` - Explicit bootstrap/reset of protocol files (`--force` to overwrite existing state). Use when you want deterministic, explicit initialization.
+*   `/vector:resume` - Explicitly reload context after a restart (optional because `plan`/`work` now do this automatically).
+*   `/vector:reset` - Clear the State (failsafe).
 
 ## 💡 Best Practices
 
@@ -126,7 +129,4 @@ To keep the protocol deterministic across restarts and multi-agent handoffs:
 
 ## 📝 Release Notes
 
-* **v1.12.0** - Automated Planning Mandate: Fully transitioned planning logic to a proactively triggered agent skill. Consolidated and refactored extension commands into a hybrid Skill/Command architecture.
-* **v1.11.0** - Command Surface Simplification Phase 1: Removed deprecated `/vector:resume` and introduced a Tiered Command Model (Core, Supporting, Maintenance) in documentation.
-* **v1.10.1** - UX Polish: Replaced Markdown tables with native CLI bulleted lists and checkboxes in all command outputs.
 * **v1.6.0** - Introduced grounded-agent guarantees: binding evidence-first behavior, explicit expected outputs, and documented Grounded Mode evidence artifacts across Vector commands.

@@ -74,24 +74,23 @@ To reduce interpretation drift between sessions, treat protocol files as canonic
 - **Evidence precedence:** Decisions requiring factual claims are blocked until logged in `.gemini/EVIDENCE.md` or `.gemini/SOURCES.md`.
 - **Handoff completeness:** Before ending a meaningful work unit, ensure `STATE.md` scratchpad has: what changed, what verified, what failed, and exact next action.
 
-### 4.3 Automated Planning & Slash Commands
-The Vector Protocol uses a hybrid of automated skills and user-invoked slash commands defined under `commands/vector/*.toml` and `skills/vector-*`:
+### 4.3 Available Slash Commands in This Repo
+Commands are defined under `commands/vector/*.toml`:
 
-- **Automated Planning (`vector-plan` skill):** When you receive a new objective, bug report, or feature request, you MUST automatically activate the `vector-plan` skill to generate a structured implementation roadmap *before* writing any code. You do not need a `/vector:plan` command to trigger this.
-- `/vector:scan` — User-invoked perception pass to audit state and detect drift.
-- `/vector:work` — User-invoked execution of one atomic implementation step + immediate verification.
-- `/vector:save` — Persist progress and commit-ready checkpointing.
-- `/vector:resume` — Recover context from protocol state files.
-- `/vector:status` — Dashboard view of phase/objective/next step.
-- `/vector:improve` — Ideation pass for backlog-worthy enhancements.
-- `/vector:reset` — Clear/refresh session state.
-- `/vector:init` — Bootstrap protocol files and baseline state.
-- `/vector:context` — Context maintenance and drift-audit for `.gemini/CONTEXT.md`.
+- `/vector:init` — bootstrap protocol files and baseline state.
+- `/vector:scan` — perception pass to audit state and detect drift.
+- `/vector:plan` — strategy phase to create/update implementation roadmap.
+- `/vector:work` — execute one atomic implementation step + immediate verification.
+- `/vector:save` — persist progress and commit-ready checkpointing.
+- `/vector:resume` — recover context from protocol state files.
+- `/vector:status` — dashboard view of phase/objective/next step.
+- `/vector:improve` — ideation pass for backlog-worthy enhancements.
+- `/vector:reset` — clear/refresh session state.
+- `/vector:context` — context maintenance and drift-audit for `.gemini/CONTEXT.md`.
 
 ### 4.4 Command Execution Boundary
 - Do **not** execute `/vector:*` commands via shell tooling; these are user-invoked slash workflows.
-- The assistant MUST automatically invoke the `vector-plan` skill to begin the Strategy phase when given a new task.
-- For other phases, the assistant may **recommend** the next `/vector:*` command, but should not auto-transition phases without user intent unless directed by the plan.
+- The assistant may **recommend** the next `/vector:*` command, but should not auto-transition phases without user intent.
 
 ## 5) Safety & Quality Gates
 Uncertainty handling:

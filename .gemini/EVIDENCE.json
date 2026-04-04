@@ -91,6 +91,27 @@
       "source": "Google ADK & Vector Protocol internal standards",
       "authoritative": true,
       "last_checked": "2026-04-04"
+    },
+    {
+      "id": "E-014",
+      "topic": "GitHub Issue Templates",
+      "source": "GitHub Official Docs for Repository Maintenance",
+      "authoritative": true,
+      "last_checked": "2026-04-04"
+    },
+    {
+      "id": "E-015",
+      "topic": "User Feedback Loops",
+      "source": "Product Management & UX Best Practices",
+      "authoritative": true,
+      "last_checked": "2026-04-04"
+    },
+    {
+      "id": "E-016",
+      "topic": "DORA Metrics",
+      "source": "DevOps Research and Assessment (DORA) standards",
+      "authoritative": true,
+      "last_checked": "2026-04-04"
     }
   ]
 }

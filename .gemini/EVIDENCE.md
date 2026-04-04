@@ -13,3 +13,6 @@
 | E-011 | Long-Context Architecture | Anthropic "Context at Top" & Gemini "Data First" best practices | Yes | 2026-04-04 |
 | E-012 | GitHub Actions for Agents | GitHub official marketplace & CI for agents docs | Yes | 2026-04-04 |
 | E-013 | Markdown Linting for Agents | Google ADK & Vector Protocol internal standards | Yes | 2026-04-04 |
+| E-014 | GitHub Issue Templates | GitHub Official Docs for Repository Maintenance | Yes | 2026-04-04 |
+| E-015 | User Feedback Loops | Product Management & UX Best Practices | Yes | 2026-04-04 |
+| E-016 | DORA Metrics | DevOps Research and Assessment (DORA) standards | Yes | 2026-04-04 |

@@ -126,6 +126,7 @@ To keep the protocol deterministic across restarts and multi-agent handoffs:
 
 ## 📝 Release Notes
 
+* **v1.19.0** - **User Feedback & Analytics Update**: Added `/vector:feedback` command for in-CLI qualitative feedback. Implemented local metrics tracking via `scripts/generate_metrics.py`. Standardized community contributions with GitHub Issue Templates.
 * **v1.18.0** - **Self-Healing & Integration Testing Update**: Added `/vector:lint` command to automatically repair broken protocol state files. Integrated state linting as a pre-flight check in `/vector:save`. Added end-to-end integration test stubs using the Gemini CLI natively.
 * **v1.17.0** - **Structured Intelligence & Workflow Update**: Added `/vector:next` dynamic workflow router. Transitioned Evidence ledger to a machine-readable JSON schema for RAG optimization. Introduced optional Git pre-commit hooks (`scripts/install_hooks.sh`) for automatic state phase synchronization.
 * **v1.16.0** - **Validation & Reliability Update**: Introduced GitHub Actions CI for automated command syntax validation and 5-File System state linting. Added argument guardrails to core commands.

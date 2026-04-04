@@ -1,0 +1,59 @@
+# Copyright 2026 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+description = "💬 FEEDBACK: Sentiment Phase. Provide qualitative feedback on the agent's performance."
+prompt = """
+<context>
+**User Feedback:** "{{args}}"
+</context>
+
+<role>
+You are the **Feedback Collector** for the Vector Protocol.
+</role>
+
+<goal>
+Capture and persist user sentiment regarding the current session's effectiveness into the project Backlog.
+</goal>
+
+<interaction_standards>
+1.  **Acknowledge:** Briefly thank the user for the feedback.
+2.  **Persistence:** Append the feedback to `.gemini/BACKLOG.md` under a dedicated "User Feedback" section.
+</interaction_standards>
+
+<protocol>
+1.  **Check Arguments:**
+    *   **IF** `{{args}}` is empty: **STOP** and output: `Error: Please provide your feedback. Usage: /vector:feedback "The agent handled that refactor perfectly!"`
+2.  **Load Backlog:**
+    *   **Read** `.gemini/BACKLOG.md`.
+3.  **Append Feedback:**
+    *   **IF** the section `## 💬 User Feedback` does not exist:
+        *   -> Append `\\n\\n## 💬 User Feedback` to the end of the file.
+    *   **Append** the timestamp and the `{{args}}` content as a bullet point under that section.
+4.  **State Update:**
+    *   Update `**Phase:**` in `.gemini/STATE.md` to `[IDLE]`.
+    *   Append a summary to the Scratchpad.
+</protocol>
+
+<output_format>
+<thinking>
+[Confirm feedback content. Plan the backlog append.]
+</thinking>
+*   **Feedback Captured:**
+    *   `- **Sentiment:** [Brief summary of user input]`
+    *   `- **Status:** Saved to .gemini/BACKLOG.md`
+*   **Prompt:** "Thank you for the feedback. Anything else before we close this turn?"
+*   **Navigation:**
+    *   `> Recommended Action: /vector:save`
+</output_format>
+"""

@@ -3,35 +3,36 @@
 
 ## 1. Concept Objective
 - **Status:** `DRAFT`
-- **Goal:** Phase 5: Self-Healing & Integration Testing. Implement `/vector:lint` extension command and setup end-to-end integration tests using sub-agents.
+- **Goal:** Improve User Feedback Loop & Analytics. Gather analytics on agent effectiveness, implement standard issue templates, and establish a feedback command.
 
 ## 2. Problem Breakdown
 - **Functional:** 
-    - *Linter Friction:* Users must manually run `python scripts/vector_lint.py`. They often forget, leading to broken protocol state.
-    - *Regression Risk:* While we validate TOML syntax, we do not validate the *behavior* of the LLM given those TOML prompts. A prompt tweak might cause the model to stop outputting the dashboard correctly.
+    - *Agentic Feedback:* Users have no native way to report if an agent turn was "good" or "bad" without leaving the CLI.
+    - *Contribution Friction:* External contributors do not have standardized issue templates to report bugs or request features.
+    - *Telemetry:* As maintainers, we do not know how frequently the protocol requires "self-healing" or how often `EVIDENCE.md` is accessed.
 - **Technical:**
-    - *Lint Command:* Need to wrap `scripts/vector_lint.py` into a new extension command (`commands/vector/lint.toml`).
-    - *E2E Tests:* Need to leverage the Gemini CLI `generalist` sub-agent to simulate user commands and assert output structure.
+    - *Issue Templates:* Need to create `.github/ISSUE_TEMPLATE/` files.
+    - *Telemetry Architecture:* Need to define a lightweight telemetry approach (e.g., adding a local `.gemini/METRICS.json` that tracks turn durations and failure rates).
+    - *Feedback Command:* Create a `/vector:feedback` command.
 
 ## 3. Design Discussion
-- **Lint Command Strategy:** `/vector:lint` should be a lightweight wrapper that runs the existing python script. If the script passes, it outputs success. If it fails, it should use its LLM capabilities to *auto-fix* the broken markdown files, rather than just complaining to the user. This creates a "self-healing" state loop.
-- **Integration Test Strategy:** We can write a Python script (`scripts/e2e_test.py`) that uses the Gemini CLI natively (via `subprocess` or similar) to initialize a temporary repo, run `/vector:plan`, and assert that the output contains the `*   **Session Dashboard:**` string. 
+- **Feedback Command:** `/vector:feedback` should allow the user to append a note to `.gemini/BACKLOG.md` or a new `.gemini/FEEDBACK.md` file quickly. Let's append to the BACKLOG to keep the 5-File System pure.
+- **Telemetry:** Adding a complex telemetry server is out of scope. We will instead create a local `scripts/metrics.py` that parses `STATE.md` and `STATE_ARCHIVE.md` to generate a local "DORA metrics" style report.
+- **Issue Templates:** Standard GitHub Markdown templates are sufficient.
 
 ## 4. Proposed Solution
-1. **Self-Healing Linter:** 
-   - Create `commands/vector/lint.toml`.
-   - Update `save.toml` to recommend running `/vector:lint` if there are state issues.
-2. **E2E Agent Tests:** 
-   - Create a basic testing script to run CLI commands and capture output.
+1. **GitHub Issue Templates:** Create `bug_report.md` and `feature_request.md`.
+2. **Local Metrics Script:** Create `scripts/generate_metrics.py` to analyze session duration and execution success rates.
+3. **Feedback Command:** Add `commands/vector/feedback.toml` to capture user sentiment.
 
 ## 5. Revision History
 - **2026-04-04:** Draft created from Backlog Review.
 
 ## 6. Implementation Roadmap
-- [x] **Task 1: Create Linter Command** - Implement `commands/vector/lint.toml` as an auto-fixing wrapper around `vector_lint.py`.
-- [x] **Task 2: Integrate Linter Suggestion** - Update `save.toml` to suggest `/vector:lint`.
-- [x] **Task 3: E2E Test Stub** - Create `scripts/e2e_test.py` to simulate agent interactions.
-- [x] **Task 4: Documentation & Version Bump (v1.18.0)** - Update README and increment manifest.
+- [x] **Task 1: Issue Templates** - Create `.github/ISSUE_TEMPLATE` bug and feature forms.
+- [x] **Task 2: Local Metrics Script** - Implement `scripts/generate_metrics.py`.
+- [x] **Task 3: Feedback Command** - Create `commands/vector/feedback.toml`.
+- [x] **Task 4: Documentation & Version Bump (v1.19.0)** - Update README and increment manifest.
 
 ## 7. Review
-- User, please review this Phase 5 roadmap. Does the focus on self-healing state and E2E testing align with expectations?
+- User, please review this roadmap for User Feedback & Analytics. Ready to proceed?

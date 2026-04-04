@@ -77,6 +77,7 @@ To reduce interpretation drift between sessions, treat protocol files as canonic
 ### 4.3 Available Slash Commands in This Repo
 Commands are defined under `commands/vector/*.toml`:
 
+- `/vector:next` — dynamic workflow router that reads state and suggests/executes the logical next step.
 - `/vector:scan` — perception pass to audit state and detect drift.
 - `/vector:plan` — strategy phase to create/update implementation roadmap.
 - `/vector:work` — execute one atomic implementation step + immediate verification.

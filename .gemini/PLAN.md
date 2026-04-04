@@ -3,53 +3,39 @@
 
 ## 1. Concept Objective
 - **Status:** `DRAFT`
-- **Goal:** Phase 3: Validation & Reliability. Implement automated verification tooling and CI for the Vector Protocol.
+- **Goal:** Phase 4: Structured Intelligence & Workflow Integration. Transition to a machine-readable Evidence schema, implement state-sync Git hooks, and deliver a dynamic workflow router (`/vector:next`).
 
 ## 2. Problem Breakdown
-- **Functional:** Users and developers need a guarantee that the extension's commands and state files are structurally correct. Errors in TOML prompts (like missing XML tags) or Markdown files (like missing Dashboard headers) break the deterministic loop.
+- **Functional:** 
+    - *Evidence Retrieval:* As projects grow, searching a flat `EVIDENCE.md` for specific facts becomes inefficient for the LLM. 
+    - *State Drift:* Users committing manually bypassing `/vector:save` leaves `STATE.md` in a stale phase (e.g., `[EXECUTION]`).
+    - *Workflow Friction:* New users often hesitate on which command to run next.
 - **Technical:**
-  - *TOML Auditor:* Needs to parse `gemini-extension.json`, locate every `.toml` command, and verify it contains mandatory XML sections (`<role>`, `<goal>`, `<output_format>`, etc.).
-  - *Markdown Linter:* Needs to check `.gemini/` files for adherence to the 5-File System schemas (e.g., `STATE.md` must have a "Phase").
-  - *CI Integration:* These checks must run automatically on every push/PR to prevent regressions.
+    - *Evidence Schema:* Need to transition from a Markdown table to a block-based schema with YAML frontmatter or a companion JSON store.
+    - *Git Hooks:* Need a script to install and manage a `.git/hooks/pre-commit` script that resets the phase to `[IDLE]` or warns the user.
+    - *Routing Logic:* `/vector:next` needs a heuristic parser for `STATE.md` and `PLAN.md` to output the next logical command.
 
 ## 3. Design Discussion
-- **Language:** Python 3.x. It's pre-installed on most dev machines and CI runners, and excellent for file/text processing.
-- **Validation Logic:** 
-  - Regex-based checking for XML tags in prompts.
-  - Mandatory section presence in Markdown files.
-  - Manifest consistency (all listed commands must exist).
-- **Risks:** The linter shouldn't be too rigid; it should allow for scratchpad variability while enforcing core invariants.
+- **Evidence Structure:** I propose keeping `EVIDENCE.md` but wrapping each entry in a structured block (e.g., `<!-- { "id": "E-001", ... } -->`) or using a dedicated `EVIDENCE.json`. A JSON file is best for high-assurance retrieval (RAG optimization).
+- **Git Hook Strategy:** The hook should be a simple shell script that calls a Python utility to update the `STATE.md` phase. This ensures protocol integrity even with external git clients.
+- **Router Logic:** `/vector:next` will be a new TOML command that uses a simple state-machine logic:
+    - If Phase is `[IDLE]` and Plan is empty -> `/vector:scan`.
+    - If Phase is `[IDLE]` and Plan has unchecked tasks -> `/vector:work <task>`.
+    - If Phase is `[EXECUTION]` -> `/vector:save`.
 
 ## 4. Proposed Solution
-1.  **`scripts/validate_commands.py`**:
-    *   Load `gemini-extension.json`.
-    *   Check if all listed paths exist.
-    *   Parse TOML content.
-    *   Validate prompt string for mandatory XML tags: `<context>`, `<role>`, `<goal>`, `<interaction_standards>`, `<protocol>`, `<output_format>`.
-2.  **`scripts/vector_lint.py`**:
-    *   Target `.gemini/*.md`.
-    *   Validate `STATE.md` has `# 💾 STATE`, `## 1. Status`, `## 2. Context`.
-    *   Validate `PLAN.md` has `# 🗺️ PLAN` or `# 🗺️ DESIGN`.
-    *   Validate `CONTEXT.md` has `# 📄 CONTEXT`.
-3.  **`.github/workflows/protocol-audit.yml`**:
-    *   Trigger: `push`, `pull_request`.
-    *   Run both scripts.
-4.  **Argument Guardrails**:
-    *   Update `plan.toml` and `work.toml` to check `if args is empty` and provide a helpful message.
+1. **Automated Evidence Schema:** Implement a migration script to move existing entries to `EVIDENCE.json` and update the `save` command to write to both.
+2. **Protocol State Git Hooks:** Create `scripts/install_hooks.sh` and a Python helper to auto-sync state on commit.
+3. **`/vector:next` Routing Helper:** Create `commands/vector/next.toml` with the routing logic.
 
-## 5. Alternatives Considered
-- *Node.js scripts:* Equally valid, but Python is slightly more idiomatic for standalone "linter" scripts in many engineering environments.
-- *Manual Checklists:* Rejected due to scale and high risk of human error.
-
-## 6. Revision History
+## 5. Revision History
 - **2026-04-04:** Draft created from Backlog Review.
 
-## 7. Implementation Roadmap
-- [x] **Task 1: Command Validation Script** - Create `scripts/validate_commands.py` to audit TOML prompt structure and manifest sync.
-- [x] **Task 2: Vector State Linter** - Create `scripts/vector_lint.py` to audit `.gemini/` file invariants.
-- [x] **Task 3: GitHub Actions CI** - Implement `.github/workflows/protocol-audit.yml` to automate verification.
-- [x] **Task 4: Argument Guardrails** - Update command prompts to handle empty/missing arguments gracefully.
-- [x] **Task 5: Version Bump (v1.16.0)** - Update manifest and release notes.
+## 6. Implementation Roadmap
+- [x] **Task 1: Structured Evidence Migration** - Transition `EVIDENCE.md` data to a machine-readable `EVIDENCE.json` and update `save.toml`.
+- [x] **Task 2: Protocol Git Hooks** - Implement `pre-commit` hook to ensure `STATE.md` sync during manual commits.
+- [x] **Task 3: Implement `/vector:next`** - Create the dynamic routing command to guide the developer workflow.
+- [x] **Task 4: Documentation & Version Bump (v1.17.0)** - Update README and increment manifest.
 
-## 8. Review
-- User, please review this roadmap for Phase 3: Validation & Reliability. Ready to proceed?
+## 7. Review
+- User, please review this Phase 4 roadmap. Does the focus on Structured Evidence and Workflow Integration align with the next evolution of the Vector Protocol?

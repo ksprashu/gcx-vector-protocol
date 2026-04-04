@@ -3,20 +3,19 @@
 
 ## 1. Status
 - **Phase:** [IDLE]
-- **Last Action:** Finalized Phase 3 Validation & Reliability sprint, bumped version to 1.16.0.
+- **Last Action:** Finalized Phase 4 sprint, bumped version to 1.17.0, and updated documentation.
 - **Timestamp:** 2026-04-04
 
 ## 2. Context
 - **Project:** `gcx-vector-protocol`
-- **Objective:** Phase 3: Validation & Reliability (CI and Linting).
+- **Objective:** Phase 4: Structured Intelligence & Workflow Integration.
 
 ## 3. Scratchpad
-- **Phase 3: Validation & Reliability (2026-04-04):**
-    - [x] Task 1: Created `scripts/validate_commands.py` to audit TOML prompt structure against mandatory XML tags and verify manifest synchronization. Checked and passed.
-    - [x] Task 2: Created `scripts/vector_lint.py` to enforce markdown structural invariants on `.gemini/` files (e.g., `# 💾 STATE`, `- **Phase:**`). Checked and passed.
-    - [x] Task 3: Created GitHub Actions workflow `.github/workflows/protocol-audit.yml` to run validation scripts on push and PR.
-    - [x] Task 4: Added explicit argument check guardrails to `commands/vector/plan.toml` and `commands/vector/work.toml`.
-    - [x] Task 5: Bumped extension version to 1.16.0 and updated `README.md` release notes.
+- **Phase 4: Structured Intelligence & Workflow Integration (2026-04-04):**
+    - [x] Task 1: Wrote `scripts/migrate_evidence.py` to parse markdown table in `EVIDENCE.md` into `EVIDENCE.json`. Updated `save.toml` to automatically perform this serialization on commit.
+    - [x] Task 2: Implemented `scripts/sync_state.py` to automatically reset `STATE.md` phase to `[IDLE]` if it's manually committed while active. Added `scripts/install_hooks.sh` to install this as a git `pre-commit` hook.
+    - [x] Task 3: Created `commands/vector/next.toml` to act as a dynamic workflow router based on the `STATE.md` phase and `PLAN.md` status. Registered the command in `gemini-extension.json`.
+    - [x] Task 4: Incremented version to `1.17.0` in `gemini-extension.json`. Updated `README.md` release notes. Added `/vector:next` to `AGENTS.md` and `GEMINI.md`.
 
 ## 4. Next Steps
-- Execute `/vector:save` to commit Phase 3 Validation & Reliability.
+- Execute `/vector:save` to commit Phase 4 updates.

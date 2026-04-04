@@ -44,13 +44,15 @@ Persist execution state to disk, manage scratchpad growth, and commit to version
         *   **Archive:** Append the full Scratchpad content to `.gemini/STATE_ARCHIVE.md` (create if missing) with a timestamp header.
         *   **Summarize:** Replace the Scratchpad with a single "Previous Session Summary" line summarizing key outcomes.
     *   **ELSE:** Leave the Scratchpad as-is.
-4.  **Phase Update:** Update `**Phase:**` in `.gemini/STATE.md` to `[IDLE]`.
-5.  **Git Check:** Run `git status` to verify staged/unstaged changes.
-6.  **Commit:**
+4.  **Evidence Serialization:**
+    *   **IF** `.gemini/EVIDENCE.md` exists and was updated, write a Python/Bash script or use `write_file` to sync its tabular contents into `.gemini/EVIDENCE.json`.
+5.  **Phase Update:** Update `**Phase:**` in `.gemini/STATE.md` to `[IDLE]`.
+6.  **Git Check:** Run `git status` to verify staged/unstaged changes.
+7.  **Commit:**
     *   Stage relevant files (including `.gemini/`).
     *   Commit with the **User Message**.
     *   *Constraint:* If {{args}} is empty, derive a concise message from the **Last Action** in State.
-7.  **Confirm:** Report the commit hash.
+8.  **Confirm:** Report the commit hash.
 </protocol>
 
 <output_format>

@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "evidence": [
+    {
+      "id": "E-001",
+      "topic": "Initial Setup",
+      "source": "File System",
+      "authoritative": true,
+      "last_checked": "2026-03-03"
+    },
+    {
+      "id": "E-002",
+      "topic": "Parallel Sub-agents",
+      "source": "Gemini CLI `generalist` capabilities",
+      "authoritative": true,
+      "last_checked": "2026-03-04"
+    },
+    {
+      "id": "E-003",
+      "topic": "Gemini Model Tiers",
+      "source": "Google Official Gemini Docs (v1.5/2.0/3.1)",
+      "authoritative": true,
+      "last_checked": "2026-03-29"
+    },
+    {
+      "id": "E-004",
+      "topic": "Skill Anatomy",
+      "source": "`skill-creator` instructions",
+      "authoritative": true,
+      "last_checked": "2026-03-04"
+    },
+    {
+      "id": "E-005",
+      "topic": "Vector Protocol Commands",
+      "source": "`commands/vector/*.toml`",
+      "authoritative": true,
+      "last_checked": "2026-03-04"
+    },
+    {
+      "id": "E-006",
+      "topic": "Extension Manifest",
+      "source": "`gemini-extension.json`",
+      "authoritative": true,
+      "last_checked": "2026-03-04"
+    },
+    {
+      "id": "E-007",
+      "topic": "Skill Intent Mismatch",
+      "source": "User Feedback / Architectural Audit",
+      "authoritative": true,
+      "last_checked": "2026-03-04"
+    },
+    {
+      "id": "E-008",
+      "topic": "XML Tagging & Structure",
+      "source": "Anthropic Claude & Google Gemini 3 Documentation",
+      "authoritative": true,
+      "last_checked": "2026-04-04"
+    },
+    {
+      "id": "E-009",
+      "topic": "Thinking/CoT Protocols",
+      "source": "DeepMind \"Plan-First\" & \"Self-Critique\" guidelines",
+      "authoritative": true,
+      "last_checked": "2026-04-04"
+    },
+    {
+      "id": "E-010",
+      "topic": "Strict Grounding Constraints",
+      "source": "Google Gemini 3 Flash Developer Instructions",
+      "authoritative": true,
+      "last_checked": "2026-04-04"
+    },
+    {
+      "id": "E-011",
+      "topic": "Long-Context Architecture",
+      "source": "Anthropic \"Context at Top\" & Gemini \"Data First\" best practices",
+      "authoritative": true,
+      "last_checked": "2026-04-04"
+    },
+    {
+      "id": "E-012",
+      "topic": "GitHub Actions for Agents",
+      "source": "GitHub official marketplace & CI for agents docs",
+      "authoritative": true,
+      "last_checked": "2026-04-04"
+    },
+    {
+      "id": "E-013",
+      "topic": "Markdown Linting for Agents",
+      "source": "Google ADK & Vector Protocol internal standards",
+      "authoritative": true,
+      "last_checked": "2026-04-04"
+    }
+  ]
+}

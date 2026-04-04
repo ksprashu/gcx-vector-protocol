@@ -126,6 +126,7 @@ To keep the protocol deterministic across restarts and multi-agent handoffs:
 
 ## 📝 Release Notes
 
+* **v1.17.0** - **Structured Intelligence & Workflow Update**: Added `/vector:next` dynamic workflow router. Transitioned Evidence ledger to a machine-readable JSON schema for RAG optimization. Introduced optional Git pre-commit hooks (`scripts/install_hooks.sh`) for automatic state phase synchronization.
 * **v1.16.0** - **Validation & Reliability Update**: Introduced GitHub Actions CI for automated command syntax validation and 5-File System state linting. Added argument guardrails to core commands.
 * **v1.15.0** - Refactored all Vector Protocol commands to use XML-structured prompt design and "Context-First" cognitive architecture. Introduced mandatory `<thinking>` blocks for planning and execution phases to enhance reasoning and reduce drift.
 * **v1.14.0** - Streamlined the command surface by removing redundant/deprecated commands (`init`, `resume`, `status`, `reset`) in favor of auto-recovery and auto-bootstrap logic embedded in the core loop.

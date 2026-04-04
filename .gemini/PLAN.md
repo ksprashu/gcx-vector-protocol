@@ -2,23 +2,22 @@
 > The dynamic direction. The Execution Roadmap.
 
 ## 1. Objective
-- **Goal:** Resolve git pull conflicts, merge the Skill-Based Refactor (v1.10.0 local) with the Command Surface Simplification (v1.11.0 remote), and finalize the extension as version 1.12.0.
+- **Goal:** Resolve the persistent "it still keeps wanting to install the skill" prompt in the Gemini CLI by auditing extension/skill registration and cleaning up stale artifacts.
 
 ## 2. Strategic Analysis
-- **Context:** The repository has undergone two parallel evolutions. HEAD implemented a conversion of TOML commands into automated agent skills. The remote implemented a "Command Surface Simplification" (Tiered commands, removing `resume`).
-- **Collision Resolution:** A name collision with a sibling repository `skills-vector-protocol` was identified and resolved locally by renaming the other extension.
-- **Merge Strategy:** 
-  - **Skills vs. TOML:** Adopt the Skill-based architecture. Commands like `plan` are now automated skills.
-  - **UX & Docs:** Retain the remote's Tiered Command Model and README improvements, updated for skills.
-  - **Versioning:** Finalize as v1.12.0.
-- **Risk Assessment:** Ensure automated planning mandate in `AGENTS.md` is correct.
+- **Problem:** The CLI repeatedly prompts to install skills even if they are defined in the manifest. This often happens due to version mismatches, duplicate registrations, or the presence of both binary `.skill` files and source `SKILL.md` directories.
+- **Approach:** 
+  1. Audit current CLI registration state.
+  2. Identify and remove redundant binary files (`vector-plan.skill`).
+  3. Ensure the manifest `gemini-extension.json` points to valid directory-based skills.
+  4. Force-refresh the extension registration.
 
 ## 3. Implementation Roadmap
-- [x] **Task 1: Resolve `gemini-extension.json`** - Merge skills list, update version to 1.12.0, remove `plan.toml` and `resume.toml`.
-- [x] **Task 2: Resolve `plan.toml`** - Formally remove the file as it's replaced by the `vector-plan` skill.
-- [x] **Task 3: Merge `.gemini/` protocol files** - Consolidate Evidence, Plan, State, and Archives.
-- [ ] **Task 4: Update Documentation** - Sync `README.md` and `AGENTS.md` to reflect the final 1.12.0 state (Automated Planning + Tiered Commands).
-- [ ] **Task 5: Final Verification** - Verify extension manifest and skill registration.
+- [x] **Task 0: Update Protocol** - Synchronized PLAN.md and STATE.md.
+- [x] **Task 1: Audit Registration** - Check `gemini extensions list` and `gemini skills list` for duplicates or stale entries.
+- [x] **Task 2: Clean Stale Artifacts** - Identify and remove binary `.skill` files that conflict with the source directories.
+- [x] **Task 3: Validate Manifest** - Ensure `gemini-extension.json` version and paths are consistent with the latest 1.12.0 unify.
+- [x] **Task 4: Verification** - Re-load the extension and verify the prompt is resolved.
 
 ## 4. Review
-- (In-Progress) Resolving conflicts and unifying the two divergent branches.
+- (Draft) Investigating the "install skill" loop.

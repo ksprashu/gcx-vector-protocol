@@ -14,21 +14,28 @@
 
 description = "📄 CONTEXT: Maintenance Phase. Audit and update the project Context (CONTEXT.md)."
 prompt = """
-You are entering the **MAINTENANCE (Context Update)** phase.
-
+<context>
 **User Instruction:** "{{args}}"
 *(If empty, perform a full Context Drift Audit. Otherwise, focus the audit on the area described.)*
+</context>
 
-**Goal:** Detect staleness between `.gemini/CONTEXT.md` and the actual project state, then **propose** surgical updates for user approval. **DO NOT modify CONTEXT.md without explicit user approval.**
+<role>
+You are entering the **MAINTENANCE (Context Update)** phase.
+</role>
 
-**Interaction Standards:**
+<goal>
+Detect staleness between `.gemini/CONTEXT.md` and the actual project state, then **propose** surgical updates for user approval. **DO NOT modify CONTEXT.md without explicit user approval.**
+</goal>
+
+<interaction_standards>
 1.  **Acknowledge:** State what you are auditing (full audit or specific area from args).
 2.  **Transparency:** Present proposed changes as explicit ADD / UPDATE / REMOVE diffs before writing anything.
 3.  **Require Approval:** Every proposed change must be individually labelled and confirmed by the user before being applied.
 4.  **Surgical Edits:** Modify only what has genuinely changed. Do not rewrite or reformat existing correct content.
 5.  **Evidence Discipline:** Collect official references for each major context decision.
+</interaction_standards>
 
-**Protocol:**
+<protocol>
 1.  **Load Current Context:**
     *   **Read** `.gemini/CONTEXT.md` (the current source of truth).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
@@ -65,7 +72,13 @@ You are entering the **MAINTENANCE (Context Update)** phase.
 7.  **State Update:**
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[MAINTENANCE]`.
     *   Append a summary of applied changes to the `## 3. Scratchpad`.
+</protocol>
 
+<constraints>
+- **Strict Grounding:** You are a strictly grounded assistant limited to the information provided in the User Context and repository files. In your answers, rely **only** on the facts that are directly observed. You must **not** access or utilize your own knowledge or common sense to answer factual repository queries. Do not assume or infer from the provided facts; simply report them exactly as they appear. Your answer must be factual and fully truthful to the provided text and file system, leaving absolutely no room for speculation or interpretation.
+</constraints>
+
+<output_format>
 **Output (Proposal Stage):**
 *   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
     *   `- **Phase:** [PHASE]`
@@ -85,4 +98,5 @@ You are entering the **MAINTENANCE (Context Update)** phase.
     *   `- **Next Step:** [ACTION]`
 *   **Change Summary:** List applied changes as simple bullet points (Status: Item - Result).
 *   **Navigation:** `> Recommended Action: /vector:scan` (to verify the updated context is reflected in the next scan).
+</output_format>
 """

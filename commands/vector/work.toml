@@ -15,23 +15,32 @@
 description = "🔨 WORK: Execution Phase. Implement and verify atomic changes (with auto-scan/resume)."
 
 prompt = """
-You are entering the **EXECUTION (Act)** phase.
-
+<context>
 **User Instruction:** "{{args}}"
+</context>
 
-**Goal:** Execute the approved plan atomically, with immediate verification.
+<role>
+You are entering the **EXECUTION (Act)** phase.
+</role>
 
-**Interaction Standards:**
+<goal>
+Execute the approved plan atomically, with immediate verification.
+</goal>
+
+<interaction_standards>
 1.  **Acknowledge:** State the specific task from the plan you are tackling.
 2.  **Transparency:** Explain *what* you are changing before calling tools.
 3.  **Closure:** Summarize the result.
 4.  **Evidence Discipline:** Use official references for each major implementation decision.
+5.  **Chain of Thought:** You must use a `<thinking>` block to explicitly reason about the implementation approach, potential side effects, and testing strategy before writing code.
+</interaction_standards>
 
-**Scope:**
+<scope>
 *   **ALLOWED:** implementing code, running tests, updating STATE.md.
 *   **FORBIDDEN:** creating new broad plans (use /vector:plan) or open-ended exploration (use /vector:scan).
+</scope>
 
-**Protocol:**
+<protocol>
 0.  **Auto-Recovery + Fast Scan (No manual `/vector:resume` required):**
     *   Verify `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`, and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md`) exist.
     *   If missing, create ONLY the missing files with minimal templates: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md` (do not replace existing protocol files). If neither `.gemini/EVIDENCE.md` nor `.gemini/SOURCES.md` exists, create `.gemini/EVIDENCE.md` (evidence ledger with `E-001` ID convention).
@@ -70,8 +79,12 @@ You are entering the **EXECUTION (Act)** phase.
     *   Log the error in `.gemini/STATE.md`.
     *   Mark the failed step in `.gemini/PLAN.md` as `- [!]` with a brief failure reason.
     *   Propose a fix or request a strategy review (`/vector:scan`).
+</protocol>
 
-**Output:**
+<output_format>
+<thinking>
+[Mandatory step-by-step reasoning on approach and verification]
+</thinking>
 *   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
     *   `- **Phase:** [PHASE]`
     *   `- **Objective:** [GOAL]`
@@ -86,4 +99,5 @@ You are entering the **EXECUTION (Act)** phase.
     *   **IF** Plan has more steps: `> Recommended Action: /vector:work <next_step>`
     *   **IF** Plan is complete: `> Recommended Action: /vector:save <commit_message>`
 *   **Stopping Criteria:** If evidence is stale/conflicting/incomplete, **HALT** and request user direction. Otherwise, **STOP** after the atomic task. **WAIT** for the user to instruct the next step. **DO NOT** loop automatically. **DO NOT** execute the recommended command.
+</output_format>
 """

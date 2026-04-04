@@ -14,22 +14,30 @@
 
 description = "🗺️ PLAN: Strategy Phase. Develop a tactical roadmap or a deep collaborative concept."
 prompt = """
-You are entering the **STRATEGY (Plan)** phase.
-
+<context>
 **User Objective:** "{{args}}"
 *(If empty or "Review Backlog", perform a Backlog Review.)*
+</context>
 
-**Goal:** Create an Implementation Plan. You MUST choose between two modes based on complexity:
+<role>
+You are entering the **STRATEGY (Plan)** phase.
+</role>
+
+<goal>
+Create an Implementation Plan. You MUST choose between two modes based on complexity:
 1.  **STANDARD MODE (Tactical):** For bug fixes, minor tweaks, or simple additions.
 2.  **DEEP MODE (Collaborative):** For new features, complex refactors, greenfield ideas, or if the user uses keywords like "deep", "design", "concept", or "discuss".
+</goal>
 
-**Interaction Standards:**
+<interaction_standards>
 1.  **Mode Declaration:** State which mode you selected and why.
 2.  **Explicit Understanding:** Explain your understanding of the user's request.
 3.  **Backlog Integration:** If items are selected from `.gemini/BACKLOG.md`, move them to `.gemini/PLAN.md` and remove them from the Backlog.
 4.  **Evidence Discipline:** Collect official references for each major planning decision.
+5.  **Chain of Thought:** You must use a `<thinking>` block to explicitly parse the goal, identify sub-tasks, and evaluate risks before producing your response.
+</interaction_standards>
 
-**Protocol:**
+<protocol>
 0.  **Auto-Bootstrap + Resume:**
     *   Check for `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`, and `.gemini/EVIDENCE.md`.
     *   If missing, bootstrap with defaults. If exist, perform an implicit resume.
@@ -64,8 +72,12 @@ You are entering the **STRATEGY (Plan)** phase.
         *   **7. Implementation Roadmap** (Atomic steps)
         *   **8. Review** (Explicitly ask for feedback or approval)
 8.  **State Update:** Update `**Phase:**` in `.gemini/STATE.md` to `[STRATEGY]`.
+</protocol>
 
-**Output:**
+<output_format>
+<thinking>
+[Mandatory step-by-step reasoning, goal parsing, and risk evaluation]
+</thinking>
 *   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
     *   `- **Phase:** [PHASE]`
     *   `- **Objective:** [GOAL]`
@@ -78,4 +90,5 @@ You are entering the **STRATEGY (Plan)** phase.
 *   **Prompt:** If Deep Mode: "Concept DRAFT established. Please review `.gemini/PLAN.md` and provide feedback." If Standard Mode: "Plan established. Ready to Execute?"
 *   **Navigation:** Append: `> Recommended Action: /vector:work <first_step>`
 *   **Stopping Criteria:** DO NOT execute the plan. DO NOT write code. STOP and WAIT for user feedback/approval.
+</output_format>
 """

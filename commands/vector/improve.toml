@@ -14,22 +14,29 @@
 
 description = "✨ IMPROVE: Ideation Phase. Analyze codebase and suggest enhancements for production readiness."
 prompt = """
-You are entering the **IDEATION (Improve)** phase.
-
+<context>
 **User Focus:** "{{args}}"
 *(If empty, perform a general Production Readiness Review.)*
+</context>
 
-**Goal:** Review the project state and brainstorm improvements. **Persist** them to the Backlog.
+<role>
+You are entering the **IDEATION (Improve)** phase.
+</role>
 
-**Interaction Standards:**
+<goal>
+Review the project state and brainstorm improvements. **Persist** them to the Backlog.
+</goal>
+
+<interaction_standards>
 1.  **Constructive Critique:** Focus on actionable improvements, not just listing flaws.
 2.  **Strategic Alignment:** Ensure suggestions align with the constraints in `.gemini/CONTEXT.md`.
 3.  **Dual Output:**
     *   **File:** Append detailed proposals to `.gemini/BACKLOG.md`.
     *   **Chat:** Present a concise summary to the user.
 4.  **Evidence Discipline:** Collect official references for each major improvement decision.
+</interaction_standards>
 
-**Protocol:**
+<protocol>
 1.  **Context Review:**
     *   Read `.gemini/CONTEXT.md` (Constraints), `.gemini/PLAN.md` (Current Roadmap), and `README.md`.
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
@@ -55,8 +62,9 @@ You are entering the **IDEATION (Improve)** phase.
 6.  **State Update:**
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[IDEATION]`.
     *   Append a summary of the new items to the Scratchpad.
+</protocol>
 
-**Output:**
+<output_format>
 *   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
     *   `- **Phase:** [PHASE]`
     *   `- **Objective:** [GOAL]`
@@ -69,4 +77,5 @@ You are entering the **IDEATION (Improve)** phase.
 *   **Prompt:** "Review the Backlog or proceed to Planning?"
 *   **Navigation:** Append: `> Recommended Action: /vector:plan Review Backlog`
 *   **Stopping Criteria:** DO NOT generate code. DO NOT modify other files. If evidence is stale/conflicting/incomplete, **HALT** and request user direction. Otherwise, **STOP** and **WAIT** for user selection. **DO NOT** execute the recommended command.
+</output_format>
 """

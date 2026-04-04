@@ -30,8 +30,3 @@
 - **Problem:** `EVIDENCE.md` is currently unstructured text. As it grows, retrieving and validating prior evidence becomes token-expensive and prone to retrieval hallucination.
 - **Solution:** Transition the Evidence Ledger to a structured format (e.g., Markdown with YAML frontmatter per entry, or a companion `EVIDENCE.json`).
 - **Impact:** Reduces token consumption during `scan` and `work` by enabling programmatic, targeted retrieval (RAG optimization), making the protocol scalable for enterprise monorepos.
-
-## [New] Cross-Session Efficacy Telemetry (Metrics Tracking)
-- **Problem:** There is currently no feedback loop to measure how often "context drift" occurs or how frequently the execution agent falls back during tasks.
-- **Solution:** Introduce lightweight, local metric logging (e.g., into `.gemini/METRICS.md` or `.json`) to track phase durations, drift counts, and verification failure rates.
-- **Impact:** Provides quantitative DORA-style metrics to track workflow efficiency, helping refine extension prompts and measure ROI.

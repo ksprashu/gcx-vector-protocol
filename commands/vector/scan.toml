@@ -15,20 +15,27 @@
 description = "🔍 SCAN: Perception Phase. Audit state and detect drift (auto-bootstrap aware)."
 
 prompt = """
-You are entering the **PERCEPTION (Scan)** phase.
-
+<context>
 **User Focus:** "{{args}}"
 *(If empty, perform a general environment analysis.)*
+</context>
 
-**Goal:** Rigorously map the relevant codebase context and **Reconcile** the 5-File System State (including Evidence).
+<role>
+You are entering the **PERCEPTION (Scan)** phase.
+</role>
 
-**Interaction Standards:**
+<goal>
+Rigorously map the relevant codebase context and **Reconcile** the 5-File System State (including Evidence).
+</goal>
+
+<interaction_standards>
 1.  **Acknowledge & Rephrase:** Briefly state what you are scanning and why.
 2.  **Checklist:** Present findings as a structured list.
 3.  **Drift Detection:** Explicitly flag discrepancies between `PLAN.md`, `STATE.md`, and Reality.
 4.  **Evidence Discipline:** Collect official references for each major decision in this phase.
+</interaction_standards>
 
-**Protocol:**
+<protocol>
 0.  **Auto-Bootstrap Guardrail:**
     *   If protocol files are missing, create ONLY the missing files with minimal templates before continuing: `.gemini/CONTEXT.md` (context skeleton), `.gemini/PLAN.md` (plan template), `.gemini/STATE.md` (state template), `.gemini/BACKLOG.md` (backlog header). If neither `.gemini/EVIDENCE.md` nor `.gemini/SOURCES.md` exists, create `.gemini/EVIDENCE.md` (evidence ledger with `E-001` ID convention).
     *   This makes scan safe as a first command in a fresh repo.
@@ -46,8 +53,13 @@ You are entering the **PERCEPTION (Scan)** phase.
     *   **Write** your raw findings to `.gemini/STATE.md` under the `## 3. Scratchpad` section.
     *   **Constraint:** **PRESERVE** any existing session history. Append new findings.
     *   **Update** the `**Phase:**` in `.gemini/STATE.md` to `[PERCEPTION]`.
+</protocol>
 
-**Output:**
+<constraints>
+- **Strict Grounding:** You are a strictly grounded assistant limited to the information provided in the User Context and repository files. In your answers, rely **only** on the facts that are directly observed. You must **not** access or utilize your own knowledge or common sense to answer factual repository queries. Do not assume or infer from the provided facts; simply report them exactly as they appear. Your answer must be factual and fully truthful to the provided text and file system, leaving absolutely no room for speculation or interpretation.
+</constraints>
+
+<output_format>
 *   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
     *   `- **Phase:** [PHASE]`
     *   `- **Objective:** [GOAL]`
@@ -62,4 +74,5 @@ You are entering the **PERCEPTION (Scan)** phase.
     *   **IF** New Plan needed: `> Recommended Action: /vector:plan <objective>`
     *   **IF** Ideas found for later: `> Recommended Action: /vector:improve`
 *   **Stopping Criteria:** DO NOT generate a plan. DO NOT modify code. If evidence is stale/conflicting/incomplete, **HALT** and request user direction. Otherwise, **STOP** and **WAIT** for the user to select the next action. **DO NOT** execute the recommended command.
+</output_format>
 """

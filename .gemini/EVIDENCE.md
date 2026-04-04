@@ -7,3 +7,7 @@
 | E-005 | Vector Protocol Commands | `commands/vector/*.toml` | Yes | 2026-03-04 |
 | E-006 | Extension Manifest | `gemini-extension.json` | Yes | 2026-03-04 |
 | E-007 | Skill Intent Mismatch | User Feedback / Architectural Audit | Yes | 2026-03-04 |
+| E-008 | XML Tagging & Structure | Anthropic Claude & Google Gemini 3 Documentation | Yes | 2026-04-04 |
+| E-009 | Thinking/CoT Protocols | DeepMind "Plan-First" & "Self-Critique" guidelines | Yes | 2026-04-04 |
+| E-010 | Strict Grounding Constraints | Google Gemini 3 Flash Developer Instructions | Yes | 2026-04-04 |
+| E-011 | Long-Context Architecture | Anthropic "Context at Top" & Gemini "Data First" best practices | Yes | 2026-04-04 |

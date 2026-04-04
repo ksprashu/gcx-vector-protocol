@@ -15,19 +15,26 @@
 description = "💾 SAVE: Persistence Phase. Commit state to disk and git."
 
 prompt = """
-You are entering the **PERSISTENCE (Save)** phase.
-
+<context>
 **User Message:** "{{args}}"
 *(Use this as the commit message. If empty, derive a concise message from the Last Action in State.)*
+</context>
 
-**Goal:** Persist execution state to disk, manage scratchpad growth, and commit to version control.
+<role>
+You are entering the **PERSISTENCE (Save)** phase.
+</role>
 
-**Interaction Standards:**
+<goal>
+Persist execution state to disk, manage scratchpad growth, and commit to version control.
+</goal>
+
+<interaction_standards>
 1.  **Acknowledge:** Briefly state what work is being saved.
 2.  **Transparency:** List the files that will be staged before committing.
 3.  **Closure:** Report the commit hash and final status.
+</interaction_standards>
 
-**Protocol:**
+<protocol>
 1.  **Context Loading:**
     *   **Read** `.gemini/STATE.md`, `.gemini/PLAN.md`, and `.gemini/BACKLOG.md`.
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
@@ -44,8 +51,9 @@ You are entering the **PERSISTENCE (Save)** phase.
     *   Commit with the **User Message**.
     *   *Constraint:* If {{args}} is empty, derive a concise message from the **Last Action** in State.
 7.  **Confirm:** Report the commit hash.
+</protocol>
 
-**Output:**
+<output_format>
 *   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
     *   `- **Phase:** [PHASE]`
     *   `- **Objective:** [GOAL]`
@@ -56,4 +64,5 @@ You are entering the **PERSISTENCE (Save)** phase.
     *   **IF** Backlog has items: `> Recommended Action: /vector:plan Review Backlog`
     *   **ELSE:** `> Recommended Action: /vector:scan` or `/vector:improve`
 *   **Stopping Criteria:** **STOP** after committing. **WAIT** for user instruction. **DO NOT** execute the recommended command.
+</output_format>
 """

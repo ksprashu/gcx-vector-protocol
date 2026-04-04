@@ -75,14 +75,13 @@ If you want a low-cognitive-load workflow, you only need the core 3 commands:
 Everything else remains available as situational power tools. See the staged simplification plan in [`docs/COMMAND_SURFACE_SIMPLIFICATION_PLAN.md`](docs/COMMAND_SURFACE_SIMPLIFICATION_PLAN.md).
 
 ### Core (daily use)
-*   `/vector:plan` - Create or update the implementation plan (includes implicit init/resume if needed).
-*   `/vector:work` - Execute the plan (includes lightweight scan/resume checks before coding).
+*   `/vector:plan` - Create or update the implementation plan (includes auto-bootstrap/resume if needed).
+*   `/vector:work` - Execute the plan (includes auto-recovery/scan checks before coding).
 *   `/vector:save` - Commit changes to git and save state.
 
 ### Supporting
 *   `/vector:scan` - Deep perception pass and drift analysis (also safe as first command in a fresh repo).
 *   `/vector:improve` - Ideation & Brainstorming. Suggests enhancements and persists them to the Backlog.
-*   `/vector:status` - Show the current State dashboard.
 *   `/vector:context` - Audit and update the project Context (CONTEXT.md) with guided, approval-gated changes.
 
 ## 🧭 Grounded Mode
@@ -101,10 +100,8 @@ Grounded Mode is the default behavioral contract for this extension: **evidence 
 * `STATE.md` scratchpad entries reflecting real outcomes, including failures.
 * Git commit metadata captured during save.
 
-### Recovery / advanced
-*   `/vector:init` - Explicit bootstrap/reset of protocol files (`--force` to overwrite existing state). Use when you want deterministic, explicit initialization.
-*   `/vector:resume` - Explicitly reload context after a restart (optional because `plan`/`work` now do this automatically).
-*   `/vector:reset` - Clear the State (failsafe).
+### Recovery
+*   **Manual Reset:** To reset the protocol, simply delete the `.gemini/` directory and run `/vector:scan` or `/vector:plan` to re-initialize.
 
 ## 💡 Best Practices
 
@@ -112,7 +109,7 @@ Grounded Mode is the default behavioral contract for this extension: **evidence 
 2.  **Use Scan Intentionally:** Run `/vector:scan` for deep drift detection, onboarding to unfamiliar repos, or troubleshooting.
 3.  **Review the Plan:** `/vector:plan` generates a detailed Design Document in `.gemini/PLAN.md`. **Read it.** Edit it. It is your blueprint.
 4.  **Iterate:** If the plan isn't right, run `/vector:plan "<feedback>"` to refine it.
-5.  **Atomic Work:** `/vector:work` is designed to be atomic and now includes automatic resume checks.
+5.  **Atomic Work:** `/vector:work` is designed to be atomic and now includes automatic recovery checks.
 6.  **Save Often:** Use `/vector:save` after every successful logical unit of work.
 7.  **Keep Context Fresh:** When you add a dependency, change architecture, or update standards, run `/vector:context` to keep CONTEXT.md in sync.
 8.  **Cite Evidence IDs:** For scan/plan/work outputs, reference relevant evidence entries (for example `E-003`) so claims are traceable.

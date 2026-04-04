@@ -56,7 +56,7 @@ Canonical source note:
 ### 4.1 Protocol State Files (`.gemini/`)
 Treat these as external memory when present:
 
-- `/vector:init` bootstraps this state by creating these files when missing.
+- `/vector:scan` or `/vector:plan` bootstraps this state by creating these files when missing.
 
 - `.gemini/CONTEXT.md` — static constraints and standards (read-only unless explicitly updating via `/vector:context` with approval).
 - `.gemini/PLAN.md` — active roadmap and task checklist (primary strategy artifact for `/vector:plan`).
@@ -77,15 +77,11 @@ To reduce interpretation drift between sessions, treat protocol files as canonic
 ### 4.3 Available Slash Commands in This Repo
 Commands are defined under `commands/vector/*.toml`:
 
-- `/vector:init` — bootstrap protocol files and baseline state.
 - `/vector:scan` — perception pass to audit state and detect drift.
 - `/vector:plan` — strategy phase to create/update implementation roadmap.
 - `/vector:work` — execute one atomic implementation step + immediate verification.
 - `/vector:save` — persist progress and commit-ready checkpointing.
-- `/vector:resume` — recover context from protocol state files.
-- `/vector:status` — dashboard view of phase/objective/next step.
 - `/vector:improve` — ideation pass for backlog-worthy enhancements.
-- `/vector:reset` — clear/refresh session state.
 - `/vector:context` — context maintenance and drift-audit for `.gemini/CONTEXT.md`.
 
 ### 4.4 Command Execution Boundary

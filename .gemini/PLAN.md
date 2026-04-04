@@ -2,22 +2,21 @@
 > The dynamic direction. The Execution Roadmap.
 
 ## 1. Objective
-- **Goal:** Resolve the persistent "it still keeps wanting to install the skill" prompt in the Gemini CLI by auditing extension/skill registration and cleaning up stale artifacts.
+- **Goal:** Streamline the Vector Protocol command surface by removing redundant and deprecated commands (`init`, `resume`, `status`, `reset`).
 
 ## 2. Strategic Analysis
-- **Problem:** The CLI repeatedly prompts to install skills even if they are defined in the manifest. This often happens due to version mismatches, duplicate registrations, or the presence of both binary `.skill` files and source `SKILL.md` directories.
+- **Problem:** The command surface has grown to 10 commands, several of which overlap with the "auto-bootstrap" and "auto-resume" logic now embedded in the core loop (`plan`, `work`, `scan`, `save`).
 - **Approach:** 
-  1. Audit current CLI registration state.
-  2. Identify and remove redundant binary files (`vector-plan.skill`).
-  3. Ensure the manifest `gemini-extension.json` points to valid directory-based skills.
-  4. Force-refresh the extension registration.
+  1. Audit cross-command dependencies to ensure no critical recovery logic is lost.
+  2. Remove redundant TOML files and update the extension manifest.
+  3. Synchronize documentation (`README.md`, `AGENTS.md`, `GEMINI.md`) to reflect the new 6-command surface.
+  4. Perform a version bump to `1.14.0`.
 
 ## 3. Implementation Roadmap
-- [x] **Task 0: Update Protocol** - Synchronized PLAN.md and STATE.md.
-- [x] **Task 1: Audit Registration** - Check `gemini extensions list` and `gemini skills list` for duplicates or stale entries.
-- [x] **Task 2: Clean Stale Artifacts** - Identify and remove binary `.skill` files that conflict with the source directories.
-- [x] **Task 3: Validate Manifest** - Ensure `gemini-extension.json` version and paths are consistent with the latest 1.12.0 unify.
-- [x] **Task 4: Verification** - Re-load the extension and verify the prompt is resolved.
+- [x] **Task 1: Code Audit & Final Verification** - Verify no remaining logic depends on `init`, `resume`, `status`, or `reset`.
+- [x] **Task 2: Command Removal** - Delete `init.toml`, `resume.toml`, `status.toml`, `reset.toml` and update `gemini-extension.json`.
+- [x] **Task 3: Documentation Sync** - Update `README.md`, `AGENTS.md`, and `GEMINI.md`.
+- [x] **Task 4: Version Update** - Increment version to `1.14.0` in `gemini-extension.json`.
 
 ## 4. Review
-- (Draft) Investigating the "install skill" loop.
+- (Approved) Command surface streamlined to 6 core commands.

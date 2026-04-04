@@ -41,7 +41,9 @@ Execute the approved plan atomically, with immediate verification.
 </scope>
 
 <protocol>
-0.  **Auto-Recovery + Fast Scan (No manual `/vector:resume` required):**
+0.  **Argument Check:**
+    *   **IF** `{{args}}` is empty: **STOP** and output exactly: `Error: Please specify the task to execute. Usage: /vector:work <task_description_or_step_number>`
+0.1. **Auto-Recovery + Fast Scan (No manual `/vector:resume` required):**
     *   Verify `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`, and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md`) exist.
     *   If missing, create ONLY the missing files with minimal templates: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md` (do not replace existing protocol files). If neither `.gemini/EVIDENCE.md` nor `.gemini/SOURCES.md` exists, create `.gemini/EVIDENCE.md` (evidence ledger with `E-001` ID convention).
     *   Perform a brief reconciliation before coding:

@@ -38,7 +38,9 @@ Create an Implementation Plan. You MUST choose between two modes based on comple
 </interaction_standards>
 
 <protocol>
-0.  **Auto-Bootstrap + Resume:**
+0.  **Argument Check:**
+    *   **IF** `{{args}}` is empty: **STOP** and output exactly: `Error: Please provide an objective or instruct me to review the backlog. Usage: /vector:plan <objective> | "review backlog"`
+0.1. **Auto-Bootstrap + Resume:**
     *   Check for `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`, and `.gemini/EVIDENCE.md`.
     *   If missing, bootstrap with defaults. If exist, perform an implicit resume.
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands.

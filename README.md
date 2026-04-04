@@ -126,6 +126,7 @@ To keep the protocol deterministic across restarts and multi-agent handoffs:
 
 ## 📝 Release Notes
 
+* **v1.16.0** - **Validation & Reliability Update**: Introduced GitHub Actions CI for automated command syntax validation and 5-File System state linting. Added argument guardrails to core commands.
 * **v1.15.0** - Refactored all Vector Protocol commands to use XML-structured prompt design and "Context-First" cognitive architecture. Introduced mandatory `<thinking>` blocks for planning and execution phases to enhance reasoning and reduce drift.
 * **v1.14.0** - Streamlined the command surface by removing redundant/deprecated commands (`init`, `resume`, `status`, `reset`) in favor of auto-recovery and auto-bootstrap logic embedded in the core loop.
 * **v1.6.0** - Introduced grounded-agent guarantees: binding evidence-first behavior, explicit expected outputs, and documented Grounded Mode evidence artifacts across Vector commands.

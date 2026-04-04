@@ -3,40 +3,53 @@
 
 ## 1. Concept Objective
 - **Status:** `DRAFT`
-- **Goal:** Author a series of detailed technical blog posts explaining the prompt engineering best practices (XML, CoT, Grounding, Context-First) recently implemented in the Vector Protocol.
+- **Goal:** Phase 3: Validation & Reliability. Implement automated verification tooling and CI for the Vector Protocol.
 
 ## 2. Problem Breakdown
-- **Functional:** The user wants to understand the theoretical and practical underpinnings of the recent prompt architecture upgrades. A detailed technical blog series will serve as both educational material and extended documentation for the extension.
+- **Functional:** Users and developers need a guarantee that the extension's commands and state files are structurally correct. Errors in TOML prompts (like missing XML tags) or Markdown files (like missing Dashboard headers) break the deterministic loop.
 - **Technical:**
-  - Need to create a new directory (e.g., `docs/blog/`) to store the markdown files.
-  - Write 4 separate, deep-dive articles based on the evidence gathered previously (`E-008`, `E-009`, `E-010`, `E-011`).
-  - Each post must balance theory (referencing DeepMind/Anthropic guidelines) with practical implementation examples from the Vector Protocol's `.toml` files.
+  - *TOML Auditor:* Needs to parse `gemini-extension.json`, locate every `.toml` command, and verify it contains mandatory XML sections (`<role>`, `<goal>`, `<output_format>`, etc.).
+  - *Markdown Linter:* Needs to check `.gemini/` files for adherence to the 5-File System schemas (e.g., `STATE.md` must have a "Phase").
+  - *CI Integration:* These checks must run automatically on every push/PR to prevent regressions.
 
 ## 3. Design Discussion
-- **Content Strategy:** 
-  Each blog post should follow a clear narrative arc:
-  1. **The Problem:** Why legacy prompt design fails (e.g., instruction drift, hallucination).
-  2. **The Research/Best Practice:** What Google and Anthropic recommend.
-  3. **The Implementation:** How we applied it to the Gemini CLI Vector Protocol.
-  4. **The Impact:** The resulting improvements in deterministic agent behavior.
-- **Format:** Markdown with standard YAML frontmatter for compatibility with static site generators (like Hugo, Docusaurus, or Next.js blogs).
-- **Alternatives:** We could write one massive article, but breaking it down into a 4-part series makes the technical density more digestible and better suited for publishing.
+- **Language:** Python 3.x. It's pre-installed on most dev machines and CI runners, and excellent for file/text processing.
+- **Validation Logic:** 
+  - Regex-based checking for XML tags in prompts.
+  - Mandatory section presence in Markdown files.
+  - Manifest consistency (all listed commands must exist).
+- **Risks:** The linter shouldn't be too rigid; it should allow for scratchpad variability while enforcing core invariants.
 
-## 4. Proposed Solution (The Blog Series)
-- **Post 1:** *XML as the Native Language of LLMs* - Transitioning away from Markdown headers for semantic prompt boundaries.
-- **Post 2:** *Enforcing Determinism with Mandatory `<thinking>` Blocks* - The power of forced Chain-of-Thought (CoT) before action.
-- **Post 3:** *High-Assurance Perception:* - Utilizing Strict Grounding constraints to eliminate hallucination during RAG and repository scans.
-- **Post 4:** *The "Context-First" Architecture* - Defeating the "Lost in the Middle" phenomenon by optimizing the sequence of data and instructions.
+## 4. Proposed Solution
+1.  **`scripts/validate_commands.py`**:
+    *   Load `gemini-extension.json`.
+    *   Check if all listed paths exist.
+    *   Parse TOML content.
+    *   Validate prompt string for mandatory XML tags: `<context>`, `<role>`, `<goal>`, `<interaction_standards>`, `<protocol>`, `<output_format>`.
+2.  **`scripts/vector_lint.py`**:
+    *   Target `.gemini/*.md`.
+    *   Validate `STATE.md` has `# 💾 STATE`, `## 1. Status`, `## 2. Context`.
+    *   Validate `PLAN.md` has `# 🗺️ PLAN` or `# 🗺️ DESIGN`.
+    *   Validate `CONTEXT.md` has `# 📄 CONTEXT`.
+3.  **`.github/workflows/protocol-audit.yml`**:
+    *   Trigger: `push`, `pull_request`.
+    *   Run both scripts.
+4.  **Argument Guardrails**:
+    *   Update `plan.toml` and `work.toml` to check `if args is empty` and provide a helpful message.
 
-## 5. Revision History
-- **2026-04-04:** Draft created based on user request to document recent prompt engineering improvements.
+## 5. Alternatives Considered
+- *Node.js scripts:* Equally valid, but Python is slightly more idiomatic for standalone "linter" scripts in many engineering environments.
+- *Manual Checklists:* Rejected due to scale and high risk of human error.
 
-## 6. Implementation Roadmap
-- [x] **Task 1: Setup Blog Directory** - Create `docs/blog/` and initialize an index or series introduction.
-- [x] **Task 2: Author Blog 1 (XML Tagging)** - Write the technical deep dive on XML semantic boundaries [E-008].
-- [x] **Task 3: Author Blog 2 (Chain of Thought)** - Write the deep dive on `<thinking>` blocks and planning [E-009].
-- [x] **Task 4: Author Blog 3 (Strict Grounding)** - Write the deep dive on anti-hallucination constraints [E-010].
-- [x] **Task 5: Author Blog 4 (Context-First)** - Write the deep dive on long-context sequence optimization [E-011].
+## 6. Revision History
+- **2026-04-04:** Draft created from Backlog Review.
 
-## 7. Review
-- Please review this Deep Mode draft plan for the technical blog series. Do these topics and the proposed structure align with what you are looking for?
+## 7. Implementation Roadmap
+- [x] **Task 1: Command Validation Script** - Create `scripts/validate_commands.py` to audit TOML prompt structure and manifest sync.
+- [x] **Task 2: Vector State Linter** - Create `scripts/vector_lint.py` to audit `.gemini/` file invariants.
+- [x] **Task 3: GitHub Actions CI** - Implement `.github/workflows/protocol-audit.yml` to automate verification.
+- [x] **Task 4: Argument Guardrails** - Update command prompts to handle empty/missing arguments gracefully.
+- [x] **Task 5: Version Bump (v1.16.0)** - Update manifest and release notes.
+
+## 8. Review
+- User, please review this roadmap for Phase 3: Validation & Reliability. Ready to proceed?

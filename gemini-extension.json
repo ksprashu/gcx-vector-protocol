@@ -1,7 +1,7 @@
 {
   "name": "gcx-vector-protocol",
   "description": "The Vector Protocol: A rigorous, state-aware development workflow extension for Gemini CLI.",
-  "version": "1.17.0",
+  "version": "1.18.0",
   "contextFileName": "AGENTS.md",
   "commands": [
     {
@@ -24,6 +24,9 @@
     },
     {
       "path": "commands/vector/next.toml"
+    },
+    {
+      "path": "commands/vector/lint.toml"
     }
   ]
 }

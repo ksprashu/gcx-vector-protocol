@@ -3,39 +3,35 @@
 
 ## 1. Concept Objective
 - **Status:** `DRAFT`
-- **Goal:** Phase 4: Structured Intelligence & Workflow Integration. Transition to a machine-readable Evidence schema, implement state-sync Git hooks, and deliver a dynamic workflow router (`/vector:next`).
+- **Goal:** Phase 5: Self-Healing & Integration Testing. Implement `/vector:lint` extension command and setup end-to-end integration tests using sub-agents.
 
 ## 2. Problem Breakdown
 - **Functional:** 
-    - *Evidence Retrieval:* As projects grow, searching a flat `EVIDENCE.md` for specific facts becomes inefficient for the LLM. 
-    - *State Drift:* Users committing manually bypassing `/vector:save` leaves `STATE.md` in a stale phase (e.g., `[EXECUTION]`).
-    - *Workflow Friction:* New users often hesitate on which command to run next.
+    - *Linter Friction:* Users must manually run `python scripts/vector_lint.py`. They often forget, leading to broken protocol state.
+    - *Regression Risk:* While we validate TOML syntax, we do not validate the *behavior* of the LLM given those TOML prompts. A prompt tweak might cause the model to stop outputting the dashboard correctly.
 - **Technical:**
-    - *Evidence Schema:* Need to transition from a Markdown table to a block-based schema with YAML frontmatter or a companion JSON store.
-    - *Git Hooks:* Need a script to install and manage a `.git/hooks/pre-commit` script that resets the phase to `[IDLE]` or warns the user.
-    - *Routing Logic:* `/vector:next` needs a heuristic parser for `STATE.md` and `PLAN.md` to output the next logical command.
+    - *Lint Command:* Need to wrap `scripts/vector_lint.py` into a new extension command (`commands/vector/lint.toml`).
+    - *E2E Tests:* Need to leverage the Gemini CLI `generalist` sub-agent to simulate user commands and assert output structure.
 
 ## 3. Design Discussion
-- **Evidence Structure:** I propose keeping `EVIDENCE.md` but wrapping each entry in a structured block (e.g., `<!-- { "id": "E-001", ... } -->`) or using a dedicated `EVIDENCE.json`. A JSON file is best for high-assurance retrieval (RAG optimization).
-- **Git Hook Strategy:** The hook should be a simple shell script that calls a Python utility to update the `STATE.md` phase. This ensures protocol integrity even with external git clients.
-- **Router Logic:** `/vector:next` will be a new TOML command that uses a simple state-machine logic:
-    - If Phase is `[IDLE]` and Plan is empty -> `/vector:scan`.
-    - If Phase is `[IDLE]` and Plan has unchecked tasks -> `/vector:work <task>`.
-    - If Phase is `[EXECUTION]` -> `/vector:save`.
+- **Lint Command Strategy:** `/vector:lint` should be a lightweight wrapper that runs the existing python script. If the script passes, it outputs success. If it fails, it should use its LLM capabilities to *auto-fix* the broken markdown files, rather than just complaining to the user. This creates a "self-healing" state loop.
+- **Integration Test Strategy:** We can write a Python script (`scripts/e2e_test.py`) that uses the Gemini CLI natively (via `subprocess` or similar) to initialize a temporary repo, run `/vector:plan`, and assert that the output contains the `*   **Session Dashboard:**` string. 
 
 ## 4. Proposed Solution
-1. **Automated Evidence Schema:** Implement a migration script to move existing entries to `EVIDENCE.json` and update the `save` command to write to both.
-2. **Protocol State Git Hooks:** Create `scripts/install_hooks.sh` and a Python helper to auto-sync state on commit.
-3. **`/vector:next` Routing Helper:** Create `commands/vector/next.toml` with the routing logic.
+1. **Self-Healing Linter:** 
+   - Create `commands/vector/lint.toml`.
+   - Update `save.toml` to recommend running `/vector:lint` if there are state issues.
+2. **E2E Agent Tests:** 
+   - Create a basic testing script to run CLI commands and capture output.
 
 ## 5. Revision History
 - **2026-04-04:** Draft created from Backlog Review.
 
 ## 6. Implementation Roadmap
-- [x] **Task 1: Structured Evidence Migration** - Transition `EVIDENCE.md` data to a machine-readable `EVIDENCE.json` and update `save.toml`.
-- [x] **Task 2: Protocol Git Hooks** - Implement `pre-commit` hook to ensure `STATE.md` sync during manual commits.
-- [x] **Task 3: Implement `/vector:next`** - Create the dynamic routing command to guide the developer workflow.
-- [x] **Task 4: Documentation & Version Bump (v1.17.0)** - Update README and increment manifest.
+- [x] **Task 1: Create Linter Command** - Implement `commands/vector/lint.toml` as an auto-fixing wrapper around `vector_lint.py`.
+- [x] **Task 2: Integrate Linter Suggestion** - Update `save.toml` to suggest `/vector:lint`.
+- [x] **Task 3: E2E Test Stub** - Create `scripts/e2e_test.py` to simulate agent interactions.
+- [x] **Task 4: Documentation & Version Bump (v1.18.0)** - Update README and increment manifest.
 
 ## 7. Review
-- User, please review this Phase 4 roadmap. Does the focus on Structured Evidence and Workflow Integration align with the next evolution of the Vector Protocol?
+- User, please review this Phase 5 roadmap. Does the focus on self-healing state and E2E testing align with expectations?

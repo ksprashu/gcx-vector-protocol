@@ -81,6 +81,7 @@ Commands are defined under `commands/vector/*.toml`:
 - `/vector:scan` — perception pass to audit state and detect drift.
 - `/vector:plan` — strategy phase to create/update implementation roadmap.
 - `/vector:work` — execute one atomic implementation step + immediate verification.
+- `/vector:lint` — self-healing state command to audit and auto-fix `.gemini/` file invariants.
 - `/vector:save` — persist progress and commit-ready checkpointing.
 - `/vector:improve` — ideation pass for backlog-worthy enhancements.
 - `/vector:context` — context maintenance and drift-audit for `.gemini/CONTEXT.md`.

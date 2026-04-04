@@ -13,7 +13,8 @@ def create_mock_extension(temp_dir):
         "description": "Mock protocol for E2E tests.",
         "version": "1.0.0",
         "commands": [
-            { "path": "commands/vector/plan.toml" }
+            { "path": "commands/vector/plan.toml" },
+            { "path": "commands/vector/work.toml" }
         ]
     }
     with open(manifest_path, 'w') as f:
@@ -21,9 +22,11 @@ def create_mock_extension(temp_dir):
         
     os.makedirs(os.path.join(temp_dir, 'commands/vector'), exist_ok=True)
     
-    # We copy the real plan.toml from the host project to the temp env to test the real prompt
+    # We copy the real tomls from the host project to the temp env to test the real prompt
     host_plan_toml = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'commands', 'vector', 'plan.toml'))
+    host_work_toml = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'commands', 'vector', 'work.toml'))
     shutil.copy(host_plan_toml, os.path.join(temp_dir, 'commands/vector/plan.toml'))
+    shutil.copy(host_work_toml, os.path.join(temp_dir, 'commands/vector/work.toml'))
 
 def run_gemini_command(temp_dir, command):
     """Executes a gemini CLI command inside the temp directory."""
@@ -88,9 +91,43 @@ def test_plan_initialization():
                 
         print("✅ PASS: Plan Initialization Test")
 
+def test_work_execution():
+    """Tests if /vector:work can pick up a plan and execute an atomic edit."""
+    print("--- Starting E2E Test: Work Execution ---")
+    
+    with tempfile.TemporaryDirectory() as temp_dir:
+        print(f"Testing in temporary directory: {temp_dir}")
+        create_mock_extension(temp_dir)
+        
+        # Manually bootstrap state for the test
+        os.makedirs(os.path.join(temp_dir, '.gemini'), exist_ok=True)
+        with open(os.path.join(temp_dir, '.gemini', 'PLAN.md'), 'w') as f:
+            f.write("# 🗺️ PLAN\\n\\n- [ ] Task 1: Create a file named hello.txt containing the word Hello.\\n")
+        with open(os.path.join(temp_dir, '.gemini', 'STATE.md'), 'w') as f:
+            f.write("# 💾 STATE\\n- **Phase:** [IDLE]\\n\\n## 3. Scratchpad\\n")
+        with open(os.path.join(temp_dir, '.gemini', 'CONTEXT.md'), 'w') as f:
+            f.write("# CONTEXT\\n")
+            
+        # Run work command
+        code, stdout, stderr = run_gemini_command(temp_dir, '/vector:work Task 1')
+        
+        print("\n--- Output ---")
+        print(stdout)
+        
+        if "Session Dashboard" not in stdout:
+             print("❌ FAIL: Agent output did not contain 'Session Dashboard'.")
+             sys.exit(1)
+             
+        # Check if the file was actually created by the agent's tool call
+        if not os.path.exists(os.path.join(temp_dir, 'hello.txt')):
+             print("❌ FAIL: Agent failed to create hello.txt via tool call.")
+             sys.exit(1)
+             
+        print("✅ PASS: Work Execution Test")
+
 def main():
     test_plan_initialization()
-    # In the future, we can add test_work_execution(), test_linter_healing(), etc.
+    test_work_execution()
     print("All E2E tests passed successfully.")
 
 if __name__ == '__main__':

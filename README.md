@@ -126,6 +126,7 @@ To keep the protocol deterministic across restarts and multi-agent handoffs:
 
 ## 📝 Release Notes
 
+* **v1.20.0** - **Codebase Hygiene & Final Polish**: Expanded end-to-end integration test suite (`scripts/e2e_test.py`) to simulate native Gemini CLI execution loops. Pruned legacy tech debt from the backlog.
 * **v1.19.0** - **User Feedback & Analytics Update**: Added `/vector:feedback` command for in-CLI qualitative feedback. Implemented local metrics tracking via `scripts/generate_metrics.py`. Standardized community contributions with GitHub Issue Templates.
 * **v1.18.0** - **Self-Healing & Integration Testing Update**: Added `/vector:lint` command to automatically repair broken protocol state files. Integrated state linting as a pre-flight check in `/vector:save`. Added end-to-end integration test stubs using the Gemini CLI natively.
 * **v1.17.0** - **Structured Intelligence & Workflow Update**: Added `/vector:next` dynamic workflow router. Transitioned Evidence ledger to a machine-readable JSON schema for RAG optimization. Introduced optional Git pre-commit hooks (`scripts/install_hooks.sh`) for automatic state phase synchronization.

@@ -3,36 +3,32 @@
 
 ## 1. Concept Objective
 - **Status:** `DRAFT`
-- **Goal:** Improve User Feedback Loop & Analytics. Gather analytics on agent effectiveness, implement standard issue templates, and establish a feedback command.
+- **Goal:** Phase 6: Codebase Hygiene & Final Polish. Clean up remaining tech debt in the backlog, expand integration tests, and finalize the v1.20.0 release of the Vector Protocol.
 
 ## 2. Problem Breakdown
 - **Functional:** 
-    - *Agentic Feedback:* Users have no native way to report if an agent turn was "good" or "bad" without leaving the CLI.
-    - *Contribution Friction:* External contributors do not have standardized issue templates to report bugs or request features.
-    - *Telemetry:* As maintainers, we do not know how frequently the protocol requires "self-healing" or how often `EVIDENCE.md` is accessed.
+    - *Testing Gap:* We have an E2E test stub (`scripts/e2e_test.py`), but the backlog highlights the need for a "Full Integration" test suite that uses the `generalist` sub-agent to simulate complex commands against a dummy repo.
+    - *Self-Healing Friction:* The `[New] Protocol Invariant Validator (State Linter Extension)` was already mostly implemented in Phase 5 (`/vector:lint`), but the backlog item remains. We need to verify if the implementation is complete and remove the tech debt.
 - **Technical:**
-    - *Issue Templates:* Need to create `.github/ISSUE_TEMPLATE/` files.
-    - *Telemetry Architecture:* Need to define a lightweight telemetry approach (e.g., adding a local `.gemini/METRICS.json` that tracks turn durations and failure rates).
-    - *Feedback Command:* Create a `/vector:feedback` command.
+    - *Integration Tests:* Expand `scripts/e2e_test.py` to cover more than just the initialization phase.
+    - *Backlog Grooming:* Clear implemented items from `.gemini/BACKLOG.md`.
 
 ## 3. Design Discussion
-- **Feedback Command:** `/vector:feedback` should allow the user to append a note to `.gemini/BACKLOG.md` or a new `.gemini/FEEDBACK.md` file quickly. Let's append to the BACKLOG to keep the 5-File System pure.
-- **Telemetry:** Adding a complex telemetry server is out of scope. We will instead create a local `scripts/metrics.py` that parses `STATE.md` and `STATE_ARCHIVE.md` to generate a local "DORA metrics" style report.
-- **Issue Templates:** Standard GitHub Markdown templates are sufficient.
+- **Testing Expansion:** We will update `scripts/e2e_test.py` to add a test for the `work` phase, ensuring the agent can successfully pick up a task and execute a file edit. This will increase confidence in the full loop.
+- **Backlog Pruning:** The two remaining items in the Backlog have effectively been addressed by our recent sprints (Phase 5 built the `/vector:lint` extension, and Phase 6 will expand the integration tests). We will move these items out of the Icebox.
 
 ## 4. Proposed Solution
-1. **GitHub Issue Templates:** Create `bug_report.md` and `feature_request.md`.
-2. **Local Metrics Script:** Create `scripts/generate_metrics.py` to analyze session duration and execution success rates.
-3. **Feedback Command:** Add `commands/vector/feedback.toml` to capture user sentiment.
+1. **Expand E2E Tests:** Add a `test_work_execution` function to `scripts/e2e_test.py`.
+2. **Prune Backlog:** Remove the resolved tech debt from `.gemini/BACKLOG.md`.
+3. **Version 1.20.0:** Prepare the final 1.x minor release.
 
 ## 5. Revision History
 - **2026-04-04:** Draft created from Backlog Review.
 
 ## 6. Implementation Roadmap
-- [x] **Task 1: Issue Templates** - Create `.github/ISSUE_TEMPLATE` bug and feature forms.
-- [x] **Task 2: Local Metrics Script** - Implement `scripts/generate_metrics.py`.
-- [x] **Task 3: Feedback Command** - Create `commands/vector/feedback.toml`.
-- [x] **Task 4: Documentation & Version Bump (v1.19.0)** - Update README and increment manifest.
+- [x] **Task 1: Expand Integration Tests** - Add a test for the `work` command to `scripts/e2e_test.py`.
+- [x] **Task 2: Prune Backlog** - Remove the completed tech debt items from `.gemini/BACKLOG.md`.
+- [x] **Task 3: Documentation & Version Bump (v1.20.0)** - Update README and increment manifest for the final polish release.
 
 ## 7. Review
-- User, please review this roadmap for User Feedback & Analytics. Ready to proceed?
+- User, please review this roadmap for Phase 6. Ready to proceed?

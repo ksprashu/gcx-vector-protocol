@@ -154,3 +154,44 @@ User, please review the conversion plan. Ready to execute?
 ## 4. Review
 - (Approved) Command surface streamlined to 6 core commands.
 \n\n---\n\n
+# 🗺️ PLAN
+> The dynamic direction. The Execution Roadmap.
+
+## 1. Concept Objective
+- **Status:** `DRAFT`
+- **Goal:** Phase 3: Validation & Reliability. Implement an automated test suite and state linter to ensure protocol integrity and state consistency.
+
+## 2. Problem Breakdown
+- **Functional:** As the Vector Protocol prompts grow more complex (XML, CoT, etc.), manual verification is insufficient. A single typo in a `.toml` file or a hallucinated markdown tag in `PLAN.md` can break the entire state machine. Users need a "trust but verify" layer.
+- **Technical:**
+  - *Manifest/TOML Sync:* We need a script to ensure every command in `gemini-extension.json` exists as a valid `.toml` file with all required sections.
+  - *State Invariants:* We need a script (`vector-lint`) that checks if `.gemini/*.md` files follow their respective schemas (e.g., `PLAN.md` has an "Objective", `STATE.md` has a "Phase").
+  - *Continuous Integration:* These checks should run on every commit via GitHub Actions.
+
+## 3. Design Discussion
+- **Trade-offs:** Adding a linter script adds maintenance overhead, but it is necessary for a "high-assurance" protocol.
+- **First Principles:** "Deterministic State". If the protocol state is intended to be machine-readable by subsequent agent turns, it MUST be validated against a schema.
+- **Tools:** Python (since it's common for CLI scripting) or Node.js. Given this is a Gemini CLI extension (often used with JS/TS), a simple Node.js validation script might be more idiomatic, but Python is often faster for regex-based markdown linting. I'll use Python for the linter as it's excellent for text processing.
+
+## 4. Proposed Solution
+1. **`scripts/validate_commands.py`:** Parses `gemini-extension.json`, loads every `.toml`, and verifies it has `<role>`, `<instructions>`, `<goal>`, and `<output_format>`.
+2. **`scripts/vector_lint.py`:** Checks `.gemini/` files for structural invariants (headers, mandatory sections).
+3. **`.github/workflows/protocol-audit.yml`:** Runs both scripts on push/PR.
+4. **Command Argument Guardrails:** Update `.toml` prompts to explicitly handle missing `{{args}}` with a "Help" style output.
+
+## 5. Alternatives Considered
+- *Custom extension command (`/vector:lint`):* This would be a great way for users to check their repo state locally. *Recommendation:* We'll start with the CI scripts and then wrap them in a `/vector:lint` command in Phase 4.
+
+## 6. Revision History
+- **2026-04-04:** Draft created from Backlog Review ("review backlog").
+
+## 7. Implementation Roadmap
+- [ ] **Task 1: Command Validation Script** - Create `scripts/validate_commands.py` to audit TOML prompt structure.
+- [ ] **Task 2: Vector State Linter** - Create `scripts/vector_lint.py` to audit `.gemini/` file invariants.
+- [ ] **Task 3: GitHub Actions CI** - Implement `.github/workflows/protocol-audit.yml` to automate verification.
+- [ ] **Task 4: Argument Guardrails** - Add "If args is empty, show usage" logic to `plan.toml` and `work.toml`.
+- [ ] **Task 5: Version Bump (v1.16.0)** - Update manifest and document the new reliability tools.
+
+## 8. Review
+- User, does this Phase 3 roadmap (Validation & Reliability) align with your priorities for the Vector Protocol?
+\n\n---\n\n

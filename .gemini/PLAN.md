@@ -3,41 +3,40 @@
 
 ## 1. Concept Objective
 - **Status:** `DRAFT`
-- **Goal:** Implement XML-Structured Prompt Design & Cognitive Architecture Refactoring across all Vector Protocol commands.
+- **Goal:** Author a series of detailed technical blog posts explaining the prompt engineering best practices (XML, CoT, Grounding, Context-First) recently implemented in the Vector Protocol.
 
 ## 2. Problem Breakdown
-- **Functional:** Users relying on `/vector:*` commands might experience "instruction drift" or hallucination, especially on longer projects. By standardizing the prompt structures using XML tags and inserting CoT `<thinking>` blocks, the commands will act more deterministically across Gemini versions.
+- **Functional:** The user wants to understand the theoretical and practical underpinnings of the recent prompt architecture upgrades. A detailed technical blog series will serve as both educational material and extended documentation for the extension.
 - **Technical:**
-  - 6 `.toml` files (`plan.toml`, `work.toml`, `scan.toml`, `save.toml`, `improve.toml`, `context.toml`) need prompt strings rewritten.
-  - The rewrite must replace markdown-header-based constraints with strict XML structures (`<role>`, `<instructions>`, `<constraints>`, `<context>`, `<thinking>`, `<output_format>`).
-  - Context blocks must be shifted to appear before the final execution instructions ("Data First" architecture).
-  - Explicit Strict Grounding clauses must be added to `scan` and `context` commands.
+  - Need to create a new directory (e.g., `docs/blog/`) to store the markdown files.
+  - Write 4 separate, deep-dive articles based on the evidence gathered previously (`E-008`, `E-009`, `E-010`, `E-011`).
+  - Each post must balance theory (referencing DeepMind/Anthropic guidelines) with practical implementation examples from the Vector Protocol's `.toml` files.
 
 ## 3. Design Discussion
-- **Trade-offs:** XML is slightly less "human-readable" than raw markdown for casual browsing of the `.toml` files, but it provides a massive reliability increase for the LLM. 
-- **Risks:** The structure of the `{{args}}` interpolation must be maintained accurately so the CLI parses commands correctly.
-- **First Principles:** The "Context at the Top, Instructions at the Bottom" principle ensures the agent remembers its guardrails right before executing the final step.
+- **Content Strategy:** 
+  Each blog post should follow a clear narrative arc:
+  1. **The Problem:** Why legacy prompt design fails (e.g., instruction drift, hallucination).
+  2. **The Research/Best Practice:** What Google and Anthropic recommend.
+  3. **The Implementation:** How we applied it to the Gemini CLI Vector Protocol.
+  4. **The Impact:** The resulting improvements in deterministic agent behavior.
+- **Format:** Markdown with standard YAML frontmatter for compatibility with static site generators (like Hugo, Docusaurus, or Next.js blogs).
+- **Alternatives:** We could write one massive article, but breaking it down into a 4-part series makes the technical density more digestible and better suited for publishing.
 
-## 4. Proposed Solution
-1. Define a global XML schema template for all prompts.
-2. Update `scan.toml` and `context.toml` with the Grounding constraints.
-3. Update `plan.toml` and `work.toml` with mandatory `<thinking>` blocks.
-4. Update `improve.toml` and `save.toml` for schema consistency.
-5. Bump version to reflect systemic prompt architecture upgrade.
+## 4. Proposed Solution (The Blog Series)
+- **Post 1:** *XML as the Native Language of LLMs* - Transitioning away from Markdown headers for semantic prompt boundaries.
+- **Post 2:** *Enforcing Determinism with Mandatory `<thinking>` Blocks* - The power of forced Chain-of-Thought (CoT) before action.
+- **Post 3:** *High-Assurance Perception:* - Utilizing Strict Grounding constraints to eliminate hallucination during RAG and repository scans.
+- **Post 4:** *The "Context-First" Architecture* - Defeating the "Lost in the Middle" phenomenon by optimizing the sequence of data and instructions.
 
-## 5. Alternatives Considered
-- *Status Quo (Markdown Headers):* Less resilient over long contexts, rejected based on Anthropic/DeepMind best practices.
-- *JSON prompts:* LLMs process XML semantic boundaries better natively than stringified JSON inside a text prompt.
+## 5. Revision History
+- **2026-04-04:** Draft created based on user request to document recent prompt engineering improvements.
 
-## 6. Revision History
-- **2026-04-04:** Draft created from IDEATION Backlog.
+## 6. Implementation Roadmap
+- [x] **Task 1: Setup Blog Directory** - Create `docs/blog/` and initialize an index or series introduction.
+- [x] **Task 2: Author Blog 1 (XML Tagging)** - Write the technical deep dive on XML semantic boundaries [E-008].
+- [x] **Task 3: Author Blog 2 (Chain of Thought)** - Write the deep dive on `<thinking>` blocks and planning [E-009].
+- [x] **Task 4: Author Blog 3 (Strict Grounding)** - Write the deep dive on anti-hallucination constraints [E-010].
+- [x] **Task 5: Author Blog 4 (Context-First)** - Write the deep dive on long-context sequence optimization [E-011].
 
-## 7. Implementation Roadmap
-- [x] **Task 1: Define XML Schema & Update `scan.toml`** - Refactor to XML tags, move data first, add strict grounding constraint.
-- [x] **Task 2: Update `context.toml` & `improve.toml`** - Refactor to XML tags, add strict grounding constraint to `context`.
-- [x] **Task 3: Update `plan.toml` & `save.toml`** - Refactor to XML tags, add `<thinking>` block mandate to `plan`.
-- [x] **Task 4: Update `work.toml`** - Refactor to XML tags, add `<thinking>` block mandate, ensure context-first structure.
-- [x] **Task 5: Version Bump & Docs** - Increment extension version and verify documentation sync.
-
-## 8. Review
-- Please review this Deep Mode draft plan. Does the proposed schema and migration strategy align with expectations?
+## 7. Review
+- Please review this Deep Mode draft plan for the technical blog series. Do these topics and the proposed structure align with what you are looking for?

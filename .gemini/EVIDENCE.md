@@ -11,3 +11,5 @@
 | E-009 | Thinking/CoT Protocols | DeepMind "Plan-First" & "Self-Critique" guidelines | Yes | 2026-04-04 |
 | E-010 | Strict Grounding Constraints | Google Gemini 3 Flash Developer Instructions | Yes | 2026-04-04 |
 | E-011 | Long-Context Architecture | Anthropic "Context at Top" & Gemini "Data First" best practices | Yes | 2026-04-04 |
+| E-012 | GitHub Actions for Agents | GitHub official marketplace & CI for agents docs | Yes | 2026-04-04 |
+| E-013 | Markdown Linting for Agents | Google ADK & Vector Protocol internal standards | Yes | 2026-04-04 |

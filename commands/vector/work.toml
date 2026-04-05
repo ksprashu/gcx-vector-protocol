@@ -41,8 +41,8 @@ Execute the approved plan atomically, with immediate verification.
 </scope>
 
 <protocol>
-0.  **Argument Check:**
-    *   **IF** `{{args}}` is empty: **STOP** and output exactly: `Error: Please specify the task to execute. Usage: /vector:work <task_description_or_step_number>`
+0.  **Argument Check (Optional):**
+    *   `{{args}}` is optional. If empty, proceed to identify the next pending task automatically.
 0.1. **Auto-Recovery + Fast Scan (No manual `/vector:resume` required):**
     *   Verify `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`, and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md`) exist.
     *   If missing, create ONLY the missing files with minimal templates: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md` (do not replace existing protocol files). If neither `.gemini/EVIDENCE.md` nor `.gemini/SOURCES.md` exists, create `.gemini/EVIDENCE.md` (evidence ledger with `E-001` ID convention).
@@ -54,8 +54,8 @@ Execute the approved plan atomically, with immediate verification.
     *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md` (if it exists), and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md`).
     *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
 2.  **Task Retrieval:**
-    *   Identify the next pending task from `.gemini/PLAN.md`.
     *   If "{{args}}" is provided, prioritize that instruction within the context of the plan.
+    *   If "{{args}}" is missing or empty, automatically identify the first incomplete (`- [ ]`) or failing (`- [!]`) task from `.gemini/PLAN.md` and explicitly state which task was auto-selected.
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[EXECUTION]`.
 3.  **External Evidence Pass (Mandatory):**
     *   Before implementation, gather authoritative official references for each major change decision.

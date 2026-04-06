@@ -108,10 +108,10 @@ def test_work_execution():
         with open(os.path.join(temp_dir, '.gemini', 'CONTEXT.md'), 'w') as f:
             f.write("# CONTEXT\\n")
             
-        # Run work command
+        # Run work command with explicit task
         code, stdout, stderr = run_gemini_command(temp_dir, '/vector:work Task 1')
         
-        print("\n--- Output ---")
+        print("\n--- Output (Explicit Task) ---")
         print(stdout)
         
         if "Session Dashboard" not in stdout:
@@ -122,8 +122,37 @@ def test_work_execution():
         if not os.path.exists(os.path.join(temp_dir, 'hello.txt')):
              print("❌ FAIL: Agent failed to create hello.txt via tool call.")
              sys.exit(1)
+
+        # --- Test Case: /vector:work without arguments (Auto-Resume) ---
+        print("\n--- Starting E2E Sub-Test: Work Auto-Resume ---")
+        
+        # Reset hello.txt and setup a new task in PLAN.md
+        if os.path.exists(os.path.join(temp_dir, 'hello.txt')):
+            os.remove(os.path.join(temp_dir, 'hello.txt'))
+            
+        with open(os.path.join(temp_dir, '.gemini', 'PLAN.md'), 'w') as f:
+            f.write("# 🗺️ PLAN\n\n- [x] Task 1: Done\n- [ ] Task 2: Create a file named world.txt containing the word World.\n")
+            
+        # Run work command WITHOUT arguments
+        code, stdout, stderr = run_gemini_command(temp_dir, '/vector:work')
+        
+        print("\n--- Output (Auto-Resume) ---")
+        print(stdout)
+        
+        if code != 0:
+            print(f"❌ FAIL: /vector:work failed with exit code {code}")
+            print(f"Stderr: {stderr}")
+            sys.exit(1)
+            
+        if "Session Dashboard" not in stdout:
+             print("❌ FAIL: Agent output did not contain 'Session Dashboard'.")
+             sys.exit(1)
              
-        print("✅ PASS: Work Execution Test")
+        if not os.path.exists(os.path.join(temp_dir, 'world.txt')):
+             print("❌ FAIL: Agent failed to create world.txt via auto-resume tool call.")
+             sys.exit(1)
+             
+        print("✅ PASS: Work Execution Test (including Auto-Resume)")
 
 def main():
     test_plan_initialization()

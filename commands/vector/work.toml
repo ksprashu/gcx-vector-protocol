@@ -56,6 +56,7 @@ Execute the approved plan atomically, with immediate verification.
 2.  **Task Retrieval:**
     *   If "{{args}}" is provided, prioritize that instruction within the context of the plan.
     *   If "{{args}}" is missing or empty, automatically identify the first incomplete (`- [ ]`) or failing (`- [!]`) task from `.gemini/PLAN.md` and explicitly state which task was auto-selected.
+    *   **CRITICAL:** If `{{args}}` is missing AND the plan is 100% complete (no `- [ ]` or `- [!]` tasks exist), **STOP** and output exactly: `Error: The active plan is complete. Please provide a specific task or use /vector:plan to create a new roadmap.`
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[EXECUTION]`.
 3.  **External Evidence Pass (Mandatory):**
     *   Before implementation, gather authoritative official references for each major change decision.

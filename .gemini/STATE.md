@@ -3,39 +3,31 @@
 
 ## 1. Status
 - **Phase:** [IDLE]
-- **Last Action:** Saved state: feat: harden /vector:work empty plan handling and add /vector:metrics dashboard (v1.21.0)
-- **Timestamp:** 2026-04-06
+- **Last Action:** Saved state: fix: resolve relative script paths for cross-project portability (v1.21.1)
+- **Timestamp:** 2026-04-10
 
 ## 2. Context
 - **Project:** `gcx-vector-protocol`
-- **Objective:** Harden `/vector:work` for empty plans and implement DORA metrics dashboard.
+- **Objective:** Fix relative script paths in command definitions to support cross-project usage.
 
 ## 3. Scratchpad
-- **Codebase Hygiene & Final Polish (2026-04-04):**
-    - [x] Task 1: Expanded `scripts/e2e_test.py` to include `test_work_execution`.
-    - [x] Task 2: Pruned `.gemini/BACKLOG.md`.
-    - [x] Task 3: Incremented version to `1.20.0` and updated `README.md`.
-- **Perception Scan (2026-04-05):**
-    - Verified Reality vs State: Version, Tests, and README are all correctly updated.
-    - Identified Drift: `PLAN.md` is still in `DRAFT` status; `STATE.md` phase was stale.
-    - Noted Backlog item for DORA metrics dashboard as a potential next objective.
-- **Auto-Resume Work (2026-04-05):**
-    - Archived previous plan.
-    - Drafted Standard Mode plan to remove argument requirement in `/vector:work`.
-    - [x] Task 1: Updated `commands/vector/work.toml` (Protocol 0) to remove the hard block on empty `{{args}}`.
-    - [x] Task 2: Updated `commands/vector/work.toml` (Protocol 2) to instruct the agent to automatically parse `.gemini/PLAN.md` for the next incomplete or failing task when `{{args}}` is missing.
-- **Strategy & Planning (2026-04-06):**
-    - Transitioned DORA Metrics Dashboard from `BACKLOG.md` to `PLAN.md`.
-    - Drafted plan to harden `/vector:work` to halt cleanly if the active plan is already 100% complete.
-- **Task 1 Execution (2026-04-06):**
-    - Updated `commands/vector/work.toml` to halt cleanly when `{{args}}` is missing and plan is 100% complete.
-    - Verified syntax using validation script. E2E test confirmed CLI invocation behavior, though testing of local prompt modifications requires reinstalling the extension to take effect.
-- **Task 2 Execution (2026-04-06):**
-    - Created `commands/vector/metrics.toml` to read and present DORA metrics dashboard.
-- **Task 3 Execution (2026-04-06):**
-    - Registered `commands/vector/metrics.toml` in `gemini-extension.json`.
-    - Incremented extension version to `1.21.0` per release standards.
-    - Verified manifest integrity using `validate_commands.py`.
+- **Task 4 Execution (2026-04-10):**
+    - Updated `gemini-extension.json` version to `1.21.1`.
+    - Verified manifest integrity using `validate_commands.py`. SUCCESS. [E-006]
+- **Task 3 Execution (2026-04-10):**
+    - Updated `commands/vector/metrics.toml` to replace `scripts/generate_metrics.py` with `${extensionPath}${/}scripts${/}generate_metrics.py`.
+    - Verified syntax using `scripts/validate_commands.py`. SUCCESS. [E-017]
+- **Task 2 Execution (2026-04-10):**
+    - Updated `commands/vector/save.toml` to replace `scripts/vector_lint.py` with `${extensionPath}${/}scripts${/}vector_lint.py`.
+    - Verified syntax using `scripts/validate_commands.py`. SUCCESS. [E-017]
+- **Task 1 Execution (2026-04-10):**
+    - Updated `commands/vector/lint.toml` to replace `scripts/vector_lint.py` with `${extensionPath}${/}scripts${/}vector_lint.py`.
+    - Verified syntax using `scripts/validate_commands.py`. SUCCESS. [E-017]
+- **Perception Scan (2026-04-10):**
+    - Investigated user error regarding `scripts/vector_lint.py` failing in other repositories.
+    - Verified `scripts/vector_lint.py` is a general-purpose linter for the Vector Protocol designed to analyze any `.gemini/` directory, confirming it is meant to be executed across user projects.
+    - Identified that `commands/vector/lint.toml` and `commands/vector/save.toml` hardcode the path as `python3 scripts/vector_lint.py`, causing execution failures outside the extension directory.
+    - Need to update script references in command TOML files to utilize the `${extensionPath}` variable.
 
 ## 4. Next Steps
-- Awaiting next objective.
+- Plan complete. Awaiting save.

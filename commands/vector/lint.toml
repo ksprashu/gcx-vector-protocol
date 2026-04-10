@@ -27,14 +27,14 @@ Run automated structural checks on the 5-File System and **Surgically Auto-Fix**
 </goal>
 
 <interaction_standards>
-1.  **Diagnostic:** Report exactly which files have structural errors (based on `scripts/vector_lint.py` logic).
+1.  **Diagnostic:** Report exactly which files have structural errors (based on `${extensionPath}${/}scripts${/}vector_lint.py` logic).
 2.  **Self-Correction:** If a header is missing or a status section is malformed, re-write the file correctly while preserving all data.
 3.  **Transparency:** List exactly what was fixed.
 </interaction_standards>
 
 <protocol>
 1.  **Run Auditor:**
-    *   **Execute** `python3 scripts/vector_lint.py`.
+    *   **Execute** `python3 ${extensionPath}${/}scripts${/}vector_lint.py`.
 2.  **Parse Failures:**
     *   **IF** the script returns Success:
         *   -> Report: "State is Healthy." and STOP.
@@ -45,7 +45,7 @@ Run automated structural checks on the 5-File System and **Surgically Auto-Fix**
     *   **Identify** the correct schema from `.gemini/CONTEXT.md`.
     *   **Rewrite** the file(s) using `write_file` to restore structural integrity while preserving user data and session history.
 4.  **Verify:**
-    *   **Execute** `python3 scripts/vector_lint.py` again to confirm the fix.
+    *   **Execute** `python3 ${extensionPath}${/}scripts${/}vector_lint.py` again to confirm the fix.
 </protocol>
 
 <output_format>

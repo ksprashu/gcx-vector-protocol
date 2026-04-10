@@ -112,6 +112,20 @@
       "source": "DevOps Research and Assessment (DORA) standards",
       "authoritative": true,
       "last_checked": "2026-04-04"
+    },
+    {
+      "id": "E-017",
+      "topic": "Extension Path Resolution",
+      "source": "Gemini CLI `cli_help` documentation",
+      "authoritative": true,
+      "last_checked": "2026-04-10"
+    },
+    {
+      "id": "E-018",
+      "topic": "Linter Portability",
+      "source": "`scripts/vector_lint.py` source logic",
+      "authoritative": true,
+      "last_checked": "2026-04-10"
     }
   ]
 }

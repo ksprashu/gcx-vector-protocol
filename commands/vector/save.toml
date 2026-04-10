@@ -47,7 +47,7 @@ Persist execution state to disk, manage scratchpad growth, and commit to version
 4.  **Evidence Serialization:**
     *   **IF** `.gemini/EVIDENCE.md` exists and was updated, write a Python/Bash script or use `write_file` to sync its tabular contents into `.gemini/EVIDENCE.json`.
 5.  **State Linting (Pre-flight):**
-    *   **Execute** `python3 scripts/vector_lint.py`.
+    *   **Execute** `python3 ${extensionPath}${/}scripts${/}vector_lint.py`.
     *   **IF** the linter fails, **STOP** and instruct the user to run `/vector:lint` to self-heal the state before saving. Do NOT proceed to commit.
 6.  **Phase Update:** Update `**Phase:**` in `.gemini/STATE.md` to `[IDLE]`.
 7.  **Git Check:** Run `git status` to verify staged/unstaged changes.

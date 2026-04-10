@@ -16,3 +16,5 @@
 | E-014 | GitHub Issue Templates | GitHub Official Docs for Repository Maintenance | Yes | 2026-04-04 |
 | E-015 | User Feedback Loops | Product Management & UX Best Practices | Yes | 2026-04-04 |
 | E-016 | DORA Metrics | DevOps Research and Assessment (DORA) standards | Yes | 2026-04-04 |
+| E-017 | Extension Path Resolution | Gemini CLI `cli_help` documentation | Yes | 2026-04-10 |
+| E-018 | Linter Portability | `scripts/vector_lint.py` source logic | Yes | 2026-04-10 |

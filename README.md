@@ -1,136 +1,54 @@
-# 📐 GCX Vector Protocol
+# 📐 GCX Vector Protocol v2.0.0
 
-**The Vector Protocol** is a high-assurance, state-aware development workflow extension for the Gemini CLI. It is designed to provide **Direction** (Vector) and **Magnitude** (Intensity) to your development process.
+**The Vector Protocol** is an autonomous, high-assurance development harness for the Gemini CLI. It transforms the agent from a single-session chat bot into a **Zero-Context Orchestrator** capable of executing complex, long-running engineering tasks through a swarm of specialized subagents and a fractal file system.
 
-## Installation
+## 🚀 The 2-Command Workflow
 
-Install the Vector Protocol extension by running the following command from your terminal:
+Vector v2 simplifies the command surface to just two entry points:
+
+1.  **`/vector:plan <objective>`**
+    *   **Phase:** Strategy. 
+    *   **Action:** Triggers the **Ralph Wiggum Planning Loop**.
+    *   **Mechanism:** The Orchestrator spins off `planner` and `critic` subagents to iteratively draft and refine a technical roadmap.
+    *   **Goal:** Produces a deeply dissected plan in `.gemini/PLAN.md` for human signoff.
+
+2.  **`/vector:work`**
+    *   **Phase:** Execution.
+    *   **Action:** Triggers the **Autonomous Implementation Loop**.
+    *   **Mechanism:** The Orchestrator parses the roadmap, delegates atomic tasks to `implementer`, `tester`, and `critic` subagents, and loops continuously until the mission is complete.
+    *   **Outcome:** Verified code changes and automatic git commits.
+
+## 🧠 Core Architecture
+
+### 1. The Zero-Context Orchestrator
+To prevent **Context Rot** and session drift, the main CLI agent never writes code or detailed plans itself. It acts as a project manager, coordinating specialized subagents and referring to the filesystem as the sole source of truth.
+
+### 2. The Ralph Wiggum Protocol
+Even low-power models can produce world-class results through iteration.
+- **Planning:** Draft -> Critique -> Review -> Repeat 2x.
+- **Execution:** Implement -> Test -> Critique -> Loop until success.
+
+### 3. Fractal File System (`.gemini/tasks/`)
+Vector v2 bypasses context limits by breaking tasks into a fractal directory structure. Each task has its own localized `PLAN.md`, `STATE.md`, and `EVIDENCE.md`, allowing the swarm to maintain infinite depth without polluting the main thread.
+
+### 4. Specialized Subagent Swarm
+- `planner`: Roadmap architecture and goal decomposition.
+- `implementer`: Atomic, thin-stack code implementation.
+- `tester`: Rigorous verification and evidence logging.
+- `critic`: Vulnerability detection and grounding verification.
+
+## 🧭 Core Tenets
+
+*   **Strict External Grounding:** Conclusions must be backed by verifiable artifacts (files, docs, logs).
+*   **Spec-Driven Development:** Behavioral contracts are established before implementation logic.
+*   **Thin Stack Philosophy:** Favor native APIs and pure functions over complex abstractions.
+*   **Persistence First:** Every interaction saves state to the filesystem. The filesystem is the Whole Truth.
+
+## 🛠 Installation
 
 ```bash
 gemini extensions install https://github.com/ksprashu/gcx-vector-protocol --auto-update
 ```
 
-The `--auto-update` is optional: if specified, it will update to new versions as they are released.
-
-This extension implements the **Vector Protocol** for the Gemini CLI.
-
-It creates the **5-File Protocol State**: `CONTEXT.md`, `PLAN.md`, `STATE.md`, `BACKLOG.md`, and `EVIDENCE.md` (or `SOURCES.md` as a compatible alias).
-
-## The Files
-
-1.  **📄 CONTEXT (`.gemini/CONTEXT.md`)**
-    *   Static project rules, tech stack, and constraints.
-    *   *The "Constitution".*
-
-2.  **🗺️ PLAN (`.gemini/PLAN.md`)**
-    *   The active roadmap and implementation strategy. Includes **Design Specifications**.
-    *   *The "Map".*
-
-3.  **💾 STATE (`.gemini/STATE.md`)**
-    *   Volatile session state, last action, and scratchpad.
-    *   *The "Save Point".*
-
-4.  **💡 BACKLOG (`.gemini/BACKLOG.md`)**
-    *   Future ideas, enhancements, and non-critical tech debt.
-    *   *The "Icebox".*
-
-5.  **🔎 EVIDENCE (`.gemini/EVIDENCE.md` or `.gemini/SOURCES.md`)**
-    *   Source-backed claims, findings, and traceability records.
-    *   Lightweight schema per entry:
-        *   **Claim/Question**
-        *   **Source URL (or identifier)**
-        *   **Source type** (`official doc` / `spec` / `release` / `paper` / `article`)
-        *   **Retrieved date/time**
-        *   **Key extracted facts**
-        *   **Confidence/conflict notes**
-    *   *The "Evidence Ledger".*
-
-## 🔄 The Workflow (V.E.C.T.O.R.)
-
-The extension provides specific commands for each phase of the loop:
-
-*   **V - VERIFY (`/vector:scan`)**
-    *   Grounding phase. The agent reads Context, Plan, and Evidence, checks the codebase, and maps the territory. Also auto-bootstraps protocol files if they are missing.
-*   **E - ESTABLISH (`/vector:plan`)**
-    *   Strategy phase. Also handles implicit init/resume so you can jump straight into planning.
-*   **C - COMPUTE** (`/vector:improve`)
-    *   Ideation phase. The agent brainstorms enhancements and persists them to the Backlog.
-*   **T - TRANSMUTE (`/vector:work`)**
-    *   Execution phase. Also performs a lightweight resume + drift check before making changes.
-*   **O - OBSERVE** (Internal)
-    *   The agent verifies code immediately after writing it (part of `/vector:work`).
-*   **R - RECORD (`/vector:save`)**
-    *   Persistence phase. The agent commits changes and saves the State.
-
-## 🛠 Commands
-
-### Recommended command footprint (concise by default)
-
-If you want a low-cognitive-load workflow, you only need the core 3 commands:
-
-1. `/vector:plan`
-2. `/vector:work`
-3. `/vector:save`
-
-Everything else remains available as situational power tools. See the staged simplification plan in [`docs/COMMAND_SURFACE_SIMPLIFICATION_PLAN.md`](docs/COMMAND_SURFACE_SIMPLIFICATION_PLAN.md).
-
-### Core (daily use)
-*   `/vector:plan` - Create or update the implementation plan (includes auto-bootstrap/resume if needed).
-*   `/vector:work` - Execute the plan (includes auto-recovery/scan checks before coding).
-*   `/vector:save` - Commit changes to git and save state.
-
-### Supporting
-*   `/vector:scan` - Deep perception pass and drift analysis (also safe as first command in a fresh repo).
-*   `/vector:improve` - Ideation & Brainstorming. Suggests enhancements and persists them to the Backlog.
-*   `/vector:context` - Audit and update the project Context (CONTEXT.md) with guided, approval-gated changes.
-
-## 🧭 Grounded Mode
-
-Grounded Mode is the default behavioral contract for this extension: **evidence first, conclusions second**.
-
-**Example flow**
-1. Run `/vector:scan` to gather repository evidence (protocol files, git status, config drift checks).
-2. Run `/vector:plan` to create a plan that cites observed constraints and known unknowns.
-3. Run `/vector:work` for one atomic step, verify immediately, and record the result in `STATE.md`.
-4. Run `/vector:save` to persist a commit plus state checkpoint.
-
-**Evidence artifacts you should expect**
-* Checked-file lists and drift notes from scan/context phases.
-* Verification outputs (tests/build/lint) from work phase.
-* `STATE.md` scratchpad entries reflecting real outcomes, including failures.
-* Git commit metadata captured during save.
-
-### Recovery
-*   **Manual Reset:** To reset the protocol, simply delete the `.gemini/` directory and run `/vector:scan` or `/vector:plan` to re-initialize.
-
-## 💡 Best Practices
-
-1.  **Default Fast Path:** In most sessions, just run `/vector:plan` → `/vector:work` → `/vector:save`.
-2.  **Use Scan Intentionally:** Run `/vector:scan` for deep drift detection, onboarding to unfamiliar repos, or troubleshooting.
-3.  **Review the Plan:** `/vector:plan` generates a detailed Design Document in `.gemini/PLAN.md`. **Read it.** Edit it. It is your blueprint.
-4.  **Iterate:** If the plan isn't right, run `/vector:plan "<feedback>"` to refine it.
-5.  **Atomic Work:** `/vector:work` is designed to be atomic and now includes automatic recovery checks.
-6.  **Save Often:** Use `/vector:save` after every successful logical unit of work.
-7.  **Keep Context Fresh:** When you add a dependency, change architecture, or update standards, run `/vector:context` to keep CONTEXT.md in sync.
-8.  **Cite Evidence IDs:** For scan/plan/work outputs, reference relevant evidence entries (for example `E-003`) so claims are traceable.
-
-
-## 🧩 Ambiguity Resolution & Handoff Contract
-
-To keep the protocol deterministic across restarts and multi-agent handoffs:
-
-* **Objective precedence:** user instruction overrides stale plan text; update `PLAN.md` immediately to match.
-* **Phase precedence:** `STATE.md` is the active phase source of truth; corrections must be appended (not silently rewritten).
-* **Evidence gating:** non-trivial factual decisions should be logged in `EVIDENCE.md` (or `SOURCES.md`) before final recommendations.
-* **Handoff minimum:** before stopping, append to `STATE.md` what changed, what was verified, what failed, and the exact next action.
-
-## 📝 Release Notes
-
-* **v1.20.0** - **Codebase Hygiene & Final Polish**: Expanded end-to-end integration test suite (`scripts/e2e_test.py`) to simulate native Gemini CLI execution loops. Pruned legacy tech debt from the backlog.
-* **v1.19.0** - **User Feedback & Analytics Update**: Added `/vector:feedback` command for in-CLI qualitative feedback. Implemented local metrics tracking via `scripts/generate_metrics.py`. Standardized community contributions with GitHub Issue Templates.
-* **v1.18.0** - **Self-Healing & Integration Testing Update**: Added `/vector:lint` command to automatically repair broken protocol state files. Integrated state linting as a pre-flight check in `/vector:save`. Added end-to-end integration test stubs using the Gemini CLI natively.
-* **v1.17.0** - **Structured Intelligence & Workflow Update**: Added `/vector:next` dynamic workflow router. Transitioned Evidence ledger to a machine-readable JSON schema for RAG optimization. Introduced optional Git pre-commit hooks (`scripts/install_hooks.sh`) for automatic state phase synchronization.
-* **v1.16.0** - **Validation & Reliability Update**: Introduced GitHub Actions CI for automated command syntax validation and 5-File System state linting. Added argument guardrails to core commands.
-* **v1.15.0** - Refactored all Vector Protocol commands to use XML-structured prompt design and "Context-First" cognitive architecture. Introduced mandatory `<thinking>` blocks for planning and execution phases to enhance reasoning and reduce drift.
-* **v1.14.0** - Streamlined the command surface by removing redundant/deprecated commands (`init`, `resume`, `status`, `reset`) in favor of auto-recovery and auto-bootstrap logic embedded in the core loop.
-* **v1.6.0** - Introduced grounded-agent guarantees: binding evidence-first behavior, explicit expected outputs, and documented Grounded Mode evidence artifacts across Vector commands.
+---
+*Vector Protocol: Engineering with Direction and Magnitude.*

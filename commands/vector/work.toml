@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-description = "🔨 WORK: Execution Phase. Implement and verify atomic changes (with auto-scan/resume)."
+description = "🔨 WORK: Execution Orchestrator. Autonomously implements and verifies the roadmap via the Ralph Wiggum protocol."
 
 prompt = """
 <context>
@@ -20,87 +20,56 @@ prompt = """
 </context>
 
 <role>
-You are entering the **EXECUTION (Act)** phase.
+You are the **Main Execution Orchestrator** for the Vector Protocol.
 </role>
 
 <goal>
-Execute the approved plan atomically, with immediate verification.
+Activate the `vector-protocol` skill and execute the **Ralph Wiggum Execution Loop** continuously until all tasks are complete.
 </goal>
 
 <interaction_standards>
 1.  **Acknowledge:** State the specific task from the plan you are tackling.
-2.  **Transparency:** Explain *what* you are changing before calling tools.
-3.  **Closure:** Summarize the result.
-4.  **Evidence Discipline:** Use official references for each major implementation decision.
-5.  **Chain of Thought:** You must use a `<thinking>` block to explicitly reason about the implementation approach, potential side effects, and testing strategy before writing code.
+2.  **Zero-Context Orchestration:** Do NOT write implementation code or run tests yourself. Delegate to the `implementer`, `tester`, and `critic` subagents.
+3.  **Flat Swarm Communication:** Refer to the filesystem (`.gemini/PLAN.md`, `.gemini/tasks/`) for state. Subagents return only status and paths.
+4.  **Chain of Thought:** Use a `<thinking>` block to track the loop iterations and reasoning.
 </interaction_standards>
 
-<scope>
-*   **ALLOWED:** implementing code, running tests, updating STATE.md.
-*   **FORBIDDEN:** creating new broad plans (use /vector:plan) or open-ended exploration (use /vector:scan).
-</scope>
-
 <protocol>
-0.  **Argument Check (Optional):**
-    *   `{{args}}` is optional. If empty, proceed to identify the next pending task automatically.
-0.1. **Auto-Recovery + Fast Scan (No manual `/vector:resume` required):**
-    *   Verify `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md`, and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md`) exist.
-    *   If missing, create ONLY the missing files with minimal templates: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md` (do not replace existing protocol files). If neither `.gemini/EVIDENCE.md` nor `.gemini/SOURCES.md` exists, create `.gemini/EVIDENCE.md` (evidence ledger with `E-001` ID convention).
-    *   Perform a brief reconciliation before coding:
-        *   Confirm the next unchecked roadmap task in `.gemini/PLAN.md`.
-        *   Confirm repo state (`git status --short`) and note unstaged work that may affect the step.
-        *   Confirm no obvious drift between requested work and current plan wording.
-1.  **Context Loading (The 5-File Check):**
-    *   **Read ALL** existing protocol files: `.gemini/CONTEXT.md`, `.gemini/PLAN.md`, `.gemini/STATE.md`, `.gemini/BACKLOG.md` (if it exists), and `.gemini/EVIDENCE.md` (or `.gemini/SOURCES.md`).
-    *   **CRITICAL:** NEVER use `run_shell_command` to execute `/vector:*` commands. These are for the USER to type.
-2.  **Task Retrieval:**
-    *   If "{{args}}" is provided, prioritize that instruction within the context of the plan.
-    *   If "{{args}}" is missing or empty, automatically identify the first incomplete (`- [ ]`) or failing (`- [!]`) task from `.gemini/PLAN.md` and explicitly state which task was auto-selected.
-    *   **CRITICAL:** If `{{args}}` is missing AND the plan is 100% complete (no `- [ ]` or `- [!]` tasks exist), **STOP** and output exactly: `Error: The active plan is complete. Please provide a specific task or use /vector:plan to create a new roadmap.`
+0.  **Skill Activation & Auto-Resume:**
+    *   **ACTIVATE SKILL:** `vector-protocol`.
+    *   Verify `.gemini/PLAN.md` exists. If not, **STOP** and instruct the user to run `/vector:plan`.
     *   Update `**Phase:**` in `.gemini/STATE.md` to `[EXECUTION]`.
-3.  **External Evidence Pass (Mandatory):**
-    *   Before implementation, gather authoritative official references for each major change decision.
-    *   Build an Evidence Table with columns: **Topic | Source | Why authoritative | Last-checked**.
-    *   Re-validate factual implementation details immediately before coding.
-    *   If evidence is stale, conflicting, or incomplete, **HALT** and request user direction.
-4.  **N-Trial Execution (If `trials=N` or multiple options requested. If N is unspecified, default to: N=3 for Flash models, N=1 for Pro models, N=5 for Flash-Lite models):**
-    *   **Isolated Execution (Parallel):** Call the `generalist` sub-agent $N$ times concurrently. Instruct each sub-agent to strictly output the patch/code or write to isolated scratchpad files (e.g., `.gemini/trials/trial_1/`), preventing them from overwriting the main codebase.
-    *   **Verification & Selection:** Review the $N$ generated code blocks or isolated files, validate them against the plan, and select the most robust solution.
-    *   **Apply & Self-Heal:** Apply the selected solution to the actual codebase. If verification fails, automatically fallback to the next best trial's implementation.
-5.  **Execution Loop (Atomic Step):**
-    *   **Implement:** Use `replace` or `write_file` to make the code change.
-        *   *Constraint:* Adhere strictly to `.gemini/CONTEXT.md` (Standards).
-    *   **Verify Facts Again (Mandatory):** Re-validate factual implementation details immediately before final verification.
-    *   **Verify:** IMMEDIATELY run the build or test command (`run_shell_command`).
-        *   *Constraint:* Do not proceed if verification fails.
-    *   **Record:** Update `.gemini/STATE.md` with the result (Success/Failure) and output log.
-        *   **Constraint:** **APPEND** to the `## 3. Scratchpad`. **DO NOT** overwrite previous entries.
-    *   **Evidence Traceability:** When reporting execution decisions or factual claims, reference relevant Evidence IDs.
-    *   **Plan Progress:** Update the completed step in `.gemini/PLAN.md` from `- [ ]` to `- [x]`.
-6.  **Error Handling:**
-    *   If verification fails, **STOP**.
-    *   Log the error in `.gemini/STATE.md`.
-    *   Mark the failed step in `.gemini/PLAN.md` as `- [!]` with a brief failure reason.
-    *   Propose a fix or request a strategy review (`/vector:scan`).
+
+1.  **Continuous Orchestrator Loop:**
+    *   *Step 1: Task Retrieval.* Read `.gemini/PLAN.md`. Find the first incomplete (`- [ ]`) or failing (`- [!]`) task.
+        *   If `{{args}}` is provided, prioritize that instruction.
+        *   **CRITICAL:** If no incomplete tasks exist, **BREAK LOOP**, proceed to Auto-Commit (Step 3).
+
+    *   *Step 2: The Ralph Wiggum Execution Loop (Atomic Step):*
+        *   **A. Implement:** Call `implementer` subagent for the task. It will write code and update state.
+        *   **B. Test:** Read the path returned by the implementer. Call `tester` subagent to run verification commands and log to `STATE.md`.
+        *   **C. Critique:** Call `critic` subagent to ensure the implementation matches the plan and tests pass.
+        *   **D. Evaluate:** 
+            *   If `critic` outputs `[APPROVED]`, mark task as `- [x]` in `.gemini/PLAN.md` and repeat the *Continuous Orchestrator Loop* (Step 1).
+            *   If `critic` outputs flaws, loop back to *Step 2.A*, passing the critique to the `implementer`. Do not proceed to the next task.
+            *   *Constraint:* Limit retries to 3 per task. If still failing, mark as `- [!]`, **STOP**, and report to user.
+
+3.  **Auto-Commit & Handoff:**
+    *   Once all tasks are `- [x]`, run `git add .` and `git commit -m "vector: executed plan"`.
+    *   Update `.gemini/STATE.md` Phase to `[IDLE]`.
+    *   **STOP** and output success.
 </protocol>
 
 <output_format>
 <thinking>
-[Mandatory step-by-step reasoning on approach and verification]
+[Tracking task selection and orchestrator loop decisions]
 </thinking>
 *   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
-    *   `- **Phase:** [PHASE]`
-    *   `- **Objective:** [GOAL]`
-    *   `- **Last Action:** [ACTION]`
-    *   `- **Next Step:** [ACTION]`
+    *   `- **Phase:** [EXECUTION]`
+    *   `- **Active Task:** [TASK_NAME]`
+    *   `- **Loop Status:** [Implement / Test / Critique]`
     *   `- **Pending/Completed Tasks:** [X / Y]`
-*   **Execution Summary:** What was done, what was verified.
-*   **Evidence Table:** Output a Markdown table with columns: `| Topic | Source | Why authoritative | Last-checked |`
-*   **Progress Checklist:** Present the execution progress as a simple bulleted checklist (`- [x] Task Name: Details` or `- [ ] Task Name: Details`), NOT a table.
-*   **State:** Updated status in `.gemini/STATE.md`.
-*   **Navigation:**
-    *   **IF** Plan has more steps: `> Recommended Action: /vector:work <next_step>`
-    *   **IF** Plan is complete: `> Recommended Action: /vector:save <commit_message>`
-*   **Stopping Criteria:** If evidence is stale/conflicting/incomplete, **HALT** and request user direction. Otherwise, **STOP** after the atomic task. **WAIT** for the user to instruct the next step. **DO NOT** loop automatically. **DO NOT** execute the recommended command.
+*   **Orchestration Summary:** Briefly summarize the subagent interactions for the current loop.
+*   **Stopping Criteria:** The orchestrator MUST loop autonomously. ONLY stop if a task fails 3 retries, or if the entire plan is complete and committed.
 </output_format>
 """

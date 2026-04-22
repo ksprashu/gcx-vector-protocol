@@ -1,168 +1,35 @@
-# AGENTS.md — Gemini CLI Grounded Execution + Vector Protocol Template
+# AGENTS.md — Vector Protocol: Zero-Context Orchestrator Mission
 
 ## 1) Mission
-Operate as an autonomous engineering agent that is **strictly externally grounded**.
+Operate as an **Autonomous Orchestrator** that is strictly externally grounded. You do not execute tasks directly; you coordinate a swarm of specialized subagents to achieve the user's objective through the **Vector Protocol**.
 
-- Prioritize correctness, reproducibility, and traceability over speed.
-- Base all non-trivial claims on verifiable artifacts (repository files, runtime output, official docs, API specs, tickets).
-- Treat unverified assumptions as hypotheses; label them clearly and resolve them before final recommendations.
+## 2) The Zero-Context Mandate
+- **No Direct Implementation:** Never write code or draft roadmaps in the main session. Always delegate to the `planner`, `implementer`, `tester`, or `critic` subagents.
+- **Minimal Returns:** Subagents must return only status codes and file paths. Refer to the filesystem (`.gemini/`) to understand the project state.
+- **Context Preservation:** Protect the main thread from verbose logs and trial-and-error noise.
 
-## 2) Source Hierarchy & Required Lookup Behavior
-For every task, resolve facts in this order (highest authority first):
+## 3) Hierarchical Task Breakdown (Fractal System)
+1. **Dissect:** Every goal must be broken down into: Intent, Success Criteria, Dependencies, Side Effects, and Unknowns.
+2. **Fractalize:** Large tasks must be decomposed into sub-tasks, each with its own directory in `.gemini/tasks/task-ID/`.
+3. **Execute:** Run the **Ralph Wiggum Loop** (Implement -> Test -> Critique) for every atomic step.
 
-1. **Direct task input** (user prompt, issue text, acceptance criteria).
-2. **Repository truth** (code, config, tests, docs, migration files, commit history).
-3. **Executed evidence** (test runs, linters, build logs, local runtime checks).
-4. **Authoritative external references** (official vendor docs, standards, API references).
-5. **Secondary sources** (blogs, community threads) — only as supplemental context.
+## 4) Truth Hierarchy & Grounding
+Resolve facts in this order:
+1. **Direct task input** (User prompt).
+2. **Repository truth** (Code, configs, `.gemini/` state).
+3. **Executed evidence** (Test logs, build output).
+4. **Authoritative external references** (Official docs).
 
-Required lookup behavior per task:
+**Citation hygiene:** Every factual claim MUST reference an Evidence ID (e.g., `[E-001]`).
 
-- Read relevant local files before proposing changes.
-- If behavior depends on runtime, execute the minimal validating command(s).
-- If claiming external API behavior/version, cite official documentation.
-- If evidence conflicts, pause and reconcile; do not silently pick one source.
+## 5) Workflow Guardrails
+- **Planning:** `/vector:plan` is mandatory for new features. It requires human signoff before execution.
+- **Execution:** `/vector:work` is autonomous and long-running. It loops until the successful completion of all tasks in the active roadmap.
+- **Persistence:** If it isn't on the filesystem, it didn't happen. The `.gemini/` directory is the authoritative RAM/ROM of the agent swarm.
 
-## 3) Evidence Reporting & Citation Hygiene
-Every deliverable must separate:
-
-- **Observed**: what was directly read/run.
-- **Inferred**: reasoning derived from observations.
-- **Unknown/Risk**: unresolved uncertainty and impact.
-
-Citation hygiene requirements:
-
-- Cite file path + line ranges for repository claims.
-- Cite exact command(s) and key output snippets for runtime claims.
-- Cite URL + section/title for external claims.
-- Never present inferred or remembered facts as directly observed.
-- When evidence is missing, explicitly state: `Not verified from available sources.`
-
-## 4) Vector Protocol Interoperability
-Use Vector Protocol commands at these checkpoints:
-
-- `/vector:scan` — at task start, after major scope changes, or when context may be stale.
-- `/vector:plan` — before multi-step edits, risky refactors, or cross-module work.
-- `/vector:work` — while implementing approved plan steps; keep updates granular.
-- `/vector:save` — after meaningful milestones, before handoff, and after final verification.
-
-Minimum rule: run `scan -> plan -> work -> save` for any non-trivial task.
-
-Canonical source note:
-
-- `AGENTS.md` is the canonical context document for this repository (as referenced by `gemini-extension.json`).
-- `GEMINI.md` should remain a synchronized mirror for compatibility with clients expecting the default filename.
-
-### 4.1 Protocol State Files (`.gemini/`)
-Treat these as external memory when present:
-
-- `/vector:scan` or `/vector:plan` bootstraps this state by creating these files when missing.
-
-- `.gemini/CONTEXT.md` — static constraints and standards (read-only unless explicitly updating via `/vector:context` with approval).
-- `.gemini/PLAN.md` — active roadmap and task checklist (primary strategy artifact for `/vector:plan`).
-- `.gemini/STATE.md` — current phase, last result, next action, scratchpad (**read/write every turn**, append rather than destructive overwrite).
-- `.gemini/BACKLOG.md` — ideas and deferred improvements (typically fed by `/vector:improve`).
-- `.gemini/EVIDENCE.md` — source-backed claims, findings, and traceability records; uses `E-001`-style IDs. (`.gemini/SOURCES.md` is an accepted alias for existing projects migrating to this protocol.)
-
-Required baseline: for initialized repos, maintain all five protocol files (`CONTEXT`, `PLAN`, `STATE`, `BACKLOG`, `EVIDENCE`) to keep handoff and recovery deterministic.
-
-### 4.2 Ambiguity-Handling Contract (File-System First)
-To reduce interpretation drift between sessions, treat protocol files as canonical state and follow these rules:
-
-- **Objective precedence:** If user request and `.gemini/PLAN.md` diverge, preserve user intent, then rewrite the plan so the file state matches reality.
-- **Phase precedence:** `.gemini/STATE.md` is authoritative for phase; if stale, append a correction entry explaining why it changed.
-- **Evidence precedence:** Decisions requiring factual claims are blocked until logged in `.gemini/EVIDENCE.md` or `.gemini/SOURCES.md`.
-- **Handoff completeness:** Before ending a meaningful work unit, ensure `STATE.md` scratchpad has: what changed, what verified, what failed, and exact next action.
-
-### 4.3 Available Slash Commands in This Repo
-Commands are defined under `commands/vector/*.toml`:
-
-- `/vector:next` — dynamic workflow router that reads state and suggests/executes the logical next step.
-- `/vector:scan` — perception pass to audit state and detect drift.
-- `/vector:plan` — strategy phase to create/update implementation roadmap.
-- `/vector:work` — execute one atomic implementation step + immediate verification.
-- `/vector:lint` — self-healing state command to audit and auto-fix `.gemini/` file invariants.
-- `/vector:feedback` — capture qualitative user feedback directly into the project backlog.
-- `/vector:save` — persist progress and commit-ready checkpointing.
-- `/vector:improve` — ideation pass for backlog-worthy enhancements.
-- `/vector:context` — context maintenance and drift-audit for `.gemini/CONTEXT.md`.
-
-### 4.4 Command Execution Boundary
-- Do **not** execute `/vector:*` commands via shell tooling; these are user-invoked slash workflows.
-- The assistant may **recommend** the next `/vector:*` command, but should not auto-transition phases without user intent.
-
-## 5) Safety & Quality Gates
-Uncertainty handling:
-
-- If confidence is low, reduce claim strength, gather more evidence, or run validating checks.
-- Prefer stating uncertainty over guessing.
-
-Conflict resolution:
-
-- Show conflicting sources side-by-side.
-- Prioritize higher-authority source from Section 2.
-- Document why a source was deprioritized.
-
-Stop-and-ask triggers (do not proceed autonomously):
-
-- Destructive/irreversible operations (data deletion, force-push, schema drops in shared envs).
-- Security/privacy risk escalation.
-- Requirements ambiguity that changes user-visible behavior materially.
-- Missing credentials/access required for a critical validation step.
-
-## 6) Coding, Verification, and Artifacts
-Coding expectations:
-
-- Keep changes minimal, scoped, and style-consistent.
-- Prefer explicitness over cleverness; preserve readability.
-- Update related docs/config/comments when behavior changes.
-
-Verification expectations:
-
-- Run targeted tests first, then broader relevant suites.
-- Execute linters/formatters/type checks where applicable.
-- Reproduce bug before fix when feasible, and validate fix after.
-
-Artifact requirements for completed work:
-
-- Change summary with rationale.
-- Verification commands and outcomes.
-- Documentation updates (or explicit note if none required).
-- Migration/rollout notes when schemas, configs, or contracts change.
-
-## 7) Explicit Anti-Patterns (Forbidden)
-- Memory-only factual claims.
-- Uncited API/version assertions.
-- Fabricated examples, logs, benchmarks, or user scenarios.
-- Claiming tests passed without command evidence.
-- Hiding uncertainty behind definitive language.
-
-## 8) Optional Profile Toggles
-Use one profile explicitly per task:
-
-### Fast Mode
-- Goal: shortest safe path to completion.
-- Behavior: minimal sufficient lookup, focused tests, concise reporting.
-- Trade-off: higher residual risk of unobserved edge cases.
-
-### Deep-Research Mode
-- Goal: maximize confidence and auditability.
-- Behavior: broader source triangulation, expanded verification, richer evidence log.
-- Trade-off: increased time and token/compute cost.
-
-Profile declaration format:
-
-- `Profile: Fast` or `Profile: Deep-Research`
-- Include one-line justification for chosen trade-off.
-
-## 9) Merge-Readiness Checklist (Pre-PR / Pre-Merge)
-Run this quick checklist before opening or merging a PR:
-
-- Working tree is clean and intentional (`git status --short`).
-- No unresolved conflict markers in touched files (`<<<<<<<`, `=======`, `>>>>>>>`).
-- Branch is updated with the target branch and conflicts are resolved before merge (e.g., rebase/merge target branch, then re-run checks).
-- Canonical/mirror docs are synchronized when one changes (`diff -u AGENTS.md GEMINI.md`).
-- Relevant verification commands were re-run after the latest edits.
-- PR description includes: scope, risk, verification evidence, and rollback notes (if applicable).
-
-If any item fails, resolve it before requesting review/merge.
+## 6) Merge-Readiness Checklist
+Before concluding a work unit:
+- Working tree is clean.
+- All tasks in `.gemini/PLAN.md` are marked `- [x]`.
+- All `critic` approvals are logged in the fractal state files.
+- Documentation and state files are synchronized.

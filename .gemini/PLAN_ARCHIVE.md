@@ -1,489 +1,71 @@
 # 🗺️ PLAN
 > The dynamic direction. The Execution Roadmap.
 
-## 1. Objective
-- **Goal:** Set dynamic default values for `N` in the "Best-of-N" evaluation loop based on the model class (N=3 for Flash, N=1 for Pro, N=5 for Flash-Lite) when the user requests multiple options but does not specify an exact number.
-
-## 2. Strategic Analysis
-- **First Principles:** The Vector Protocol commands (`plan` and `work`) instruct the main agent on how to behave. By modifying the prompt instructions in these `.toml` files, we can explicitly define the heuristic the agent should use to infer `N` based on its own model capabilities.
-- **Trade-offs:** 
-  - *Pro Models:* N=1 minimizes token cost and latency since Pro models are highly capable and expensive.
-  - *Flash Models:* N=3 provides a balanced, fast synthesis.
-  - *Flash-Lite Models:* N=5 leverages the extreme speed and low cost of lite models to overcome their lower individual accuracy through volume synthesis.
-- **Risk Assessment:** 
-  - *Model Awareness:* The LLM might not explicitly know its own tier. However, the system instructions or the user's prompt generally provide context, or the agent can deduce it based on the capabilities. The instruction will direct the agent to infer its model class and apply the corresponding `N`.
-
-## 3. Design Specification
-We will update the `N-Trial Synthesis` step in `plan.toml` and the `N-Trial Execution` step in `work.toml`.
-
-**Updated Instruction snippet:**
-```text
-(If `trials=N` or multiple options requested. If N is unspecified, default to: N=3 for Flash models, N=1 for Pro models, N=5 for Flash-Lite models):
-```
-
-## 4. Alternatives Considered
-- **CLI Framework Argument:** We could parse the model flag in the CLI framework itself and pass `N` as an argument. *Rejected:* This extension focuses on the protocol via prompt engineering (`.toml` files) rather than modifying the core CLI source code. Using prompt-based heuristics is simpler and adheres to the extension boundaries.
-
-## 5. Implementation Roadmap
-- [x] **Step 1:** Update the `N-Trial Synthesis` instruction in `commands/vector/plan.toml` to include the dynamic default N heuristic.
-- [x] **Step 2:** Update the `N-Trial Execution` instruction in `commands/vector/work.toml` to include the same heuristic.
-- [x] **Step 3:** Increment extension minor version in `gemini-extension.json`.
-
-## 6. Review
-- User, please review this roadmap for establishing the default `N` heuristics. Ready to proceed?
---- Archived on Wed Mar  4 21:38:22 IST 2026 ---
-
-
-## [2026-03-04 21:51:24] Archived Plan
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Objective
-- **Goal:** Convert `gcx-vector-protocol` extension into a single, comprehensive agent skill named `vector-protocol`.
-
-## 2. Strategic Analysis
-- **First Principles:** The Vector Protocol is a procedural onboarding guide for an agent to work on a specific project. This is exactly what Skills are designed for.
-...
-- [x] **Step 5: Manifest Update** - Prepare `gemini-extension.json` for the new skill.
-- [x] **Step 6: Installation & Handoff** - Install the skill and provide reload instructions.
-
-## 6. Review
-User, please review the conversion plan. Ready to execute?
-*(Recommendation: We should decide whether to deprecate the TOML commands after the skill is fully functional.)*
-
-
-## [2026-03-04 22:30:00] Archived Plan
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Objective
-- **Goal:** Convert Vector Protocol slash commands to skills with automated planning.
-...
-- [x] **Task 6: Update `gemini-extension.json`** - Ensure all skills and commands are correctly mapped to their refined definitions.
-
---- Archived on Fri Mar  4 22:35:12 IST 2026 ---
-
-
-## [2026-03-29 11:30:00] Archived Plan
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Objective
-- **Goal:** Implement a unified, table-driven "Dashboard" output format across all Vector Protocol CLI commands (`scan`, `plan`, `work`, `status`, `resume`, `improve`, `save`).
-...
-- [x] **Step 4: Increment extension minor version in `gemini-extension.json`.**
-
-## 6. Review
-- User, please review this roadmap for establishing the rich Markdown dashboard and checklists. Ready to execute?
-
---- Archived on Sun Mar 29 11:45:00 IST 2026 ---
-
-
-## [2026-03-29 14:00:00] Archived Plan
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Objective
-- **Goal:** Implement a "Dual-Mode" planning system within `/vector:plan`. 
-...
-- [x] **Step 3:** Increment extension minor version in `gemini-extension.json` to 1.9.0.
-
-## 6. Review
-- User, please review this roadmap for establishing Dual-Mode planning. Ready to execute?
-
---- Archived on Sun Mar 29 14:15:22 IST 2026 ---
-
-
-## [2026-03-29 16:30:00] Archived Plan
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Objective
-- **Goal:** Replace heavy Markdown tables ("State Dashboard Table" and "Work Checklist Table") across all Vector commands with simpler, native-feeling CLI bulleted lists and checkboxes (`- [ ]`), per user feedback.
-...
-- [x] **Step 4:** Increment extension version to `1.10.1` (UX Polish).
-
-## 6. Review
-- (Auto-Approved) User explicitly requested simple text checklists/bullet lists rather than a table.
-
---- Archived on Sun Mar 29 16:45:10 IST 2026 ---
-
-
-## [2026-04-03 14:56:39] Archived Plan
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Objective
-- **Goal:** Update the README.md and documentation to reflect the new tiered command model (Phase 1 Simplification), remove the deprecated `resume` command, update the manifest, and analyze the system state for backlog improvements.
-
-## 2. Strategic Analysis
-- **Context:** The `resume` command is deprecated as `plan` and `work` now handle implicit state recovery. Users have requested a simpler command surface.
-- **Approach:** Standard Mode (Tactical). Remove deprecated code, update manifest, refactor docs into tiers, and update backlog.
-
-## 3. Implementation Roadmap
-- [x] **Step 1:** Delete `commands/vector/resume.toml`.
-- [x] **Step 2:** Update `gemini-extension.json` (remove `resume`, bump version to `1.11.0`).
-- [x] **Step 3:** Refactor `README.md` (Commands tiering, remove `/vector:resume`).
-- [x] **Step 4:** System state review and Backlog update.
-- [x] **Step 5:** Final verification and version check.
-
-## 4. Review
-- (Auto-Approved) Follows explicit user instructions to remove deprecated commands and implement the simplification docs.
-
---- Archived on Fri Apr  3 14:56:39 IST 2026 ---
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Objective
-- **Goal:** Streamline the Vector Protocol command surface by removing redundant and deprecated commands (`init`, `resume`, `status`, `reset`).
-
-## 2. Strategic Analysis
-- **Problem:** The command surface has grown to 10 commands, several of which overlap with the "auto-bootstrap" and "auto-resume" logic now embedded in the core loop (`plan`, `work`, `scan`, `save`).
-- **Approach:** 
-  1. Audit cross-command dependencies to ensure no critical recovery logic is lost.
-  2. Remove redundant TOML files and update the extension manifest.
-  3. Synchronize documentation (`README.md`, `AGENTS.md`, `GEMINI.md`) to reflect the new 6-command surface.
-  4. Perform a version bump to `1.14.0`.
-
-## 3. Implementation Roadmap
-- [x] **Task 1: Code Audit & Final Verification** - Verify no remaining logic depends on `init`, `resume`, `status`, or `reset`.
-- [x] **Task 2: Command Removal** - Delete `init.toml`, `resume.toml`, `status.toml`, `reset.toml` and update `gemini-extension.json`.
-- [x] **Task 3: Documentation Sync** - Update `README.md`, `AGENTS.md`, and `GEMINI.md`.
-- [x] **Task 4: Version Update** - Increment version to `1.14.0` in `gemini-extension.json`.
-
-## 4. Review
-- (Approved) Command surface streamlined to 6 core commands.
-\n\n---\n\n
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
 ## 1. Concept Objective
-- **Status:** `DRAFT`
-- **Goal:** Phase 3: Validation & Reliability. Implement an automated test suite and state linter to ensure protocol integrity and state consistency.
+- **Status:** `APPROVED`
+- **Goal:** Upgrade Vector Protocol to a 2-command autonomous harness (`/vector:plan` and `/vector:work`) operating as a "Zero-Context Orchestrator", leveraging a fractal file system, subagent swarms via "Ralph Wiggum" verification loops, deep dissection, and legacy tenets.
 
 ## 2. Problem Breakdown
-- **Functional:** As the Vector Protocol prompts grow more complex (XML, CoT, etc.), manual verification is insufficient. A single typo in a `.toml` file or a hallucinated markdown tag in `PLAN.md` can break the entire state machine. Users need a "trust but verify" layer.
-- **Technical:**
-  - *Manifest/TOML Sync:* We need a script to ensure every command in `gemini-extension.json` exists as a valid `.toml` file with all required sections.
-  - *State Invariants:* We need a script (`vector-lint`) that checks if `.gemini/*.md` files follow their respective schemas (e.g., `PLAN.md` has an "Objective", `STATE.md` has a "Phase").
-  - *Continuous Integration:* These checks should run on every commit via GitHub Actions.
+- **Functional:** 
+    - The main agent session (CLI) suffers from context rot if it performs heavy lifting or receives verbose outputs.
+    - True autonomy requires deep task breakdown (tasks -> subtasks -> sub-subtasks) without hitting context limits.
+    - High-quality output requires iterative "Plan -> Critique -> Review" loops (Ralph Wiggum protocol).
+    - Long-running execution requires seamless handoff between planning and implementation loops.
+- **Technical Constraints & Resolution:**
+    - *Constraint:* Gemini CLI subagents cannot recursively call other subagents (`geminicli.com/docs/core/subagents`).
+    - *Resolution (The Zero-Context Orchestrator):* The main agent does NOT nest subagents. Instead, it acts as a flat orchestrator. It calls `planner`, which writes a task plan to disk. The main agent reads the disk, then calls `worker` for task 1. `worker` writes sub-tasks to disk. The main agent reads the disk, and calls `worker` for sub-task 1. 
+    - *State Ledger:* The filesystem is the absolute truth. Subagents must return ONLY minimal status flags or file paths.
 
-## 3. Design Discussion
-- **Trade-offs:** Adding a linter script adds maintenance overhead, but it is necessary for a "high-assurance" protocol.
-- **First Principles:** "Deterministic State". If the protocol state is intended to be machine-readable by subsequent agent turns, it MUST be validated against a schema.
-- **Tools:** Python (since it's common for CLI scripting) or Node.js. Given this is a Gemini CLI extension (often used with JS/TS), a simple Node.js validation script might be more idiomatic, but Python is often faster for regex-based markdown linting. I'll use Python for the linter as it's excellent for text processing.
+## 3. Design Discussion: The Fractal Architecture & Deep Dissection
+- **Fractal File System:** To support infinitely deep task breakdown without context bloat, we will expand the 5-File System into a hierarchy:
+    - `.gemini/PLAN.md` (Master Roadmap)
+    - `.gemini/tasks/task-001/PLAN.md` (Subtask Roadmap)
+    - `.gemini/tasks/task-001/subtask-A/STATE.md` (Execution State)
+- **Deep Dissection Schema:** All `PLAN.md` files (master or fractal) MUST adhere to this strict dissection schema to ensure goals are thoroughly understood:
+    1. **Intent:** What the user wants.
+    2. **Success Criteria & Definition of Done:** Measurable completion metrics.
+    3. **Dependencies:** What must exist before starting.
+    4. **Side Effects:** What else this touches.
+    5. **Unknowns & Hypotheses:** Risks and assumptions.
+    6. **Execution Roadmap:** Atomic steps.
+- **The "Ralph Wiggum" Loop (Plan/Critique/Implement):**
+    - The `plan` command will instruct the main agent to orchestrate this sequence:
+        1. Call `planner` subagent -> generates draft plan file.
+        2. Call `critic` subagent -> reads draft, appends feedback file.
+        3. Call `planner` subagent -> reads feedback, updates draft.
+        4. (Repeat 2x). Main agent prompts user for final signoff.
+    - The `work` command will orchestrate a similar loop for execution, looping autonomously until success criteria are met.
 
-## 4. Proposed Solution
-1. **`scripts/validate_commands.py`:** Parses `gemini-extension.json`, loads every `.toml`, and verifies it has `<role>`, `<instructions>`, `<goal>`, and `<output_format>`.
-2. **`scripts/vector_lint.py`:** Checks `.gemini/` files for structural invariants (headers, mandatory sections).
-3. **`.github/workflows/protocol-audit.yml`:** Runs both scripts on push/PR.
-4. **Command Argument Guardrails:** Update `.toml` prompts to explicitly handle missing `{{args}}` with a "Help" style output.
+## 4. Proposed Solution: Components
+1. **Consolidated Command Definition:**
+    - **`/vector:plan`**: The Orchestrator for Strategy. Auto-bootstraps, delegates to `planner` and `critic` in a loop. Waits for human approval.
+    - **`/vector:work`**: The Orchestrator for Execution. Auto-resumes from `PLAN.md`. Delegates to `implementer`, `tester`, and `critic`. Auto-commits on success. Loops continuously.
+2. **Subagent Swarm (`.gemini/agents/`):**
+    - `planner`: Specialized in breaking down goals into fractal `.gemini/tasks/` files using the Deep Dissection schema. Enforces Spec-Driven Development.
+    - `implementer`: Specialized in atomic code changes. Enforces Thin Stack and pure functional paradigms.
+    - `tester`: Specialized in running verification commands.
+    - `critic`: Specialized in finding flaws in plans or code. Enforces Strict External Grounding.
+3. **Legacy Tenets Integration:** The overarching `vector-protocol` skill and agent personas will strictly enforce the rules from `GEMINI.md` and `AGENTS.md` (Constraint-Driven Development, Truth Hierarchy, Evidence Citation).
+4. **The "Zero-Context" Rule:** Every subagent's `output_format` must strictly dictate returning ONLY strings like `[SUCCESS] Wrote plan to .gemini/tasks/task-1.md` or `[FAILED] See error log in .gemini/tasks/task-1/STATE.md`.
 
 ## 5. Alternatives Considered
-- *Custom extension command (`/vector:lint`):* This would be a great way for users to check their repo state locally. *Recommendation:* We'll start with the CI scripts and then wrap them in a `/vector:lint` command in Phase 4.
+- *Recursive Subagents:* Rejected due to strict platform limitations. The Flat Orchestrator pattern achieves the same logical depth by using the filesystem as the call stack.
 
 ## 6. Revision History
-- **2026-04-04:** Draft created from Backlog Review ("review backlog").
+- **2026-04-20 (Iteration 1):** Initial draft for 2-command architecture.
+- **2026-04-20 (Iteration 2):** User feedback incorporated. Shifted from "nested" subagents to a "Zero-Context Orchestrator" model with a Fractal File System to respect CLI limitations while achieving infinite depth.
+- **2026-04-20 (Iteration 3):** User feedback incorporated. Added Deep Dissection schema for plans, explicitly integrated legacy tenets (Spec-Driven, First Principles, Evidence), and defined the autonomous loop. Plan approved.
 
 ## 7. Implementation Roadmap
-- [ ] **Task 1: Command Validation Script** - Create `scripts/validate_commands.py` to audit TOML prompt structure.
-- [ ] **Task 2: Vector State Linter** - Create `scripts/vector_lint.py` to audit `.gemini/` file invariants.
-- [ ] **Task 3: GitHub Actions CI** - Implement `.github/workflows/protocol-audit.yml` to automate verification.
-- [ ] **Task 4: Argument Guardrails** - Add "If args is empty, show usage" logic to `plan.toml` and `work.toml`.
-- [ ] **Task 5: Version Bump (v1.16.0)** - Update manifest and document the new reliability tools.
+- [x] **Task 1: Architect the Subagent Personas** - Create `.gemini/agents/planner.md`, `implementer.md`, `tester.md`, and `critic.md` injecting Legacy Tenets and Zero-Context return rules.
+- [x] **Task 2: Define the `vector-protocol` Skill** - Create `.gemini/skills/vector-protocol/SKILL.md` to centralize overarching architectural constraints.
+- [x] **Task 3: Implement Fractal State System** - Define the directory structure protocol for `.gemini/tasks/`.
+- [x] **Task 4: Refactor `plan.toml`** - Implement the Orchestrator loop (Plan -> Critique -> Review -> Repeat 2x -> Human Signoff).
+- [x] **Task 5: Refactor `work.toml`** - Implement the Orchestrator loop (Do -> Review -> Test -> Critique -> Repeat) and continuous long-running logic.
+- [x] **Task 6: Deprecate Redundant Commands** - Remove `scan`, `save`, `lint`, etc., from manifest and filesystem.
+- [x] **Task 7: Documentation Update** - Rewrite `README.md` and `AGENTS.md`.
 
 ## 8. Review
-- User, does this Phase 3 roadmap (Validation & Reliability) align with your priorities for the Vector Protocol?
-\n\n---\n\n
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
+Plan COMPLETED. Vector Protocol v2.0.0 is live.
 
-## 1. Concept Objective
-- **Status:** `DRAFT`
-- **Goal:** Author a series of detailed technical blog posts explaining the prompt engineering best practices (XML, CoT, Grounding, Context-First) recently implemented in the Vector Protocol.
-
-## 2. Problem Breakdown
-- **Functional:** The user wants to understand the theoretical and practical underpinnings of the recent prompt architecture upgrades. A detailed technical blog series will serve as both educational material and extended documentation for the extension.
-- **Technical:**
-  - Need to create a new directory (e.g., `docs/blog/`) to store the markdown files.
-  - Write 4 separate, deep-dive articles based on the evidence gathered previously (`E-008`, `E-009`, `E-010`, `E-011`).
-  - Each post must balance theory (referencing DeepMind/Anthropic guidelines) with practical implementation examples from the Vector Protocol's `.toml` files.
-
-## 3. Design Discussion
-- **Content Strategy:** 
-  Each blog post should follow a clear narrative arc:
-  1. **The Problem:** Why legacy prompt design fails (e.g., instruction drift, hallucination).
-  2. **The Research/Best Practice:** What Google and Anthropic recommend.
-  3. **The Implementation:** How we applied it to the Gemini CLI Vector Protocol.
-  4. **The Impact:** The resulting improvements in deterministic agent behavior.
-- **Format:** Markdown with standard YAML frontmatter for compatibility with static site generators (like Hugo, Docusaurus, or Next.js blogs).
-- **Alternatives:** We could write one massive article, but breaking it down into a 4-part series makes the technical density more digestible and better suited for publishing.
-
-## 4. Proposed Solution (The Blog Series)
-- **Post 1:** *XML as the Native Language of LLMs* - Transitioning away from Markdown headers for semantic prompt boundaries.
-- **Post 2:** *Enforcing Determinism with Mandatory `<thinking>` Blocks* - The power of forced Chain-of-Thought (CoT) before action.
-- **Post 3:** *High-Assurance Perception:* - Utilizing Strict Grounding constraints to eliminate hallucination during RAG and repository scans.
-- **Post 4:** *The "Context-First" Architecture* - Defeating the "Lost in the Middle" phenomenon by optimizing the sequence of data and instructions.
-
-## 5. Revision History
-- **2026-04-04:** Draft created based on user request to document recent prompt engineering improvements.
-
-## 6. Implementation Roadmap
-- [x] **Task 1: Setup Blog Directory** - Create `docs/blog/` and initialize an index or series introduction.
-- [x] **Task 2: Author Blog 1 (XML Tagging)** - Write the technical deep dive on XML semantic boundaries [E-008].
-- [x] **Task 3: Author Blog 2 (Chain of Thought)** - Write the deep dive on `<thinking>` blocks and planning [E-009].
-- [x] **Task 4: Author Blog 3 (Strict Grounding)** - Write the deep dive on anti-hallucination constraints [E-010].
-- [x] **Task 5: Author Blog 4 (Context-First)** - Write the deep dive on long-context sequence optimization [E-011].
-
-## 7. Review
-- Please review this Deep Mode draft plan for the technical blog series. Do these topics and the proposed structure align with what you are looking for?
-\n\n---\n\n
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Concept Objective
-- **Status:** `DRAFT`
-- **Goal:** Phase 3: Validation & Reliability. Implement automated verification tooling and CI for the Vector Protocol.
-
-## 2. Problem Breakdown
-- **Functional:** Users and developers need a guarantee that the extension's commands and state files are structurally correct. Errors in TOML prompts (like missing XML tags) or Markdown files (like missing Dashboard headers) break the deterministic loop.
-- **Technical:**
-  - *TOML Auditor:* Needs to parse `gemini-extension.json`, locate every `.toml` command, and verify it contains mandatory XML sections (`<role>`, `<goal>`, `<output_format>`, etc.).
-  - *Markdown Linter:* Needs to check `.gemini/` files for adherence to the 5-File System schemas (e.g., `STATE.md` must have a "Phase").
-  - *CI Integration:* These checks must run automatically on every push/PR to prevent regressions.
-
-## 3. Design Discussion
-- **Language:** Python 3.x. It's pre-installed on most dev machines and CI runners, and excellent for file/text processing.
-- **Validation Logic:** 
-  - Regex-based checking for XML tags in prompts.
-  - Mandatory section presence in Markdown files.
-  - Manifest consistency (all listed commands must exist).
-- **Risks:** The linter shouldn't be too rigid; it should allow for scratchpad variability while enforcing core invariants.
-
-## 4. Proposed Solution
-1.  **`scripts/validate_commands.py`**:
-    *   Load `gemini-extension.json`.
-    *   Check if all listed paths exist.
-    *   Parse TOML content.
-    *   Validate prompt string for mandatory XML tags: `<context>`, `<role>`, `<goal>`, `<interaction_standards>`, `<protocol>`, `<output_format>`.
-2.  **`scripts/vector_lint.py`**:
-    *   Target `.gemini/*.md`.
-    *   Validate `STATE.md` has `# 💾 STATE`, `## 1. Status`, `## 2. Context`.
-    *   Validate `PLAN.md` has `# 🗺️ PLAN` or `# 🗺️ DESIGN`.
-    *   Validate `CONTEXT.md` has `# 📄 CONTEXT`.
-3.  **`.github/workflows/protocol-audit.yml`**:
-    *   Trigger: `push`, `pull_request`.
-    *   Run both scripts.
-4.  **Argument Guardrails**:
-    *   Update `plan.toml` and `work.toml` to check `if args is empty` and provide a helpful message.
-
-## 5. Alternatives Considered
-- *Node.js scripts:* Equally valid, but Python is slightly more idiomatic for standalone "linter" scripts in many engineering environments.
-- *Manual Checklists:* Rejected due to scale and high risk of human error.
-
-## 6. Revision History
-- **2026-04-04:** Draft created from Backlog Review.
-
-## 7. Implementation Roadmap
-- [x] **Task 1: Command Validation Script** - Create `scripts/validate_commands.py` to audit TOML prompt structure and manifest sync.
-- [x] **Task 2: Vector State Linter** - Create `scripts/vector_lint.py` to audit `.gemini/` file invariants.
-- [x] **Task 3: GitHub Actions CI** - Implement `.github/workflows/protocol-audit.yml` to automate verification.
-- [x] **Task 4: Argument Guardrails** - Update command prompts to handle empty/missing arguments gracefully.
-- [x] **Task 5: Version Bump (v1.16.0)** - Update manifest and release notes.
-
-## 8. Review
-- User, please review this roadmap for Phase 3: Validation & Reliability. Ready to proceed?
-\n\n---\n\n
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Concept Objective
-- **Status:** `DRAFT`
-- **Goal:** Phase 4: Structured Intelligence & Workflow Integration. Transition to a machine-readable Evidence schema, implement state-sync Git hooks, and deliver a dynamic workflow router (`/vector:next`).
-
-## 2. Problem Breakdown
-- **Functional:** 
-    - *Evidence Retrieval:* As projects grow, searching a flat `EVIDENCE.md` for specific facts becomes inefficient for the LLM. 
-    - *State Drift:* Users committing manually bypassing `/vector:save` leaves `STATE.md` in a stale phase (e.g., `[EXECUTION]`).
-    - *Workflow Friction:* New users often hesitate on which command to run next.
-- **Technical:**
-    - *Evidence Schema:* Need to transition from a Markdown table to a block-based schema with YAML frontmatter or a companion JSON store.
-    - *Git Hooks:* Need a script to install and manage a `.git/hooks/pre-commit` script that resets the phase to `[IDLE]` or warns the user.
-    - *Routing Logic:* `/vector:next` needs a heuristic parser for `STATE.md` and `PLAN.md` to output the next logical command.
-
-## 3. Design Discussion
-- **Evidence Structure:** I propose keeping `EVIDENCE.md` but wrapping each entry in a structured block (e.g., `<!-- { "id": "E-001", ... } -->`) or using a dedicated `EVIDENCE.json`. A JSON file is best for high-assurance retrieval (RAG optimization).
-- **Git Hook Strategy:** The hook should be a simple shell script that calls a Python utility to update the `STATE.md` phase. This ensures protocol integrity even with external git clients.
-- **Router Logic:** `/vector:next` will be a new TOML command that uses a simple state-machine logic:
-    - If Phase is `[IDLE]` and Plan is empty -> `/vector:scan`.
-    - If Phase is `[IDLE]` and Plan has unchecked tasks -> `/vector:work <task>`.
-    - If Phase is `[EXECUTION]` -> `/vector:save`.
-
-## 4. Proposed Solution
-1. **Automated Evidence Schema:** Implement a migration script to move existing entries to `EVIDENCE.json` and update the `save` command to write to both.
-2. **Protocol State Git Hooks:** Create `scripts/install_hooks.sh` and a Python helper to auto-sync state on commit.
-3. **`/vector:next` Routing Helper:** Create `commands/vector/next.toml` with the routing logic.
-
-## 5. Revision History
-- **2026-04-04:** Draft created from Backlog Review.
-
-## 6. Implementation Roadmap
-- [x] **Task 1: Structured Evidence Migration** - Transition `EVIDENCE.md` data to a machine-readable `EVIDENCE.json` and update `save.toml`.
-- [x] **Task 2: Protocol Git Hooks** - Implement `pre-commit` hook to ensure `STATE.md` sync during manual commits.
-- [x] **Task 3: Implement `/vector:next`** - Create the dynamic routing command to guide the developer workflow.
-- [x] **Task 4: Documentation & Version Bump (v1.17.0)** - Update README and increment manifest.
-
-## 7. Review
-- User, please review this Phase 4 roadmap. Does the focus on Structured Evidence and Workflow Integration align with the next evolution of the Vector Protocol?
-\n\n---\n\n
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Concept Objective
-- **Status:** `DRAFT`
-- **Goal:** Phase 5: Self-Healing & Integration Testing. Implement `/vector:lint` extension command and setup end-to-end integration tests using sub-agents.
-
-## 2. Problem Breakdown
-- **Functional:** 
-    - *Linter Friction:* Users must manually run `python scripts/vector_lint.py`. They often forget, leading to broken protocol state.
-    - *Regression Risk:* While we validate TOML syntax, we do not validate the *behavior* of the LLM given those TOML prompts. A prompt tweak might cause the model to stop outputting the dashboard correctly.
-- **Technical:**
-    - *Lint Command:* Need to wrap `scripts/vector_lint.py` into a new extension command (`commands/vector/lint.toml`).
-    - *E2E Tests:* Need to leverage the Gemini CLI `generalist` sub-agent to simulate user commands and assert output structure.
-
-## 3. Design Discussion
-- **Lint Command Strategy:** `/vector:lint` should be a lightweight wrapper that runs the existing python script. If the script passes, it outputs success. If it fails, it should use its LLM capabilities to *auto-fix* the broken markdown files, rather than just complaining to the user. This creates a "self-healing" state loop.
-- **Integration Test Strategy:** We can write a Python script (`scripts/e2e_test.py`) that uses the Gemini CLI natively (via `subprocess` or similar) to initialize a temporary repo, run `/vector:plan`, and assert that the output contains the `*   **Session Dashboard:**` string. 
-
-## 4. Proposed Solution
-1. **Self-Healing Linter:** 
-   - Create `commands/vector/lint.toml`.
-   - Update `save.toml` to recommend running `/vector:lint` if there are state issues.
-2. **E2E Agent Tests:** 
-   - Create a basic testing script to run CLI commands and capture output.
-
-## 5. Revision History
-- **2026-04-04:** Draft created from Backlog Review.
-
-## 6. Implementation Roadmap
-- [x] **Task 1: Create Linter Command** - Implement `commands/vector/lint.toml` as an auto-fixing wrapper around `vector_lint.py`.
-- [x] **Task 2: Integrate Linter Suggestion** - Update `save.toml` to suggest `/vector:lint`.
-- [x] **Task 3: E2E Test Stub** - Create `scripts/e2e_test.py` to simulate agent interactions.
-- [x] **Task 4: Documentation & Version Bump (v1.18.0)** - Update README and increment manifest.
-
-## 7. Review
-- User, please review this Phase 5 roadmap. Does the focus on self-healing state and E2E testing align with expectations?
-\n\n---\n\n
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Concept Objective
-- **Status:** `DRAFT`
-- **Goal:** Improve User Feedback Loop & Analytics. Gather analytics on agent effectiveness, implement standard issue templates, and establish a feedback command.
-
-## 2. Problem Breakdown
-- **Functional:** 
-    - *Agentic Feedback:* Users have no native way to report if an agent turn was "good" or "bad" without leaving the CLI.
-    - *Contribution Friction:* External contributors do not have standardized issue templates to report bugs or request features.
-    - *Telemetry:* As maintainers, we do not know how frequently the protocol requires "self-healing" or how often `EVIDENCE.md` is accessed.
-- **Technical:**
-    - *Issue Templates:* Need to create `.github/ISSUE_TEMPLATE/` files.
-    - *Telemetry Architecture:* Need to define a lightweight telemetry approach (e.g., adding a local `.gemini/METRICS.json` that tracks turn durations and failure rates).
-    - *Feedback Command:* Create a `/vector:feedback` command.
-
-## 3. Design Discussion
-- **Feedback Command:** `/vector:feedback` should allow the user to append a note to `.gemini/BACKLOG.md` or a new `.gemini/FEEDBACK.md` file quickly. Let's append to the BACKLOG to keep the 5-File System pure.
-- **Telemetry:** Adding a complex telemetry server is out of scope. We will instead create a local `scripts/metrics.py` that parses `STATE.md` and `STATE_ARCHIVE.md` to generate a local "DORA metrics" style report.
-- **Issue Templates:** Standard GitHub Markdown templates are sufficient.
-
-## 4. Proposed Solution
-1. **GitHub Issue Templates:** Create `bug_report.md` and `feature_request.md`.
-2. **Local Metrics Script:** Create `scripts/generate_metrics.py` to analyze session duration and execution success rates.
-3. **Feedback Command:** Add `commands/vector/feedback.toml` to capture user sentiment.
-
-## 5. Revision History
-- **2026-04-04:** Draft created from Backlog Review.
-
-## 6. Implementation Roadmap
-- [x] **Task 1: Issue Templates** - Create `.github/ISSUE_TEMPLATE` bug and feature forms.
-- [x] **Task 2: Local Metrics Script** - Implement `scripts/generate_metrics.py`.
-- [x] **Task 3: Feedback Command** - Create `commands/vector/feedback.toml`.
-- [x] **Task 4: Documentation & Version Bump (v1.19.0)** - Update README and increment manifest.
-
-## 7. Review
-- User, please review this roadmap for User Feedback & Analytics. Ready to proceed?
-\n\n---\n\n
-\n\n# ARCHIVED AT 2026-04-05T03:17:01Z\n
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Concept Objective
-- **Status:** `DRAFT`
-- **Goal:** Phase 6: Codebase Hygiene & Final Polish. Clean up remaining tech debt in the backlog, expand integration tests, and finalize the v1.20.0 release of the Vector Protocol.
-
-## 2. Problem Breakdown
-- **Functional:** 
-    - *Testing Gap:* We have an E2E test stub (`scripts/e2e_test.py`), but the backlog highlights the need for a "Full Integration" test suite that uses the `generalist` sub-agent to simulate complex commands against a dummy repo.
-    - *Self-Healing Friction:* The `[New] Protocol Invariant Validator (State Linter Extension)` was already mostly implemented in Phase 5 (`/vector:lint`), but the backlog item remains. We need to verify if the implementation is complete and remove the tech debt.
-- **Technical:**
-    - *Integration Tests:* Expand `scripts/e2e_test.py` to cover more than just the initialization phase.
-    - *Backlog Grooming:* Clear implemented items from `.gemini/BACKLOG.md`.
-
-## 3. Design Discussion
-- **Testing Expansion:** We will update `scripts/e2e_test.py` to add a test for the `work` phase, ensuring the agent can successfully pick up a task and execute a file edit. This will increase confidence in the full loop.
-- **Backlog Pruning:** The two remaining items in the Backlog have effectively been addressed by our recent sprints (Phase 5 built the `/vector:lint` extension, and Phase 6 will expand the integration tests). We will move these items out of the Icebox.
-
-## 4. Proposed Solution
-1. **Expand E2E Tests:** Add a `test_work_execution` function to `scripts/e2e_test.py`.
-2. **Prune Backlog:** Remove the resolved tech debt from `.gemini/BACKLOG.md`.
-3. **Version 1.20.0:** Prepare the final 1.x minor release.
-
-## 5. Revision History
-- **2026-04-04:** Draft created from Backlog Review.
-
-## 6. Implementation Roadmap
-- [x] **Task 1: Expand Integration Tests** - Add a test for the `work` command to `scripts/e2e_test.py`.
-- [x] **Task 2: Prune Backlog** - Remove the completed tech debt items from `.gemini/BACKLOG.md`.
-- [x] **Task 3: Documentation & Version Bump (v1.20.0)** - Update README and increment manifest for the final polish release.
-
-## 7. Review
-- User, please review this roadmap for Phase 6. Ready to proceed?
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Objective
-- **Goal:** Harden `/vector:work` for empty plans and implement the DORA Metrics Dashboard Output from the backlog.
-
-## 2. Strategic Analysis
-- **Harden `/vector:work`:** The agent currently hallucinates or fails ungracefully when no arguments are provided and all tasks in `.gemini/PLAN.md` are marked complete. We must update `commands/vector/work.toml` (Protocol 2: Task Retrieval) to explicitly check for the "All tasks complete" state and halt cleanly with a helpful message recommending `/vector:plan`.
-- **DORA Metrics Dashboard:** A backlog item requests a visual representation of `METRICS.json`. We will implement a new command (`commands/vector/metrics.toml`) that reads the metrics file and outputs a clean Markdown dashboard. We must also register this command in `gemini-extension.json`.
-- **Risk:** Low. Modifications to `work.toml` are text-based prompt adjustments. Creating a new command follows the established extension pattern.
-
-## 3. Implementation Roadmap
-- [ ] **Task 1: Harden `/vector:work` Task Retrieval** - Edit `commands/vector/work.toml` to explicitly instruct the agent to halt cleanly if `{{args}}` is empty AND there are no pending (`- [ ]`) or failing (`- [!]`) tasks.
-- [ ] **Task 2: Create `/vector:metrics` Command** - Implement `commands/vector/metrics.toml` with instructions to read `.gemini/METRICS.json` and format it as a markdown table/dashboard.
-- [ ] **Task 3: Register `/vector:metrics`** - Update `gemini-extension.json` to include the new command and increment the minor version.
-
-## 4. Review
-Plan established. Ready to Execute?
-\n--- Archive Mon Apr 6 10:36:50 IST 2026 ---\n
-\n\n---\n\n
-# 🗺️ PLAN
-> The dynamic direction. The Execution Roadmap.
-
-## 1. Objective
-- **Goal:** Fix relative script paths in command definitions to support cross-project usage.
-
-## 2. Strategic Analysis
-- **Problem:** The `save.toml`, `lint.toml`, and `metrics.toml` command definitions instruct the agent to run python scripts using hardcoded relative paths like `scripts/vector_lint.py`. When users run these commands from their own project workspaces, the CLI attempts to resolve `scripts/vector_lint.py` within the user's directory, resulting in an error.
-- **Solution:** The Gemini CLI extension framework provides the `${extensionPath}` and `${/}` runtime variables. We must update the `.toml` prompts to tell the AI to execute `python3 ${extensionPath}${/}scripts${/}vector_lint.py` instead. This ensures the CLI engine interpolates the correct absolute path to the extension's installation directory before the AI executes it.
-- **Risk Assessment:** Low risk. This is a text replacement in prompt templates. The agent will read the interpolated string and execute the command safely regardless of the user's CWD.
-
-## 3. Implementation Roadmap
-- [ ] **Task 1: Update `lint.toml`** - Replace all occurrences of `python3 scripts/vector_lint.py` with `python3 ${extensionPath}${/}scripts${/}vector_lint.py`.
-- [ ] **Task 2: Update `save.toml`** - Replace `python3 scripts/vector_lint.py` with `python3 ${extensionPath}${/}scripts${/}vector_lint.py`.
-- [ ] **Task 3: Update `metrics.toml`** - Replace `scripts/generate_metrics.py` with `${extensionPath}${/}scripts${/}generate_metrics.py`.
-- [ ] **Task 4: Bump Version** - Increment `gemini-extension.json` minor/patch version (e.g., to `1.21.1`) to reflect this portability bug fix.
-
-## 4. Review
-Plan established. Ready to Execute?
+--- Archived on 2026-04-20 ---

@@ -1,3 +1,4 @@
 {
-  "status": "SUCCESS"
+  "status": "success",
+  "message": "[SUCCESS] Stage and commit all changes in the workspace."
 }

@@ -1,34 +1,35 @@
-# Vector Protocol Documentation Verification Plan
+# Vector Protocol Strategy: Explicit Custom Subagents
 
 ## 1. Intent
-Verify that the current documentation comprehensively and consistently reflects the newly designed Vector Protocol updates (Tiered Command Model, Parallel Swarm Execution, removal of `generalist` subagent, early short-circuiting in loops, and Subagent Isolation via fractal task directories and state isolation). Make any necessary corrections to align all documentation artifacts.
+Fix the bug where the Vector Protocol keeps spinning off instances of the `generalist` agent. We will explicitly define the custom subagents (`planner`, `implementer`, `tester`, `critic`) following the Gemini CLI spec (Markdown with YAML frontmatter) and bundle them correctly into the `gcx-vector-protocol` extension.
 
-## 2. Success Criteria & Definition of Done
-- `AGENTS.md`, `README.md`, `gemini-extension.json`, `docs/`, and `skills/vector-protocol/SKILL.md` accurately describe the Tiered Command Model (Core loop vs. Supporting tools).
-- Parallel Swarm Execution is clearly documented as a core feature.
-- The `generalist` subagent is explicitly marked as deprecated or removed in all agent definitions.
-- Early short-circuiting in the Ralph Wiggum loops is documented correctly.
-- Subagent Isolation principles, including the use of fractal task directories and state isolation, are clearly defined and enforced in the documentation.
-- No contradictory or outdated instructions exist regarding these features.
+## 2. Success Criteria
+- The custom subagents (`planner`, `implementer`, `tester`, `critic`) are defined as individual `.md` files containing YAML frontmatter (`name`, `description`, `kind`, `model`, etc.).
+- These definition files are placed within the `agents/` directory of the `gcx-vector-protocol` extension repository.
+- The `gemini-extension.json` manifest is updated to remove the inline `subagents` array, as the CLI will automatically discover bundled subagents in the `agents/` directory (similar to `skills/`).
+- The `AGENTS.md` documentation is updated if necessary to reflect the explicit agent setup.
 
 ## 3. Dependencies
-- Read access to all repository documentation files.
+- The Gemini CLI extension documentation regarding custom subagents and bundling (`agents/` directory).
 
 ## 4. Side Effects
-- Minor documentation formatting and content updates. No code logic changes expected.
+- The `.gemini/PLAN.md` file will no longer be executed by a fallback `generalist` agent but instead directly routed to the `planner`, `implementer`, `tester`, and `critic` MCP tools/subagents.
+- Any manual overrides for the `generalist` agent in user setups related to this extension might break or become obsolete.
 
 ## 5. Unknowns & Hypotheses
-- Older documentation files (e.g. in `docs/` or `scripts/`) might still reference deprecated behaviors or command workflows without classifying them into the new Tiered Command Model.
-- There may be missed references to the `generalist` agent in deep context files or extension manifests.
-- Subagent isolation might be described inconsistently across different files, especially regarding the structure of the `.gemini/tasks/` directory.
+- **Unknown:** Does the extension spec strictly require the directory to be `agents/` or `.gemini/agents/` inside the extension root?
+- **Hypothesis:** Following the pattern of `skills/` and the extension documentation fetched, the folder should be `agents/` in the extension root. If required by a local project, it would be `.gemini/agents/`. We will bundle them in the extension's root `agents/` directory.
+
+---
 
 ## 6. Execution Roadmap
 
-[PARALLEL BATCH]
-- [x] Task 1: Audit `AGENTS.md` and `README.md` for consistent references to Parallel Swarm, `generalist` deprecation, Tiered Command Model, and Subagent Isolation via fractal task directories.
-- [x] Task 2: Audit `gemini-extension.json` to ensure `generalist` is completely removed from subagents array and Subagent Isolation is reflected in command descriptions.
-- [x] Task 3: Audit `skills/vector-protocol/SKILL.md` to confirm early short-circuiting and subagent state isolation (e.g., zero-context mandate) are explicitly instructed.
-- [x] Task 4: Audit `docs/COMMAND_SURFACE_SIMPLIFICATION_PLAN.md` to ensure the planned documentation changes, including Subagent Isolation, have been fully integrated into the primary docs (README, AGENTS).
+### [PARALLEL BATCH: Create Subagent Definitions]
+- [x] Task 1: Create `planner` Subagent
+- [x] Task 2: Create `implementer` Subagent
+- [x] Task 3: Create `tester` Subagent
+- [x] Task 4: Create `critic` Subagent
 
-- [x] Task 5: Consolidate findings from the parallel audit and implement necessary text replacements to fix inconsistencies, specifically ensuring Subagent Isolation principles are applied.
-- [x] Task 6: Final Critic review of all updated documentation artifacts for alignment with the Vector Protocol v2 mandate, including the Subagent Isolation audit.
+### [PHASE 2: Clean up Manifest & Documentation]
+- [x] Task 5: Update `gemini-extension.json`
+- [x] Task 6: Update Documentation

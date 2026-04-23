@@ -27,14 +27,21 @@ Resolve facts in this order:
 3. **Executed evidence** (Test logs, build output).
 4. **Authoritative external references** (Official docs).
 
-**Citation hygiene:** Every factual claim MUST reference an Evidence ID (e.g., `[E-001]`).
+**Citation hygiene:** Every factual claim MUST reference an Evidence ID (e.g., `[E-001]`) derived from `EVIDENCE.json`. Subagents must provide the source task mapping for every new piece of evidence.
 
-## 5) Tiered Command Model (Workflow Guardrails)
+## 5) Lock-Free Filesystem Persistence Mandate
+To eliminate race conditions and ensure total auditability, subagents follow a strict isolation protocol:
+- **No Shared Mutability:** Subagents MUST NEVER write directly to shared root files like `STATE.md` or `PLAN.md`.
+- **Fractal Writing:** All logs, status updates, and artifacts MUST be written exclusively to the subagent's assigned fractal directory (`.gemini/tasks/task-ID/`).
+- **Localized Status:** Each task must maintain its own `STATUS.json` file. This file serves as the authoritative source for the central synchronization script (`scripts/sync_state.py`) to aggregate global state without file locks.
+- **Persistence or Failure:** If an action is not persisted in the fractal task directory, it is considered non-existent for the protocol.
+
+## 6) Tiered Command Model (Workflow Guardrails)
 - **Planning:** `/vector:plan` is mandatory for new features. It requires human signoff before execution.
 - **Execution:** `/vector:work` is autonomous and long-running. It loops until the successful completion of all tasks in the active roadmap.
 - **Persistence:** If it isn't on the filesystem, it didn't happen. The `.gemini/` directory is the authoritative RAM/ROM of the agent swarm.
 
-## 6) Merge-Readiness Checklist
+## 7) Merge-Readiness Checklist
 Before concluding a work unit:
 - Working tree is clean.
 - All tasks in `.gemini/PLAN.md` are marked `- [x]`.

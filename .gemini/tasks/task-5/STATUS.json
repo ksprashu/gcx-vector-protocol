@@ -1,0 +1,5 @@
+{
+  "task_id": "task-5",
+  "status": "APPROVED",
+  "dependencies": ["task-1", "task-2", "task-3", "task-4"]
+}

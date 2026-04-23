@@ -1,131 +1,167 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "evidence": [
     {
       "id": "E-001",
       "topic": "Initial Setup",
       "source": "File System",
       "authoritative": true,
-      "last_checked": "2026-03-03"
+      "last_checked": "2026-03-03T00:00:00Z",
+      "task_id": "initial",
+      "uri": "/"
     },
     {
       "id": "E-002",
       "topic": "Parallel Sub-agents",
       "source": "Gemini CLI `generalist` capabilities",
       "authoritative": true,
-      "last_checked": "2026-03-04"
+      "last_checked": "2026-03-04T00:00:00Z",
+      "task_id": "discovery",
+      "uri": "https://geminicli.com/docs/agents"
     },
     {
       "id": "E-003",
       "topic": "Gemini Model Tiers",
       "source": "Google Official Gemini Docs (v1.5/2.0/3.1)",
       "authoritative": true,
-      "last_checked": "2026-03-29"
+      "last_checked": "2026-03-29T00:00:00Z",
+      "task_id": "discovery",
+      "uri": "https://ai.google.dev/gemini-api/docs/models/gemini"
     },
     {
       "id": "E-004",
       "topic": "Skill Anatomy",
       "source": "`skill-creator` instructions",
       "authoritative": true,
-      "last_checked": "2026-03-04"
+      "last_checked": "2026-03-04T00:00:00Z",
+      "task_id": "discovery",
+      "uri": "builtin/skill-creator/SKILL.md"
     },
     {
       "id": "E-005",
       "topic": "Vector Protocol Commands",
       "source": "`commands/vector/*.toml`",
       "authoritative": true,
-      "last_checked": "2026-03-04"
+      "last_checked": "2026-03-04T00:00:00Z",
+      "task_id": "discovery",
+      "uri": "commands/vector/"
     },
     {
       "id": "E-006",
       "topic": "Extension Manifest",
       "source": "`gemini-extension.json`",
       "authoritative": true,
-      "last_checked": "2026-03-04"
+      "last_checked": "2026-03-04T00:00:00Z",
+      "task_id": "discovery",
+      "uri": "gemini-extension.json"
     },
     {
       "id": "E-007",
       "topic": "Skill Intent Mismatch",
       "source": "User Feedback / Architectural Audit",
       "authoritative": true,
-      "last_checked": "2026-03-04"
+      "last_checked": "2026-03-04T00:00:00Z",
+      "task_id": "audit",
+      "uri": ".gemini/tasks/PROTOCOL-FEEDBACK.md"
     },
     {
       "id": "E-008",
       "topic": "XML Tagging & Structure",
       "source": "Anthropic Claude & Google Gemini 3 Documentation",
       "authoritative": true,
-      "last_checked": "2026-04-04"
+      "last_checked": "2026-04-04T00:00:00Z",
+      "task_id": "theory",
+      "uri": "https://ai.google.dev/gemini-api/docs/prompting-strategies"
     },
     {
       "id": "E-009",
       "topic": "Thinking/CoT Protocols",
       "source": "DeepMind \"Plan-First\" & \"Self-Critique\" guidelines",
       "authoritative": true,
-      "last_checked": "2026-04-04"
+      "last_checked": "2026-04-04T00:00:00Z",
+      "task_id": "theory",
+      "uri": "https://deepmind.google/technologies/gemini/"
     },
     {
       "id": "E-010",
       "topic": "Strict Grounding Constraints",
       "source": "Google Gemini 3 Flash Developer Instructions",
       "authoritative": true,
-      "last_checked": "2026-04-04"
+      "last_checked": "2026-04-04T00:00:00Z",
+      "task_id": "theory",
+      "uri": "https://ai.google.dev/gemini-api/docs/grounding"
     },
     {
       "id": "E-011",
       "topic": "Long-Context Architecture",
       "source": "Anthropic \"Context at Top\" & Gemini \"Data First\" best practices",
       "authoritative": true,
-      "last_checked": "2026-04-04"
+      "last_checked": "2026-04-04T00:00:00Z",
+      "task_id": "theory",
+      "uri": "https://ai.google.dev/gemini-api/docs/long-context"
     },
     {
       "id": "E-012",
       "topic": "GitHub Actions for Agents",
       "source": "GitHub official marketplace & CI for agents docs",
       "authoritative": true,
-      "last_checked": "2026-04-04"
+      "last_checked": "2026-04-04T00:00:00Z",
+      "task_id": "infra",
+      "uri": ".github/workflows/protocol-audit.yml"
     },
     {
       "id": "E-013",
       "topic": "Markdown Linting for Agents",
       "source": "Google ADK & Vector Protocol internal standards",
       "authoritative": true,
-      "last_checked": "2026-04-04"
+      "last_checked": "2026-04-04T00:00:00Z",
+      "task_id": "lint",
+      "uri": "scripts/vector_lint.py"
     },
     {
       "id": "E-014",
       "topic": "GitHub Issue Templates",
       "source": "GitHub Official Docs for Repository Maintenance",
       "authoritative": true,
-      "last_checked": "2026-04-04"
+      "last_checked": "2026-04-04T00:00:00Z",
+      "task_id": "infra",
+      "uri": ".github/ISSUE_TEMPLATE/"
     },
     {
       "id": "E-015",
       "topic": "User Feedback Loops",
       "source": "Product Management & UX Best Practices",
       "authoritative": true,
-      "last_checked": "2026-04-04"
+      "last_checked": "2026-04-04T00:00:00Z",
+      "task_id": "discovery",
+      "uri": ".gemini/tasks/DOC-FEEDBACK.md"
     },
     {
       "id": "E-016",
       "topic": "DORA Metrics",
       "source": "DevOps Research and Assessment (DORA) standards",
       "authoritative": true,
-      "last_checked": "2026-04-04"
+      "last_checked": "2026-04-04T00:00:00Z",
+      "task_id": "metrics",
+      "uri": "scripts/generate_metrics.py"
     },
     {
       "id": "E-017",
       "topic": "Extension Path Resolution",
       "source": "Gemini CLI `cli_help` documentation",
       "authoritative": true,
-      "last_checked": "2026-04-10"
+      "last_checked": "2026-04-10T00:00:00Z",
+      "task_id": "discovery",
+      "uri": "https://geminicli.com/docs/extensions"
     },
     {
       "id": "E-018",
       "topic": "Linter Portability",
       "source": "`scripts/vector_lint.py` source logic",
       "authoritative": true,
-      "last_checked": "2026-04-10"
+      "last_checked": "2026-04-10T00:00:00Z",
+      "task_id": "lint",
+      "uri": "scripts/vector_lint.py"
     }
   ]
 }

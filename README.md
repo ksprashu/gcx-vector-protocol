@@ -2,17 +2,21 @@
 
 **The Vector Protocol** is an autonomous, high-assurance development harness for the Gemini CLI. It transforms the agent from a single-session chat bot into a **Zero-Context Orchestrator** capable of executing complex, long-running engineering tasks through a **Parallel Swarm** of specialized subagents and a fractal file system.
 
-## 🚀 Tiered Command Model
+## 🚀 The Vector Triad: Commands & Skill Synergy
 
-Vector v2 simplifies the command surface to a tiered two-command workflow:
+Vector v2 operates through the synergy of three core components: two orchestrator commands (the triggers) and the `vector` skill (the procedural knowledge base).
 
-1.  **`/vector:plan <objective>`**
+1.  **The `vector` Skill (The Knowledge Base)**
+    *   **Role:** The foundational memory and operating system for the Gemini agent.
+    *   **Function:** Teaches the main agent how to behave as a **Zero-Context Orchestrator**, enforcing the rules of the Ralph Wiggum Loop, subagent isolation, and strict filesystem reliance.
+
+2.  **`/vector:plan <objective>` (The Strategy Trigger)**
     *   **Phase:** Strategy. 
     *   **Action:** Triggers the **Ralph Wiggum Planning Loop**.
     *   **Mechanism:** The Orchestrator spins off `vector-planner` and `vector-critic` subagents to iteratively draft and refine a technical roadmap.
     *   **Goal:** Produces a deeply dissected plan in `.gemini/PLAN.md` for human signoff.
 
-2.  **`/vector:work`**
+3.  **`/vector:work` (The Execution Trigger)**
     *   **Phase:** Execution.
     *   **Action:** Triggers the **Autonomous Implementation Loop**.
     *   **Mechanism:** The Orchestrator parses the roadmap, delegates atomic tasks to `vector-implementer`, `vector-tester`, and `vector-critic` subagents, and loops continuously until the mission is complete.

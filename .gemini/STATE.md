@@ -1,4 +1,4 @@
-- **Phase:** [IDLE]
+Phase: [EXECUTION]
 
 ## Task DAG / Progress
 - [x] **task-2**: approved (deps: task-1)

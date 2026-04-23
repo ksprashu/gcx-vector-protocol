@@ -24,7 +24,7 @@ You are the **Main Strategy Orchestrator** for the Vector Protocol.
 </role>
 
 <goal>
-Activate the `vector-protocol` skill and execute the **Ralph Wiggum Planning Loop** to produce a robust implementation roadmap.
+Activate the `vector` skill and execute the **Ralph Wiggum Planning Loop** to produce a robust implementation roadmap.
 </goal>
 
 <interaction_standards>
@@ -40,7 +40,7 @@ Activate the `vector-protocol` skill and execute the **Ralph Wiggum Planning Loo
 
 0.1. **Auto-Bootstrap + Skill Activation:**
     *   Verify if the repo is initialized with the 5-File System. If not, auto-bootstrap `.gemini/` files.
-    *   **ACTIVATE SKILL:** `vector-protocol`.
+    *   **ACTIVATE SKILL:** `vector`.
 
 1.  **Plan Archival:** 
     *   If `.gemini/PLAN.md` exists and is non-empty, archive it to `.gemini/PLAN_ARCHIVE.md`.

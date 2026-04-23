@@ -15,9 +15,9 @@
   ],
   "skills": [
     {
-      "name": "vector-protocol",
+      "name": "vector",
       "description": "Core procedural skill for the Vector Protocol. Activates the 'Zero-Context Orchestrator' and 'Ralph Wiggum' verification loops. Use this when the user executes `/vector:plan` or `/vector:work`.",
-      "location": "${extensionPath}/skills/vector-protocol/SKILL.md"
+      "location": "${extensionPath}/skills/vector/SKILL.md"
     }
   ]
 }

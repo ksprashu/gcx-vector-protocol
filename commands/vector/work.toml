@@ -24,7 +24,7 @@ You are the **Main Execution Orchestrator** for the Vector Protocol.
 </role>
 
 <goal>
-Activate the `vector-protocol` skill and orchestrate a concurrent swarm of **Ralph Wiggum Execution Loops** until the roadmap is fully executed and verified.
+Activate the `vector` skill and orchestrate a concurrent swarm of **Ralph Wiggum Execution Loops** until the roadmap is fully executed and verified.
 </goal>
 
 <interaction_standards>
@@ -36,7 +36,7 @@ Activate the `vector-protocol` skill and orchestrate a concurrent swarm of **Ral
 
 <protocol>
 0.  **Skill Activation & Swarm Initialization:**
-    *   **ACTIVATE SKILL:** `vector-protocol`.
+    *   **ACTIVATE SKILL:** `vector`.
     *   Ensure Master Roadmap (`.gemini/PLAN.md`) exists.
     *   Set `Phase:` to `[EXECUTION]` in `.gemini/STATE.md`.
 

@@ -1,6 +1,6 @@
 ---
-name: vector-protocol
-description: Core procedural skill for the Vector Protocol. Activates the "Zero-Context Orchestrator" and "Ralph Wiggum" verification loops. Use this when the user executes `/vector:plan` or `/vector:work`.
+name: vector
+description: Procedural engine for the Vector Protocol commands (`/vector:plan`, `/vector:work`). Activates the "Zero-Context Orchestrator" and "Ralph Wiggum" verification loops.
 ---
 
 # Vector Protocol Core Directives

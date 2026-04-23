@@ -27,11 +27,13 @@ To prevent **Context Rot** and session drift, the main CLI agent never writes co
 Even low-power models can produce world-class results through iteration.
 - **Planning:** Draft -> Critique -> Review -> Repeat 2x.
 - **Execution:** Implement -> Test -> Critique -> Loop until success.
+- **Parallel Swarm:** Vector v2 enables concurrent execution of independent tasks. Each task branch runs its own Ralph Wiggum loop in parallel, drastically reducing time-to-delivery for large features.
 
 ### 3. Fractal File System (`.gemini/tasks/`)
 Vector v2 bypasses context limits by breaking tasks into a fractal directory structure. Each task has its own localized `PLAN.md`, `STATE.md`, and `EVIDENCE.md`, allowing the swarm to maintain infinite depth without polluting the main thread.
 
 ### 4. Specialized Subagent Swarm
+The `generalist` agent is **deprecated** in favor of strict specialists to ensure higher quality and deterministic outcomes:
 - `planner`: Roadmap architecture and goal decomposition.
 - `implementer`: Atomic, thin-stack code implementation.
 - `tester`: Rigorous verification and evidence logging.

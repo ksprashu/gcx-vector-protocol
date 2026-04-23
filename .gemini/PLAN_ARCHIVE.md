@@ -1,31 +1,38 @@
-# Vector Protocol Plan: Clarify Commands vs Skill and Rename Skill
+# Vector Protocol Deep Dissection Plan
 
 ## 1. Intent
-Address user confusion regarding the "3 things" (2 commands + 1 skill) in the Vector Protocol extension by clarifying their distinct roles (Commands as triggers, Skill as procedural knowledge/rules engine) and renaming the skill from `vector-protocol` to `vector` for simplicity.
+Overhaul the Vector Protocol to be dynamic, flexible, and massively parallel while resolving permission prompts for `mkdir`/`sed` and preventing file race conditions. The rigid execution loop will be replaced by a dynamic, multi-angle parallel approach. Explicit philosophical terminology will be scrubbed and replaced with functional descriptions of these behaviors.
 
 ## 2. Success Criteria & Definition of Done
-- `gemini-extension.json` correctly references the skill as `vector` and points to `skills/vector/SKILL.md`.
-- The `skills/vector-protocol` directory is moved to `skills/vector`.
-- `README.md`, `AGENTS.md`, and `SKILL.md` are updated to explicitly explain the functional difference and synergy between the commands (`/vector:plan`, `/vector:work`) and the skill (`vector`).
+- `mkdir` and `sed` are added to the command allowlist in `policies/autonomous.toml`.
+- `AGENTS.md` and `skills/vector/SKILL.md` define strict file-locking or mutually exclusive workspace allocation to prevent parallel implementers from modifying the same files simultaneously.
+- Orchestrator commands (`commands/vector/plan.toml`, `commands/vector/work.toml`) and `skills/vector/SKILL.md` are redesigned to mandate dynamic iteration calculation and multi-angle parallel implementations.
+- All references to "Ralph Wiggum", "First Principles", and "Critical Thinking" are removed from `README.md`, `AGENTS.md`, and `skills/vector/SKILL.md` and replaced with functional descriptions.
 
 ## 3. Dependencies
-- Current workspace with `gemini-extension.json`, `README.md`, `AGENTS.md`, and `skills/vector-protocol` directory.
+- Existing policy files (`policies/autonomous.toml`).
+- Existing documentation and skill definitions (`AGENTS.md`, `README.md`, `skills/vector/SKILL.md`, `commands/vector/plan.toml`, `commands/vector/work.toml`).
 
 ## 4. Side Effects
-- Documentation changes will require users to read the updated definitions.
-- The CLI needs to load the extension with the renamed skill.
+- Agents will dynamically dictate the length and depth of execution loops rather than following a static 3-step constraint.
+- Multi-angle implementations might increase token usage/context consumption but will yield more robust solutions.
+- Modifying policy files will change execution permissions for all future tasks.
 
 ## 5. Unknowns & Hypotheses
-- Will users still be confused by having a skill and commands with similar names? Hypothesis: Explicit documentation of their synergy (Trigger vs Engine) will resolve the confusion.
+- *Hypothesis:* Enforcing strict workspace allocation will eliminate file corruption from parallel implementations without overly constraining concurrent execution.
+- *Unknown:* Whether "multi-angle parallel implementation" will confuse the `vector-critic` when reviewing disparate approaches to the same task.
+- *Risk:* Over-scrubbing philosophical terms might accidentally remove necessary functional constraints if not carefully rewritten.
 
 ## 6. Execution Roadmap
 
-### [PARALLEL BATCH] Rename Skill & Update Manifest
--[x] Rename the directory `skills/vector-protocol` to `skills/vector`.
--[x] Update `gemini-extension.json` to change the skill name from `vector-protocol` to `vector` and update the `location` path.
--[x] Update `commands/vector/plan.toml` and `commands/vector/work.toml` to change the instruction `activate_skill("vector-protocol")` to `activate_skill("vector")`.
+### [PARALLEL BATCH 1: Policy & Documentation Scrub]
+- **Task 1.1:** Update `policies/autonomous.toml` to allowlist `mkdir` and `sed`. (Target: `policies/autonomous.toml`)
+- **Task 1.2:** Scrub "Ralph Wiggum", "First Principles", and related philosophical terms from `README.md` and replace with functional descriptions. (Target: `README.md`)
 
-### [PARALLEL BATCH] Update Documentation
--[x] Update `README.md` to include a section explaining the synergy between the "3 things": the two orchestrator commands (the triggers) and the `vector` skill (the procedural knowledge base).
--[x] Update `AGENTS.md` to clarify how the commands and the skill interact in the Zero-Context Mandate.
--[x] Update `skills/vector/SKILL.md` to reflect the name change to `vector` and add a brief description of its role as the procedural engine for the commands.
+### [PARALLEL BATCH 2: Architectural Documentation - Race Conditions & Loop Evolution]
+- **Task 2.1:** Update `AGENTS.md` to define strict file-locking/workspace allocation rules and describe the dynamic, parallel multi-angle loop, scrubbing old philosophical terms. (Target: `AGENTS.md`)
+- **Task 2.2:** Update `skills/vector/SKILL.md` to mandate dynamic iterations, multi-angle implementations, and strict file isolation, scrubbing old philosophical terms. (Target: `skills/vector/SKILL.md`)
+
+### [PARALLEL BATCH 3: Orchestrator Commands Redesign]
+- **Task 3.1:** Redesign `commands/vector/plan.toml` to support dynamic loop evolution and parallel multi-angle strategies. (Target: `commands/vector/plan.toml`)
+- **Task 3.2:** Redesign `commands/vector/work.toml` to implement the dynamic execution loop and enforce non-overlapping file constraints during parallel task distribution. (Target: `commands/vector/work.toml`)

@@ -45,7 +45,7 @@ Activate the `vector` skill and orchestrate a concurrent swarm of **Dynamic Exec
     *   **Subagent Isolation:** For each task, create or utilize a fractal directory in `.gemini/tasks/task-ID/`.
     *   Dispatch parallel swarm threads. Each thread executes a dynamic, iterative execution loop:
         *   Dynamically determine the number of necessary implement->review iterations (e.g., 2 or 3 cycles depending on complexity).
-        *   Optionally employ multi-angle parallel implementations where multiple solutions are generated and the best is selected.
+        *   Strictly mandate a 1:1 mapping of distinct, independent tasks to separate parallel subagent threads.
         *   Loop through Implementation -> Testing -> Verification.
     *   Maintain strict Zero-Context boundaries; do not merge verbose subagent logs into the main thread.
 

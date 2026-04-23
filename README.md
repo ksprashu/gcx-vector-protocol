@@ -8,7 +8,7 @@ Vector v2 operates through the synergy of three core components: two orchestrato
 
 1.  **The `vector` Skill (The Knowledge Base)**
     *   **Role:** The foundational memory and operating system for the Gemini agent.
-    *   **Function:** Teaches the main agent how to behave as a **Zero-Context Orchestrator**, enforcing the rules of rigorous multi-angle iteration, subagent isolation, and strict filesystem reliance.
+    *   **Function:** Teaches the main agent how to behave as a **Zero-Context Orchestrator**, enforcing the rules of strict 1:1 isolated task assignment, subagent isolation, and strict filesystem reliance.
 
 2.  **`/vector:plan <objective>` (The Strategy Trigger)**
     *   **Phase:** Strategy. 
@@ -27,11 +27,11 @@ Vector v2 operates through the synergy of three core components: two orchestrato
 ### 1. The Zero-Context Orchestrator
 To prevent **Context Rot** and session drift, the main CLI agent never writes code or detailed plans itself. It acts as a project manager, coordinating specialized subagents and referring to the filesystem as the sole source of truth.
 
-### 2. The Multi-Angle Iteration Protocol
-Iterative refinement enables high-quality, resilient output through rigorous review cycles.
-- **Planning:** Draft -> Critique -> Review -> Repeat 2x.
-- **Execution:** Implement -> Test -> Critique -> Loop until success.
-- **Parallel Swarm:** Vector v2 enables concurrent execution of independent tasks. Each task branch runs its own rigorous multi-angle iteration loop in parallel, drastically reducing time-to-delivery for large features.
+### 2. 1:1 Isolated Task Assignment
+Iterative refinement enables high-quality, resilient output through rigorous 1:1 isolated task assignments.
+- **Planning:** Draft -> Critique -> Review.
+- **Execution:** Implement -> Test -> Critique.
+- **Parallel Swarm:** Vector v2 enables concurrent execution of independent tasks. Each task branch runs strictly as a 1:1 isolated task assignment in parallel, drastically reducing time-to-delivery for large features.
 
 ### 3. Subagent Isolation (Fractal File System)
 Vector v2 bypasses context limits and ensures **Subagent Isolation** by breaking tasks into a fractal directory structure (`.gemini/tasks/`). Each task has its own localized `PLAN.md`, `STATE.md`, and `EVIDENCE.md`, allowing the swarm to maintain infinite depth without polluting the main thread or causing state leakage.

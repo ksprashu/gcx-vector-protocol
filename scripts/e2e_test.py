@@ -41,7 +41,7 @@ def run_gemini_command(temp_dir, command):
             cwd=temp_dir,
             capture_output=True,
             text=True,
-            timeout=120 # Prevent hanging
+            timeout=600 # Prevent hanging
         )
         return result.returncode, result.stdout, result.stderr
     except FileNotFoundError:

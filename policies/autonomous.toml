@@ -1,36 +1,56 @@
-[tools.allow]
-names = [
+[[rule]]
+toolName = [
   "write_file",
   "read_file",
   "replace",
   "list_directory",
   "grep_search",
-  "glob"
+  "glob",
+  "read_many_files",
+  "get_internal_docs",
+  "ask_user",
+  "write_todos",
+  "enter_plan_mode",
+  "exit_plan_mode",
+  "google_web_search",
+  "activate_skill",
+  "tracker_add_dependency",
+  "tracker_create_task",
+  "tracker_get_task",
+  "tracker_list_tasks",
+  "tracker_update_task",
+  "tracker_visualize",
+  "update_topic",
+  "complete_task",
+  "cli_help",
+  "codebase_investigator"
 ]
+decision = "allow"
+priority = 500
 
-[[tools.rules]]
-name = "run_shell_command"
-action = "allow"
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = [
+  "pnpm",
+  "uv",
+  "python",
+  "node",
+  "npm",
+  "git",
+  "mkdir",
+  "mv",
+  "ls",
+  "cp",
+  "grep",
+  "find",
+  "cat",
+  "echo",
+  "touch"
+]
+decision = "allow"
 priority = 300
-condition = """
-  command.startswith('pnpm') or \\
-  command.startswith('uv') or \\
-  command.startswith('python') or \\
-  command.startswith('node') or \\
-  command.startswith('npm') or \\
-  command.startswith('git') or \\
-  command.startswith('mkdir') or \\
-  command.startswith('mv') or \\
-  command.startswith('ls') or \\
-  command.startswith('cp') or \\
-  command.startswith('grep') or \\
-  command.startswith('find') or \\
-  command.startswith('cat') or \\
-  command.startswith('echo') or \\
-  command.startswith('touch')
-"""
 
-[[tools.rules]]
-name = "run_shell_command"
-action = "ask_user"
+[[rule]]
+toolName = "run_shell_command"
+decision = "ask_user"
 priority = 100

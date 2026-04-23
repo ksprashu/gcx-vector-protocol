@@ -1,37 +1,33 @@
-# Vector Protocol Plan: Auto-Commit Authorization Fix
+# Vector Protocol Plan: Fix Autonomous Policy Format
 
 ## 1. Intent
-Ensure the `/vector:work` cycle successfully performs the final commit after completing all tasks, satisfying the "Working tree is clean" requirement of the Merge-Readiness Checklist.
+The user reported that shell commands (mkdir, python, etc.) are prompting for permission despite `policies/autonomous.toml` attempting to allow them. The intent is to refactor the legacy policy structure (`[tools.allow]`, `[[tools.rules]]`) into the correct format for Gemini CLI 0.39.0 (`[[rule]]` blocks) to restore autonomous execution.
 
 ## 2. Success Criteria & Definition of Done
-- The conflict between the global anti-commit mandate and the `/vector:work` final commit step is resolved.
-- `commands/vector/work.toml` explicitly instructs the orchestrator to perform `git add` and `git commit` at the end of the execution loop.
-- `AGENTS.md` and `GEMINI.md` explicitly override the global anti-commit rule for the final step of the `/vector:work` command.
-- The working tree is left clean upon successful completion of the work cycle.
+- `policies/autonomous.toml` is completely refactored to use `[[rule]]` blocks.
+- The `rule` for `run_shell_command` correctly targets command prefixes (`pnpm`, `python`, `mkdir`, etc.) and sets `decision = "allow"`.
+- The legacy `[tools.allow]` array is migrated to valid `[[rule]]` configurations.
+- The policy file is syntactically valid TOML.
 
 ## 3. Dependencies
-- `commands/vector/work.toml`
-- `AGENTS.md`
-- `GEMINI.md`
+- Understanding of Gemini CLI 0.39.0 policy TOML schema (`[[rule]]`, `toolName`, `decision`, `priority`).
+- The current `policies/autonomous.toml` legacy structure as a reference.
 
 ## 4. Side Effects
-- The agent will now automatically commit changes to the local repository history at the end of a successful `/vector:work` run.
-- Unintended changes could be committed if the `vector-critic` validation is flawed, placing higher importance on test coverage.
+- Adjusting the policy will directly impact the autonomy level of all subagents using the workspace. Improper formatting might lock down the agent completely or open up unsafe execution.
 
 ## 5. Unknowns & Hypotheses
-- **Hypothesis**: The global context mandate "Do not stage or commit changes unless specifically requested by the user" is currently preventing the agent from executing the final commit step in `commands/vector/work.toml`. By adding explicit authorization and clear CLI instructions to the project-level context (`AGENTS.md`, `GEMINI.md`) and the command prompt, the orchestrator will safely perform the commit.
+- **Unknown**: The exact parameter schema for matching command contents in `run_shell_command` rules for Gemini CLI 0.39.0 (e.g., regex matching in parameters vs string conditions).
+- **Hypothesis**: Updating the TOML to the standard schema will immediately resolve the permission prompts.
 
 ## 6. Execution Roadmap
 
 [PARALLEL BATCH]
-- [x] Task 1: Update Command Prompt (.gemini/tasks/task-7/)
-  - Modify `commands/vector/work.toml` under "State Synchronization & Handoff".
-- [x] Task 2: Update Protocol Mandates (.gemini/tasks/task-8/)
-  - Modify `AGENTS.md` section 7 (Merge-Readiness Checklist).
-- [x] Task 3: Update Local GEMINI.md (.gemini/tasks/task-9/)
-  - Apply the same updates to `GEMINI.md` and `.gemini/GEMINI.md` to ensure context parity.
+- [x] Task 12: Refactor `policies/autonomous.toml`
+  - Directory: `.gemini/tasks/task-12/`
+  - Responsibility: Rewrite the policy file replacing `[tools.allow]` and `[[tools.rules]]` with compliant `[[rule]]` blocks. Define the tool names, decision logic (`allow`, `askUser`), priority levels, and any condition mapping for shell commands.
 
 [SEQUENTIAL]
-- [x] Task 4: Verify and Commit (.gemini/tasks/task-10/)
-  - Validate that the updated markdown and TOML files are syntactically correct.
-  - Run the commit to apply these protocol updates.
+- [x] Task 13: Validate Policy Configuration
+  - Directory: `.gemini/tasks/task-13/`
+  - Responsibility: Review the refactored policy file against Gemini CLI 0.39.0 documentation (or verify syntactically via a validation script if available) to ensure the regexes/conditions are correctly formed.

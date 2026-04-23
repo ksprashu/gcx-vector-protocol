@@ -32,6 +32,6 @@ Ensure the `/vector:work` cycle successfully performs the final commit after com
   - Apply the same updates to `GEMINI.md` and `.gemini/GEMINI.md` to ensure context parity.
 
 [SEQUENTIAL]
-- [/] Task 4: Verify and Commit (.gemini/tasks/task-10/)
+- [x] Task 4: Verify and Commit (.gemini/tasks/task-10/)
   - Validate that the updated markdown and TOML files are syntactically correct.
   - Run the commit to apply these protocol updates.

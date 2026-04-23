@@ -9,16 +9,16 @@ Establish a strict, deterministic schema for evidence gathering and citation acr
 - **Enhanced EVIDENCE.json:** Updated schema including `task_id`, `timestamp` (ISO 8601), and `uri` (deep links/file paths).
 
 ## 3. Sub-plan
-1.  **[Implementer]**:
+1.  **[Vector-Implementer]**:
     - Write `SPEC.md` (this file).
     - Define Citation Schema in `SPEC.md`.
     - Update `.gemini/EVIDENCE.json` with new fields for existing entries (dummy data or inferred).
     - Create `.gemini/tasks/task-1/LOG.md`.
     - Create `.gemini/tasks/task-1/STATUS.json`.
-2.  **[Tester]**:
+2.  **[Vector-Tester]**:
     - Validate `EVIDENCE.json` against the new schema requirements.
     - Confirm `SPEC.md` covers all requirements from `PLAN.md`.
-3.  **[Critic]**:
+3.  **[Vector-Critic]**:
     - Review for architectural alignment and completeness.
 
 ## 4. Citation Schema

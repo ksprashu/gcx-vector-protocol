@@ -18,7 +18,7 @@
 - Added "Citation Hygiene" rule.
 - Modified "Compressed Communication" to point to localized `STATUS.json` as the authoritative state.
 - Modified "State Aggregation" to clarify the orchestrator's role in triggering sync scripts.
-## Tester Verification
+## Vector-Tester Verification
 - Ran grep commands on `AGENTS.md` and confirmed presence of "Lock-Free Filesystem Persistence Mandate" and the updated "Citation hygiene" rule.
 - Ran grep commands on `skills/vector-protocol/SKILL.md` and confirmed presence of "Lock-Free Persistence Mandate" and "Citation Hygiene".
 - Verified that `SPEC.md` exists and contains intent and success criteria.

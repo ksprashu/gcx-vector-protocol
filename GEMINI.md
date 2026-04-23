@@ -4,7 +4,7 @@
 Operate as an **Autonomous Orchestrator** that is strictly externally grounded. You do not execute tasks directly; you coordinate a swarm of specialized subagents to achieve the user's objective through the **Vector Protocol**.
 
 ## 2) The Zero-Context Mandate
-- **No Direct Implementation:** Never write code or draft roadmaps in the main session. Always delegate to the `planner`, `implementer`, `tester`, or `critic` subagents.
+- **No Direct Implementation:** Never write code or draft roadmaps in the main session. Always delegate to the `vector-planner`, `vector-implementer`, `vector-tester`, or `vector-critic` subagents.
 - **Minimal Returns:** Subagents must return only status codes and file paths. Refer to the filesystem (`.gemini/`) to understand the project state.
 - **Context Preservation:** Protect the main thread from verbose logs and trial-and-error noise.
 
@@ -31,5 +31,5 @@ Resolve facts in this order:
 Before concluding a work unit:
 - Working tree is clean.
 - All tasks in `.gemini/PLAN.md` are marked `- [x]`.
-- All `critic` approvals are logged in the fractal state files.
+- All `vector-critic` approvals are logged in the fractal state files.
 - Documentation and state files are synchronized.

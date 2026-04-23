@@ -1,5 +1,5 @@
 ---
-name: tester
+name: vector-tester
 description: Specialized in running verification commands and testing constraints.
 kind: local
 model: gemini-3-pro-preview

@@ -5,8 +5,8 @@ The roadmap in `.gemini/PLAN.md` has been reviewed against the Deep Dissection s
 ## Flaws Identified
 
 1. **Incomplete Parallelization Strategy (Missing Full-Loop Concurrency)**
-   - *Issue:* Step 4 of the Execution Roadmap specifies dispatching ONLY `implementer` subagents concurrently.
-   - *Correction Required:* To achieve true "massive parallelization", the orchestrator must parallelize the *entire* Ralph Wiggum loop (Implement -> Test -> Critic) for all independent tasks in a `[PARALLEL BATCH]`. Serializing tests and critiques after parallel implementation creates a severe bottleneck.
+   - *Issue:* Step 4 of the Execution Roadmap specifies dispatching ONLY `vector-implementer` subagents concurrently.
+   - *Correction Required:* To achieve true "massive parallelization", the orchestrator must parallelize the *entire* Ralph Wiggum loop (Implement -> Test -> Vector-Critic) for all independent tasks in a `[PARALLEL BATCH]`. Serializing tests and critiques after parallel implementation creates a severe bottleneck.
 
 2. **Orchestration Consolidation Ambiguity**
    - *Issue:* The plan mentions consolidating state, but fails to address the "orchestration consolidation" objective.

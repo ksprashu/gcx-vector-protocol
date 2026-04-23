@@ -1,7 +1,7 @@
 {
   "name": "gcx-vector-protocol",
   "description": "The Vector Protocol: A Zero-Context Orchestrator for Gemini CLI. Leverages subagent swarms and fractal file systems for autonomous, long-running task execution.",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "contextFileName": "AGENTS.md",
   "commands": [
     {

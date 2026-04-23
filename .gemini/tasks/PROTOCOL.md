@@ -10,7 +10,7 @@ The structure is flat relative to the `tasks/` directory to prevent deep nesting
     - `PLAN.md`: Localized roadmap for this specific task.
     - `STATE.md`: Localized execution log, phase, and scratchpad.
     - `EVIDENCE.md`: Localized factual findings.
-    - `FEEDBACK.md`: Critique entries from the `critic` subagent.
+    - `FEEDBACK.md`: Critique entries from the `vector-critic` subagent.
     - `CODE_REVIEV.md` (Optional): Formal code review logs.
 
 ## 2. The Deep Dissection Schema

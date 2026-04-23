@@ -43,7 +43,7 @@ Activate the `vector-protocol` skill and orchestrate a concurrent swarm of **Ral
 1.  **Swarm Orchestration Loop:**
     *   Identify all independent, incomplete tasks from `.gemini/PLAN.md`.
     *   **Subagent Isolation:** For each task, create or utilize a fractal directory in `.gemini/tasks/task-ID/`.
-    *   Dispatch parallel swarm threads. Each thread executes the full Ralph Wiggum Execution Loop (Implement -> Test -> Critic) within its isolated fractal directory.
+    *   Dispatch parallel swarm threads. Each thread executes the full Ralph Wiggum Execution Loop (Implement -> Test -> Vector-Critic) within its isolated fractal directory.
     *   Maintain strict Zero-Context boundaries; do not merge verbose subagent logs into the main thread.
 
 2.  **State Synchronization & Handoff:**
@@ -62,6 +62,6 @@ Activate the `vector-protocol` skill and orchestrate a concurrent swarm of **Ral
     *   `- **Swarm Status:** [Monitoring parallel Ralph Wiggum loops]`
     *   `- **Progress:** [Completed X / Total Y]`
 *   **Orchestration Summary:** Briefly summarize the status of the parallel subagent swarms.
-*   **Stopping Criteria:** The orchestrator runs autonomously until the roadmap is complete or an unrecoverable failure is escalated to the planner.
+*   **Stopping Criteria:** The orchestrator runs autonomously until the roadmap is complete or an unrecoverable failure is escalated to the vector-planner.
 </output_format>
 """

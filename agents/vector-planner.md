@@ -1,5 +1,5 @@
 ---
-name: planner
+name: vector-planner
 description: Specialized in breaking down goals into fractal .gemini/tasks/ files using the Deep Dissection schema. Enforces Spec-Driven Development.
 kind: local
 model: gemini-3-pro-preview

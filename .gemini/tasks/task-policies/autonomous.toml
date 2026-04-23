@@ -1,0 +1,34 @@
+[tools.allow]
+names = [
+  "write_file",
+  "read_file",
+  "replace",
+  "list_directory",
+  "grep_search",
+  "glob"
+]
+
+[[tools.rules]]
+name = "run_shell_command"
+action = "allow"
+condition = """
+  command.startswith('pnpm') or \\
+  command.startswith('uv') or \\
+  command.startswith('python') or \\
+  command.startswith('node') or \\
+  command.startswith('npm') or \\
+  command.startswith('git') or \\
+  command.startswith('mkdir') or \\
+  command.startswith('mv') or \\
+  command.startswith('ls') or \\
+  command.startswith('cp') or \\
+  command.startswith('grep') or \\
+  command.startswith('find') or \\
+  command.startswith('cat') or \\
+  command.startswith('echo') or \\
+  command.startswith('touch')
+"""
+
+[[tools.rules]]
+name = "run_shell_command"
+action = "ask_user"

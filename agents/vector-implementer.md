@@ -1,5 +1,5 @@
 ---
-name: implementer
+name: vector-implementer
 description: Specialized in atomic code changes. Enforces Thin Stack and pure functional paradigms.
 kind: local
 model: gemini-3-pro-preview

@@ -1,6 +1,6 @@
 # Task 1: Define Evidence & Citation Schema (Theory) - CRITIQUE
 
-## Reviewer: Critic Subagent
+## Reviewer: Vector-Critic Subagent
 ## Date: 2025-05-14T10:10:00Z
 
 ### 1. Assessment of Intent

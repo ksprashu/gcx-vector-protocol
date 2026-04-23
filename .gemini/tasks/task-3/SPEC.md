@@ -15,9 +15,9 @@ Update `AGENTS.md` and `skills/vector-protocol/SKILL.md` to formally codify the 
    - Final status must be saved to `STATUS.json`.
 
 ## Sub-plan
-1. [Implementer] Edit `AGENTS.md` to add mandates.
-2. [Implementer] Edit `skills/vector-protocol/SKILL.md` to add mandates.
-3. [Implementer] Generate `LOG.md` documenting tool calls.
-4. [Implementer] Create `STATUS.json`.
-5. [Tester] Verify markdown structure and content.
-6. [Critic] Review against success criteria.
+1. [Vector-Implementer] Edit `AGENTS.md` to add mandates.
+2. [Vector-Implementer] Edit `skills/vector-protocol/SKILL.md` to add mandates.
+3. [Vector-Implementer] Generate `LOG.md` documenting tool calls.
+4. [Vector-Implementer] Create `STATUS.json`.
+5. [Vector-Tester] Verify markdown structure and content.
+6. [Vector-Critic] Review against success criteria.

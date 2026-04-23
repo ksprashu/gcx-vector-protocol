@@ -29,7 +29,7 @@ Activate the `vector-protocol` skill and execute the **Ralph Wiggum Planning Loo
 
 <interaction_standards>
 1.  **Acknowledge:** Briefly state the goal you are orchestrating.
-2.  **Zero-Context Orchestration:** Do NOT perform the research or drafting yourself. Delegate to the `planner` and `critic` subagents.
+2.  **Zero-Context Orchestration:** Do NOT perform the research or drafting yourself. Delegate to the `vector-planner` and `vector-critic` subagents.
 3.  **Flat Swarm Communication:** Refer to the filesystem (`.gemini/PLAN.md`, `.gemini/tasks/`) for state. Subagents return only status and paths.
 4.  **Chain of Thought:** Use a `<thinking>` block to track the loop iterations and reasoning.
 </interaction_standards>
@@ -46,10 +46,10 @@ Activate the `vector-protocol` skill and execute the **Ralph Wiggum Planning Loo
     *   If `.gemini/PLAN.md` exists and is non-empty, archive it to `.gemini/PLAN_ARCHIVE.md`.
 
 2.  **The Ralph Wiggum Planning Loop:**
-    *   **Draft:** Call `planner` subagent with the user objective. Instruct it to use the Deep Dissection schema and identify independent tasks, grouping them into `[PARALLEL BATCH]` sections in `.gemini/PLAN.md`. Use `.gemini/tasks/` for task-specific sub-plans if needed to maintain Subagent Isolation.
-    *   **Critique:** Read the path returned by the planner. Call `critic` subagent to review that file. 
-    *   **Refine:** If `critic` found flaws, read the feedback and call `planner` again to address them. Loop until the plan is verified.
-    *   *Constraint:* Exit the loop once `critic` returns `[APPROVED]`.
+    *   **Draft:** Call `vector-planner` subagent with the user objective. Instruct it to use the Deep Dissection schema and identify independent tasks, grouping them into `[PARALLEL BATCH]` sections in `.gemini/PLAN.md`. Use `.gemini/tasks/` for task-specific sub-plans if needed to maintain Subagent Isolation.
+    *   **Critique:** Read the path returned by the vector-planner. Call `vector-critic` subagent to review that file. 
+    *   **Refine:** If `vector-critic` found flaws, read the feedback and call `vector-planner` again to address them. Loop until the plan is verified.
+    *   *Constraint:* Exit the loop once `vector-critic` returns `[APPROVED]`.
 
 3.  **User Signoff:**
     *   Present a summary of the *Status* and *Path* to the final plan.

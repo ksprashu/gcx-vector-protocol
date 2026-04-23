@@ -47,4 +47,4 @@ Implement permissive, autonomous execution policies for the Gemini CLI to allow 
 ### Step 4: Validation & Final Persistence
 - Verify the TOML syntax of the generated policy file.
 - Update the final status in `.gemini/tasks/task-policies/STATUS.json`.
-- Confine all remaining state outputs and logs within `.gemini/tasks/task-policies/` [E-019].\n## Execution Status\n- [x] task-policies implementation complete and approved.
+- Confine all remaining state outputs and logs within `.gemini/tasks/task-policies/` [E-019].

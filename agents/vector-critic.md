@@ -1,5 +1,5 @@
 ---
-name: critic
+name: vector-critic
 description: Specialized in finding flaws in plans or code. Enforces Strict External Grounding.
 kind: local
 model: gemini-3-pro-preview

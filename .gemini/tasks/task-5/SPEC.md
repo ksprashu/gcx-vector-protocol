@@ -1,4 +1,4 @@
-# SPEC.md: Critic Audit of Strategy (Task 5)
+# SPEC.md: Vector-Critic Audit of Strategy (Task 5)
 
 ## 1. Intent
 To verify the complete implementation of the Lock-Free strategy from Tasks 1-4. This audit ensures total subagent isolation, correct citation hygiene, and proper execution of the state aggregation tooling (`scripts/sync_state.py`), confirming that the filesystem acts as the robust, deterministic persistence of state.

@@ -162,6 +162,15 @@
       "last_checked": "2026-04-10T00:00:00Z",
       "task_id": "lint",
       "uri": "scripts/vector_lint.py"
+    },
+    {
+      "id": "E-019",
+      "topic": "Policy Engine Schema",
+      "source": "Official Gemini CLI Documentation",
+      "authoritative": true,
+      "last_checked": "2026-04-22T00:00:00Z",
+      "task_id": "task-policies",
+      "uri": "https://geminicli.com/docs/reference/policy-engine/"
     }
   ]
 }

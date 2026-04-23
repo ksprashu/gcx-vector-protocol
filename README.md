@@ -9,13 +9,13 @@ Vector v2 simplifies the command surface to a tiered two-command workflow:
 1.  **`/vector:plan <objective>`**
     *   **Phase:** Strategy. 
     *   **Action:** Triggers the **Ralph Wiggum Planning Loop**.
-    *   **Mechanism:** The Orchestrator spins off `planner` and `critic` subagents to iteratively draft and refine a technical roadmap.
+    *   **Mechanism:** The Orchestrator spins off `vector-planner` and `vector-critic` subagents to iteratively draft and refine a technical roadmap.
     *   **Goal:** Produces a deeply dissected plan in `.gemini/PLAN.md` for human signoff.
 
 2.  **`/vector:work`**
     *   **Phase:** Execution.
     *   **Action:** Triggers the **Autonomous Implementation Loop**.
-    *   **Mechanism:** The Orchestrator parses the roadmap, delegates atomic tasks to `implementer`, `tester`, and `critic` subagents, and loops continuously until the mission is complete.
+    *   **Mechanism:** The Orchestrator parses the roadmap, delegates atomic tasks to `vector-implementer`, `vector-tester`, and `vector-critic` subagents, and loops continuously until the mission is complete.
     *   **Outcome:** Verified code changes and automatic git commits.
 
 ## 🧠 Core Architecture
@@ -34,10 +34,10 @@ Vector v2 bypasses context limits and ensures **Subagent Isolation** by breaking
 
 ### 4. Specialized Subagent Swarm
 The `generalist` agent is **deprecated** in favor of strict specialists to ensure higher quality and deterministic outcomes:
-- `planner`: Roadmap architecture and goal decomposition.
-- `implementer`: Atomic, thin-stack code implementation.
-- `tester`: Rigorous verification and evidence logging.
-- `critic`: Vulnerability detection and grounding verification.
+- `vector-planner`: Roadmap architecture and goal decomposition.
+- `vector-implementer`: Atomic, thin-stack code implementation.
+- `vector-tester`: Rigorous verification and evidence logging.
+- `vector-critic`: Vulnerability detection and grounding verification.
 
 ## 🧭 Core Tenets
 

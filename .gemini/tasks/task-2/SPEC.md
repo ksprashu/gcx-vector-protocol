@@ -9,14 +9,14 @@ Establish a mandatory, standardized filesystem structure for all sub-tasks withi
 - **Lock-Free Readiness:** `STATUS.json` must provide enough structured data for `scripts/sync_state.py` to aggregate the global state.
 
 ## 3. Sub-plan
-1.  **[Implementer]**:
+1.  **[Vector-Implementer]**:
     - Define file templates and mandatory fields in this `SPEC.md`.
     - Create `LOG.md` and `STATUS.json` for Task 2.
     - Document the structure in `SPEC.md`.
-2.  **[Tester]**:
+2.  **[Vector-Tester]**:
     - Verify that the defined structure meets the requirements of `PLAN.md`.
     - Ensure templates include citation requirements.
-3.  **[Critic]**:
+3.  **[Vector-Critic]**:
     - Audit the structure for architectural consistency and state persistence reliability.
 
 ## 4. Fractal Task Directory Structure Definition
@@ -28,7 +28,7 @@ Each task directory MUST contain:
 - **Mandatory Sections**:
     - `## 1. Intent`: High-level goal.
     - `## 2. Success Criteria`: Testable outcomes.
-    - `## 3. Sub-plan`: Sequential steps for implementer/tester/critic.
+    - `## 3. Sub-plan`: Sequential steps for vector-implementer/vector-tester/vector-critic.
     - `## 4. [Task Specific Context]`: Any schemas or definitions relevant to the task.
 
 ### B. LOG.md (Execution Log)
@@ -39,9 +39,9 @@ Each task directory MUST contain:
     - Sequential entries with timestamps or step identifiers.
 
 ### C. CRITIQUE.md (Audit)
-- **Purpose**: Independent verification by the `critic` subagent.
+- **Purpose**: Independent verification by the `vector-critic` subagent.
 - **Mandatory Requirements**:
-    - Must evaluate the implementer's work against the `SPEC.md` success criteria.
+    - Must evaluate the vector-implementer's work against the `SPEC.md` success criteria.
     - Must explicitly Approve or Reject the task.
     - Must note any architectural regressions or security concerns.
 

@@ -1,13 +1,14 @@
 {
   "task_id": "task-2",
-  "status": "completed",
+  "status": "approved",
   "completion_percentage": 100,
   "dependencies": ["task-1"],
-  "last_updated": "2025-05-14T10:12:00Z",
+  "last_updated": "2025-05-14T10:15:00Z",
   "artifacts": [
     ".gemini/tasks/task-2/SPEC.md",
     ".gemini/tasks/task-2/LOG.md",
     ".gemini/tasks/task-2/CRITIQUE.md",
-    ".gemini/tasks/task-2/STATUS.json"
+    ".gemini/tasks/task-2/STATUS.json",
+    ".gemini/tasks/task-2/HIERARCHY.md"
   ]
 }

@@ -1,5 +1,4 @@
 {
-  "task_id": "task-1",
-  "status": "APPROVED",
-  "last_updated": "2025-05-14T10:10:00Z"
+  "status": "completed",
+  "critic_status": "approved"
 }

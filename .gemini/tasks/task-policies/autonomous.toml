@@ -11,6 +11,7 @@ names = [
 [[tools.rules]]
 name = "run_shell_command"
 action = "allow"
+priority = 300
 condition = """
   command.startswith('pnpm') or \\
   command.startswith('uv') or \\
@@ -32,3 +33,4 @@ condition = """
 [[tools.rules]]
 name = "run_shell_command"
 action = "ask_user"
+priority = 100

@@ -1,51 +1,50 @@
-# Vector Protocol Agent Renaming Roadmap
+# Plan: task-policies
 
 ## 1. Intent
-Rename all subagents (`planner`, `implementer`, `tester`, `critic`) to include a `vector-` prefix (`vector-planner`, `vector-implementer`, `vector-tester`, `vector-critic`) across the entire `gcx-vector-protocol` extension, and update all references to ensure consistency.
+Implement permissive, autonomous execution policies for the Gemini CLI to allow long-running agent loops without constant human interaction, while preventing destructive actions like folder/file deletion by redirecting removals to an `archived/` directory. Note the security constraint: while the CLI discovers extension-level policies, it ignores `allow` decisions from them.
 
 ## 2. Success Criteria & Definition of Done
-- All files in `agents/` are renamed to `vector-<agent>.md`.
-- The `name:` YAML frontmatter in all agent files is updated.
-- All references in `AGENTS.md`, `GEMINI.md`, `README.md`, `skills/vector-protocol/SKILL.md`, and `commands/vector/*.toml` are correctly updated.
-- All references in `.gemini/` state and log files are correctly updated.
-- `gemini-extension.json` version is incremented (e.g., from 2.3.0 to 2.4.0) per `.gemini/gemini.md` instructions.
-- The extension runs correctly and the CLI recognizes the renamed subagents without errors.
+- A new policy file (`autonomous.toml`) is scaffolded at `policies/autonomous.toml` in the extension root (using the new folder convention) and also maintained in `.gemini/tasks/task-policies/autonomous.toml` [E-019].
+- The policy explicitly allows file-system operations like `read_file`, `write_file`, `replace`, `list_directory`, `grep_search`, `glob` without human interaction [E-019]. *Note: The CLI ignores `allow` decisions defined within extension policies for security reasons; they are primarily used for `deny` or `ask_user` constraints. This file serves as a source of truth.*
+- The policy pivots from a blacklist to a broad, permissive whitelist for `run_shell_command`. It explicitly allows prefixes for: `pnpm`, `uv`, `python`, `node`, `npm`, `git`, `mkdir`, `mv`, `ls`, `cp`, `grep`, `find`, `cat`, `echo`, `touch`. It falls back to `ask_user` for unlisted commands to maintain security while supporting known-safe autonomous workflows [E-019].
+- A set of explicit shell commands and instructions is written to `.gemini/tasks/task-policies/INSTALL_INSTRUCTIONS.md` for the user/Orchestrator to execute manually in order to install the policy to the User Tier (`~/.gemini/policies/autonomous.toml`) to enable the required permissive (`allow`) behavior, and to scaffold the `.gemini/archived/` directory [E-019].
+- The content for the new "Behavioral Mandates" section housing the strict mandate: "Do not delete files. Move them to `.gemini/archived/` instead." is written to `.gemini/tasks/task-policies/GEMINI_UPDATE.md` to prevent shared mutability risks [E-019].
+- Fractal persistence updates (e.g., `STATUS.json` and evidence logging) are completed for all execution steps, confining all subagent writes strictly to `.gemini/tasks/task-policies/` [E-019].
 
 ## 3. Dependencies
-- Existing `agents/*.md` files.
-- `gemini-extension.json` manifest.
-- Documentation and configuration files.
+- Knowledge of the Gemini CLI Policy Engine TOML schema [E-019].
+- Existing `.gemini` directory structure.
 
 ## 4. Side Effects
-- Any external workflows or scripts depending on the old agent names may break, but this is scoped to the Vector Protocol extension usage.
-- Updates to `.gemini/` archive files will rewrite historical context.
+- Agents will operate autonomously for whitelisted tools but will be paused to ask the user for approval when encountering unlisted commands.
+- File removal workflows will result in moved files instead of deleted files, preserving history but slightly increasing disk usage over time.
 
 ## 5. Unknowns & Hypotheses
-- **Hypothesis:** Updating the references in the `plan.toml` and `work.toml` command files is sufficient for the Vector Protocol to dispatch the newly named agents.
-- **Risk:** Case-sensitivity in logs (e.g., `[Planner]` vs `[Vector-Planner]`). The renaming must account for Title Case and lowercase occurrences.
+- *Scope Resolution & Security Constraints:* The CLI automatically discovers the `policies/` folder in the extension root, but for security reasons, it ignores `allow` decisions from extensions (they are only for `deny`/`ask_user`). We hypothesize a Dual-Path Strategy: using `policies/autonomous.toml` as the "source of truth" template in the repo, while explicitly instructing installation at `~/.gemini/policies/autonomous.toml` (User Tier) to achieve the actual autonomous functionality [E-019].
+- *Behavioral Consistency vs Tool Security:* While `run_shell_command` requires `ask_user` for unlisted actions, the primary guard against data loss is the "Archive instead of Delete" directive in `GEMINI.md`. Bypassing a command filter is possible, but adherence to behavioral contracts prevents data loss [E-019].
 
 ## 6. Execution Roadmap
-1. **Manifest Update**
-   - [x] Update `version` in `gemini-extension.json` to 2.4.0.
 
-[PARALLEL BATCH]
-2. **Rename Subagent Files and Update Metadata**
-   - [x] Rename `agents/planner.md` to `agents/vector-planner.md` and update `name: planner` to `name: vector-planner`.
-   - [x] Rename `agents/implementer.md` to `agents/vector-implementer.md` and update `name: implementer` to `name: vector-implementer`.
-   - [x] Rename `agents/tester.md` to `agents/vector-tester.md` and update `name: tester` to `name: vector-tester`.
-   - [x] Rename `agents/critic.md` to `agents/vector-critic.md` and update `name: critic` to `name: vector-critic`.
+### Step 1: Scaffold Policy Configuration
+- Create `policies/autonomous.toml` (in the extension root) and `.gemini/tasks/task-policies/autonomous.toml` with `[[rule]]` blocks [E-019]:
+  - Allow file tools (`write_file`, `read_file`, `replace`, `list_directory`, `grep_search`, `glob`, etc.).
+  - Implement a broad whitelist for `run_shell_command` allowing known-safe and necessary prefixes (`pnpm`, `uv`, `python`, `node`, `npm`, `git`, `mkdir`, `mv`, `ls`, `cp`, `grep`, `find`, `cat`, `echo`, `touch`).
+  - Configure `run_shell_command` to fallback to `ask_user` for any command prefix not explicitly whitelisted.
+- Ensure the creation of the extension-level `policies/` directory.
+- Update `.gemini/tasks/task-policies/STATUS.json`.
 
-3. **Update Core Documentation and Configuration**
-   - [x] Update references in `AGENTS.md`.
-   - [x] Update references in `README.md`.
-   - [x] Update references in `GEMINI.md`.
-   - [x] Update references in `commands/vector/work.toml` and `commands/vector/plan.toml`.
-   - [x] Update references in `skills/vector-protocol/SKILL.md`.
+### Step 2: Prepare Updates
+- Write the new "Behavioral Mandates" section containing the "Archive instead of Delete" directive to `.gemini/tasks/task-policies/GEMINI_UPDATE.md` [E-019]. This explicitly states that it is the primary guard against data loss.
+- Update `.gemini/tasks/task-policies/STATUS.json`.
 
-4. **Update Internal `.gemini/` Context and History**
-   - [x] Update references in `.gemini/PLAN_ARCHIVE.md`.
-   - [x] Update references in `.gemini/tasks/PROTOCOL.md`, `tasks/PARALLEL-FEEDBACK.md`, `tasks/PLAN-FEEDBACK.md`.
-   - [x] Update references in `.gemini/tasks/task-*/SPEC.md`, `LOG.md`, and `CRITIQUE.md`.
+### Step 3: Scaffold Installation Instructions
+- Write explicit shell commands and steps to `.gemini/tasks/task-policies/INSTALL_INSTRUCTIONS.md` [E-019] that:
+  - Create the `.gemini/archived/` directory (`mkdir -p .gemini/archived`).
+  - Copy the policy from `policies/autonomous.toml` to `~/.gemini/policies/autonomous.toml` to address the security constraint and enable `allow` rules.
+  - Provide instructions for the Main Orchestrator to merge `.gemini/tasks/task-policies/GEMINI_UPDATE.md` into the root `.gemini/GEMINI.md`.
+- Update `.gemini/tasks/task-policies/STATUS.json`.
 
-5. **Verification**
-   - [x] Verify that the CLI successfully parses the new agent files and that `/vector:plan` and `/vector:work` correctly route to `vector-planner` and others.
+### Step 4: Validation & Final Persistence
+- Verify the TOML syntax of the generated policy file.
+- Update the final status in `.gemini/tasks/task-policies/STATUS.json`.
+- Confine all remaining state outputs and logs within `.gemini/tasks/task-policies/` [E-019].\n## Execution Status\n- [x] task-policies implementation complete and approved.

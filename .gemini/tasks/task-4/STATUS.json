@@ -1,6 +1,4 @@
 {
-  "task_id": "task-4",
-  "status": "APPROVED",
-  "dependencies": ["task-1", "task-2"],
-  "last_updated": "2025-05-14T10:15:00Z"
+  "status": "completed",
+  "critic_status": "APPROVED"
 }

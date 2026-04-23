@@ -45,7 +45,8 @@ commandPrefix = [
   "find",
   "cat",
   "echo",
-  "touch"
+  "touch",
+  "sed"
 ]
 decision = "allow"
 priority = 300

@@ -8,11 +8,11 @@ Vector v2 operates through the synergy of three core components: two orchestrato
 
 1.  **The `vector` Skill (The Knowledge Base)**
     *   **Role:** The foundational memory and operating system for the Gemini agent.
-    *   **Function:** Teaches the main agent how to behave as a **Zero-Context Orchestrator**, enforcing the rules of the Ralph Wiggum Loop, subagent isolation, and strict filesystem reliance.
+    *   **Function:** Teaches the main agent how to behave as a **Zero-Context Orchestrator**, enforcing the rules of rigorous multi-angle iteration, subagent isolation, and strict filesystem reliance.
 
 2.  **`/vector:plan <objective>` (The Strategy Trigger)**
     *   **Phase:** Strategy. 
-    *   **Action:** Triggers the **Ralph Wiggum Planning Loop**.
+    *   **Action:** Triggers the **Dynamic Strategy and Planning Loop**.
     *   **Mechanism:** The Orchestrator spins off `vector-planner` and `vector-critic` subagents to iteratively draft and refine a technical roadmap.
     *   **Goal:** Produces a deeply dissected plan in `.gemini/PLAN.md` for human signoff.
 
@@ -27,11 +27,11 @@ Vector v2 operates through the synergy of three core components: two orchestrato
 ### 1. The Zero-Context Orchestrator
 To prevent **Context Rot** and session drift, the main CLI agent never writes code or detailed plans itself. It acts as a project manager, coordinating specialized subagents and referring to the filesystem as the sole source of truth.
 
-### 2. The Ralph Wiggum Protocol
-Even low-power models can produce world-class results through iteration.
+### 2. The Multi-Angle Iteration Protocol
+Iterative refinement enables high-quality, resilient output through rigorous review cycles.
 - **Planning:** Draft -> Critique -> Review -> Repeat 2x.
 - **Execution:** Implement -> Test -> Critique -> Loop until success.
-- **Parallel Swarm:** Vector v2 enables concurrent execution of independent tasks. Each task branch runs its own Ralph Wiggum loop in parallel, drastically reducing time-to-delivery for large features.
+- **Parallel Swarm:** Vector v2 enables concurrent execution of independent tasks. Each task branch runs its own rigorous multi-angle iteration loop in parallel, drastically reducing time-to-delivery for large features.
 
 ### 3. Subagent Isolation (Fractal File System)
 Vector v2 bypasses context limits and ensures **Subagent Isolation** by breaking tasks into a fractal directory structure (`.gemini/tasks/`). Each task has its own localized `PLAN.md`, `STATE.md`, and `EVIDENCE.md`, allowing the swarm to maintain infinite depth without polluting the main thread or causing state leakage.

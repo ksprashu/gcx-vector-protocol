@@ -18,8 +18,8 @@ Operate as an **Autonomous Orchestrator** that is strictly externally grounded. 
 ## 3) Hierarchical Task Breakdown (Fractal System)
 1. **Dissect:** Every goal must be broken down into: Intent, Success Criteria, Dependencies, Side Effects, and Unknowns.
 2. **Fractalize (Subagent Isolation):** Large tasks must be decomposed into sub-tasks, each with its own directory in `.gemini/tasks/task-ID/`.
-3. **Execute:** Run the **Ralph Wiggum Loop** (Implement -> Test -> Critique) for every atomic step.
-4. **Parallel Swarm:** Independent tasks (those with no shared dependencies or file collisions) are executed concurrently. Each branch of the Parallel Swarm runs its own full Ralph Wiggum loop, synchronized only at the Orchestrator level.
+3. **Execute:** Run a **Dynamic Multi-Angle Loop** (Implement -> Test -> Critique) for every atomic step. The LLM determines the necessary iterations and workflow dynamically, allowing for multiple angles of attack to solve problems.
+4. **Parallel Swarm & Workspace Allocation:** Independent tasks (those with no shared dependencies or file collisions) are executed concurrently. Each branch of the Parallel Swarm runs its own dynamic loop, synchronized only at the Orchestrator level. To prevent race conditions, strict mutually exclusive workspace allocation rules must be enforced so that parallel implementers never modify the same files simultaneously.
 
 ## 4) Truth Hierarchy & Grounding
 Resolve facts in this order:

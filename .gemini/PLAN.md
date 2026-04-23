@@ -1,46 +1,34 @@
-# Vector Protocol Update Plan: Parallelization & Subagent Scoping
+# Vector Protocol Documentation Verification Plan
 
 ## 1. Intent
-Enhance the Vector Protocol to massively parallelize independent tasks, reduce reliance on the `generalist` subagent in favor of narrowly scoped specialists (`planner`, `implementer`, `tester`, `critic`), and optimize the Ralph Wiggum loop to short-circuit immediately upon `[APPROVED]` feedback without forcing unnecessary iterations.
+Verify that the current documentation comprehensively and consistently reflects the newly designed Vector Protocol updates (Tiered Command Model, Parallel Swarm Execution, removal of `generalist` subagent, early short-circuiting in loops, and Subagent Isolation via fractal task directories and state isolation). Make any necessary corrections to align all documentation artifacts.
 
 ## 2. Success Criteria & Definition of Done
-- **Full-Loop Parallelization:** The orchestrator can dispatch the entire Ralph Wiggum loop (Implement -> Test -> Critic) concurrently for multiple independent tasks.
-- **Consolidated Orchestration Logic:** Swarm management and state merging logic are centralized in `skills/vector-protocol/SKILL.md`. Legacy sequential instructions are stripped from `commands/vector/work.toml`.
-- **Dynamic Loop Termination:** All hardcoded "retry limits" or "iteration counts" are removed from `work.toml` and `plan.toml`. The protocol terminates early on `[APPROVED]` and continues only if drift is detected.
-- **Subagent Scoping:** `generalist` usage is explicitly deprecated for standard protocol tasks. `SKILL.md` and `work.toml`/`plan.toml` enforce routing to specialists.
-- **DoD:** All documentation, TOML command files, and SKILL files are updated, and the extension manifests reflect the changes.
+- `AGENTS.md`, `README.md`, `gemini-extension.json`, `docs/`, and `skills/vector-protocol/SKILL.md` accurately describe the Tiered Command Model (Core loop vs. Supporting tools).
+- Parallel Swarm Execution is clearly documented as a core feature.
+- The `generalist` subagent is explicitly marked as deprecated or removed in all agent definitions.
+- Early short-circuiting in the Ralph Wiggum loops is documented correctly.
+- Subagent Isolation principles, including the use of fractal task directories and state isolation, are clearly defined and enforced in the documentation.
+- No contradictory or outdated instructions exist regarding these features.
 
 ## 3. Dependencies
-- Current `gemini-extension.json` (defines the 4 specific subagents).
-- `commands/vector/plan.toml` and `commands/vector/work.toml`.
-- `skills/vector-protocol/SKILL.md`.
+- Read access to all repository documentation files.
 
 ## 4. Side Effects
-- Concurrent execution of full Ralph Wiggum loops requires absolute isolation in fractal directories (`.gemini/tasks/task-[ID]/`) to prevent state corruption.
-- Removing retry limits allows for faster success but requires the `critic` to be highly rigorous to maintain quality.
+- Minor documentation formatting and content updates. No code logic changes expected.
 
 ## 5. Unknowns & Hypotheses
-- *Hypothesis:* Centralizing orchestration logic in `SKILL.md` will reduce instruction conflict and improve the consistency of parallel swarm behavior.
-- *Unknown:* The optimal way to consolidate large amounts of concurrent feedback without overwhelming the orchestrator's context window.
+- Older documentation files (e.g. in `docs/` or `scripts/`) might still reference deprecated behaviors or command workflows without classifying them into the new Tiered Command Model.
+- There may be missed references to the `generalist` agent in deep context files or extension manifests.
+- Subagent isolation might be described inconsistently across different files, especially regarding the structure of the `.gemini/tasks/` directory.
 
 ## 6. Execution Roadmap
 
-- [x] **Task 1: Update Core Documentation (`AGENTS.md` & `README.md`)**
-   - Define the "Parallel Swarm" execution model where the full Ralph Wiggum loop is executed concurrently for independent tasks.
-   - Explicitly define the specialist roles and the deprecation of the `generalist`.
+[PARALLEL BATCH]
+- [x] Task 1: Audit `AGENTS.md` and `README.md` for consistent references to Parallel Swarm, `generalist` deprecation, Tiered Command Model, and Subagent Isolation via fractal task directories.
+- [x] Task 2: Audit `gemini-extension.json` to ensure `generalist` is completely removed from subagents array and Subagent Isolation is reflected in command descriptions.
+- [x] Task 3: Audit `skills/vector-protocol/SKILL.md` to confirm early short-circuiting and subagent state isolation (e.g., zero-context mandate) are explicitly instructed.
+- [x] Task 4: Audit `docs/COMMAND_SURFACE_SIMPLIFICATION_PLAN.md` to ensure the planned documentation changes, including Subagent Isolation, have been fully integrated into the primary docs (README, AGENTS).
 
-- [x] **Task 2: Consolidate Swarm Logic & Refine Loop (`skills/vector-protocol/SKILL.md`)**
-   - **Centralization:** Move all complex orchestration, swarm management, and state merging instructions into `SKILL.md`.
-   - **Short-circuiting:** Rewrite instructions to eliminate "exactly 3 times" or retry limits. Mandate immediate short-circuit on `[APPROVED]`.
-
-- [x] **Task 3: Refactor Planning Command (`commands/vector/plan.toml`)**
-   - Instruct the `planner` to identify independent tasks and group them into `[PARALLEL BATCH]` sections in `.gemini/PLAN.md`.
-   - Remove any hardcoded loop constraints or iteration counts from the TOML prompt.
-
-- [x] **Task 4: Refactor Work Command (`commands/vector/work.toml`)**
-   - **Strip Legacy Logic:** Remove hardcoded sequential loop instructions and retry limits ("Limit retries to 3").
-   - **Delegate Orchestration:** Redirect the orchestrator to follow the swarm logic defined in `SKILL.md`.
-   - **Full-Loop Concurrency:** Update the orchestrator to dispatch independent tasks as complete parallel Ralph Wiggum loops (Implement -> Test -> Critic).
-
-- [x] **Task 5: Update Subagent Prompts (`gemini-extension.json`)**
-   - Ensure `implementer`, `tester`, and `critic` are constrained to their localized fractal directories to ensure thread-safety and state isolation during parallel execution.
+- [x] Task 5: Consolidate findings from the parallel audit and implement necessary text replacements to fix inconsistencies, specifically ensuring Subagent Isolation principles are applied.
+- [x] Task 6: Final Critic review of all updated documentation artifacts for alignment with the Vector Protocol v2 mandate, including the Subagent Isolation audit.

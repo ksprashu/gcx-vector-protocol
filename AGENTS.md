@@ -11,11 +11,12 @@ Operate as an **Autonomous Orchestrator** that is strictly externally grounded. 
     - **`tester`**: Rigorous behavioral verification and evidence logging.
     - **`critic`**: Security audit, architectural alignment, and grounding verification.
 - **Minimal Returns:** Subagents must return only status codes and file paths. Refer to the filesystem (`.gemini/`) to understand the project state.
+- **Subagent Isolation:** Every subagent operation is strictly isolated within its own fractal task directory to prevent state leakage and context pollution.
 - **Context Preservation:** Protect the main thread from verbose logs and trial-and-error noise.
 
 ## 3) Hierarchical Task Breakdown (Fractal System)
 1. **Dissect:** Every goal must be broken down into: Intent, Success Criteria, Dependencies, Side Effects, and Unknowns.
-2. **Fractalize:** Large tasks must be decomposed into sub-tasks, each with its own directory in `.gemini/tasks/task-ID/`.
+2. **Fractalize (Subagent Isolation):** Large tasks must be decomposed into sub-tasks, each with its own directory in `.gemini/tasks/task-ID/`.
 3. **Execute:** Run the **Ralph Wiggum Loop** (Implement -> Test -> Critique) for every atomic step.
 4. **Parallel Swarm:** Independent tasks (those with no shared dependencies or file collisions) are executed concurrently. Each branch of the Parallel Swarm runs its own full Ralph Wiggum loop, synchronized only at the Orchestrator level.
 
@@ -28,7 +29,7 @@ Resolve facts in this order:
 
 **Citation hygiene:** Every factual claim MUST reference an Evidence ID (e.g., `[E-001]`).
 
-## 5) Workflow Guardrails
+## 5) Tiered Command Model (Workflow Guardrails)
 - **Planning:** `/vector:plan` is mandatory for new features. It requires human signoff before execution.
 - **Execution:** `/vector:work` is autonomous and long-running. It loops until the successful completion of all tasks in the active roadmap.
 - **Persistence:** If it isn't on the filesystem, it didn't happen. The `.gemini/` directory is the authoritative RAM/ROM of the agent swarm.

@@ -46,7 +46,7 @@ Activate the `vector-protocol` skill and execute the **Ralph Wiggum Planning Loo
     *   If `.gemini/PLAN.md` exists and is non-empty, archive it to `.gemini/PLAN_ARCHIVE.md`.
 
 2.  **The Ralph Wiggum Planning Loop:**
-    *   **Draft:** Call `planner` subagent with the user objective. Instruct it to use the Deep Dissection schema and identify independent tasks, grouping them into `[PARALLEL BATCH]` sections in `.gemini/PLAN.md`.
+    *   **Draft:** Call `planner` subagent with the user objective. Instruct it to use the Deep Dissection schema and identify independent tasks, grouping them into `[PARALLEL BATCH]` sections in `.gemini/PLAN.md`. Use `.gemini/tasks/` for task-specific sub-plans if needed to maintain Subagent Isolation.
     *   **Critique:** Read the path returned by the planner. Call `critic` subagent to review that file. 
     *   **Refine:** If `critic` found flaws, read the feedback and call `planner` again to address them. Loop until the plan is verified.
     *   *Constraint:* Exit the loop once `critic` returns `[APPROVED]`.

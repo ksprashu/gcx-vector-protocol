@@ -1,14 +1,16 @@
 {
   "name": "gcx-vector-protocol",
   "description": "The Vector Protocol: A Zero-Context Orchestrator for Gemini CLI. Leverages subagent swarms and fractal file systems for autonomous, long-running task execution.",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "contextFileName": "AGENTS.md",
   "commands": [
     {
-      "path": "commands/vector/plan.toml"
+      "path": "commands/vector/plan.toml",
+      "description": "Strategy Orchestrator. Iteratively develops a tactical roadmap via the Ralph Wiggum protocol with Subagent Isolation."
     },
     {
-      "path": "commands/vector/work.toml"
+      "path": "commands/vector/work.toml",
+      "description": "Execution Orchestrator. Autonomously implements and verifies the roadmap via the Ralph Wiggum protocol with Subagent Isolation."
     }
   ],
   "skills": [

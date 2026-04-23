@@ -1,10 +1,10 @@
 # 📐 GCX Vector Protocol v2.0.0
 
-**The Vector Protocol** is an autonomous, high-assurance development harness for the Gemini CLI. It transforms the agent from a single-session chat bot into a **Zero-Context Orchestrator** capable of executing complex, long-running engineering tasks through a swarm of specialized subagents and a fractal file system.
+**The Vector Protocol** is an autonomous, high-assurance development harness for the Gemini CLI. It transforms the agent from a single-session chat bot into a **Zero-Context Orchestrator** capable of executing complex, long-running engineering tasks through a **Parallel Swarm** of specialized subagents and a fractal file system.
 
-## 🚀 The 2-Command Workflow
+## 🚀 Tiered Command Model
 
-Vector v2 simplifies the command surface to just two entry points:
+Vector v2 simplifies the command surface to a tiered two-command workflow:
 
 1.  **`/vector:plan <objective>`**
     *   **Phase:** Strategy. 
@@ -29,8 +29,8 @@ Even low-power models can produce world-class results through iteration.
 - **Execution:** Implement -> Test -> Critique -> Loop until success.
 - **Parallel Swarm:** Vector v2 enables concurrent execution of independent tasks. Each task branch runs its own Ralph Wiggum loop in parallel, drastically reducing time-to-delivery for large features.
 
-### 3. Fractal File System (`.gemini/tasks/`)
-Vector v2 bypasses context limits by breaking tasks into a fractal directory structure. Each task has its own localized `PLAN.md`, `STATE.md`, and `EVIDENCE.md`, allowing the swarm to maintain infinite depth without polluting the main thread.
+### 3. Subagent Isolation (Fractal File System)
+Vector v2 bypasses context limits and ensures **Subagent Isolation** by breaking tasks into a fractal directory structure (`.gemini/tasks/`). Each task has its own localized `PLAN.md`, `STATE.md`, and `EVIDENCE.md`, allowing the swarm to maintain infinite depth without polluting the main thread or causing state leakage.
 
 ### 4. Specialized Subagent Swarm
 The `generalist` agent is **deprecated** in favor of strict specialists to ensure higher quality and deterministic outcomes:

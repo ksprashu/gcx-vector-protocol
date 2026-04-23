@@ -37,20 +37,18 @@ Activate the `vector-protocol` skill and orchestrate a concurrent swarm of **Ral
 <protocol>
 0.  **Skill Activation & Swarm Initialization:**
     *   **ACTIVATE SKILL:** `vector-protocol`.
-    *   Ensure `.gemini/PLAN.md` exists; otherwise, prompt for `/vector:plan`.
-    *   Set `**Phase:**` in `.gemini/STATE.md` to `[EXECUTION]`.
+    *   Ensure Master Roadmap (`.gemini/PLAN.md`) exists.
+    *   Set `Phase:` to `[EXECUTION]` in `.gemini/STATE.md`.
 
 1.  **Swarm Orchestration Loop:**
-    *   Follow the **Ralph Wiggum Execution Loop** as defined in `SKILL.md`.
-    *   **Full-Loop Concurrency:** Identify all independent, incomplete (`- [ ]`), or failing (`- [!]`) tasks from `.gemini/PLAN.md`.
-    *   Dispatch parallel execution threads for each independent task. Each thread must execute the full (Implement -> Test -> Critic) loop.
-    *   Use fractal task isolation (`.gemini/tasks/`) to prevent file collisions during parallel execution.
+    *   Identify all independent, incomplete tasks from `.gemini/PLAN.md`.
+    *   **Subagent Isolation:** For each task, create or utilize a fractal directory in `.gemini/tasks/task-ID/`.
+    *   Dispatch parallel swarm threads. Each thread executes the full Ralph Wiggum Execution Loop (Implement -> Test -> Critic) within its isolated fractal directory.
+    *   Maintain strict Zero-Context boundaries; do not merge verbose subagent logs into the main thread.
 
 2.  **State Synchronization & Handoff:**
-    *   Continuously synchronize task statuses in `.gemini/PLAN.md` based on subagent feedback.
-    *   If the `critic` returns `[APPROVED]` for a task, mark as `- [x]`.
-    *   If a task reaches an impasse or requires strategy adjustment, delegate back to the `planner` as per `SKILL.md`.
-    *   Once the roadmap is complete, perform a final audit, `git add .`, and `git commit -m "vector: executed plan"`.
+    *   Synchronize status in `.gemini/PLAN.md` based on subagent success (`[APPROVED]`).
+    *   Once all tasks are marked `- [x]`, perform a final validation and commit.
     *   Set `.gemini/STATE.md` Phase to `[IDLE]`.
 </protocol>
 

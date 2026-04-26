@@ -1,0 +1,7 @@
+{
+  "status": "SUCCESS",
+  "message": "Scheduler modified to detect and deduplicate identical concurrent tool calls.",
+  "modified_files": [
+    "packages/core/src/scheduler/scheduler.ts"
+  ]
+}

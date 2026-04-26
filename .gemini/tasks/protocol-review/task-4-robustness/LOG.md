@@ -1,0 +1,16 @@
+# Failure Mode Analysis: Vector Protocol Robustness Gaps
+
+## 1. Loop Traps & Infinite Execution
+- **Unbounded Loops:** The "Dynamic Multi-Angle Loop (Implement -> Test -> Critique)" and the long-running `/vector:work` command lack explicit circuit breakers. If an implementer fails to satisfy a test, or a critic repeatedly rejects a change, the system may enter an infinite loop. There is no defined `MAX_ITERATIONS` or escalation mechanism to yield back to the user.
+- **Impossible Tasks:** The protocol states `/vector:work` loops until successful completion. If a task is blocked by an external dependency, network error, or is logically impossible, the swarm will spin indefinitely, burning tokens without progress.
+
+## 2. Ambiguity in Delegation & Ownership
+- **Missing Roles / Rigid Constraints:** The `generalist` subagent is strictly deprecated, leaving only `planner`, `implementer`, `tester`, and `critic`. It is ambiguous who should handle non-code auxiliary tasks such as writing documentation, updating READMEs, or performing repository-wide code analysis.
+- **Fractal Directory Management:** The protocol mandates that large tasks be decomposed into fractal directories (`.gemini/tasks/task-ID/`). It is unclear if the Orchestrator itself creates these directories before delegating, or if the `vector-planner` creates them. This creates a chicken-and-egg problem for initializing task isolation.
+- **Deadlocks and Tie-Breaking:** If the `tester` and `implementer` fundamentally disagree (e.g., the test is flawed, but the implementer cannot change it), there is no defined arbitration mechanism. The `critic` might reject the state entirely, leading to a standstill/deadlock.
+
+## 3. Robustness & Concurrency Gaps
+- **Fragile "Lock-Free" Concurrency:** The protocol relies on "strict mutually exclusive workspace allocation rules" enforced by the LLM to prevent race conditions during parallel swarm execution. LLMs are prone to hallucination and may fail to guarantee perfect disjoint sets. If two agents accidentally target a shared file (e.g., `package.json` or a common utility), the lock-free state will result in data corruption.
+- **Lack of Rollback Mechanism:** The protocol specifies committing only at the very end of the roadmap (`git add . && git commit`). If a mid-roadmap task critically corrupts the codebase and subsequently fails, there is no defined rollback mechanism or intermediate checkpointing to restore the working tree to a safe state.
+- **State Synchronization Drift:** The protocol mentions `scripts/sync_state.py` for aggregating global state, but does not specify *which agent* runs this script and *when* (e.g., pre-task, post-task, continuously). If the orchestrator fails to invoke it reliably between subagent delegations, the global view will desync from the fractal `STATUS.json` files.
+- **Stale State Management:** There are no instructions for cleaning up `.gemini/tasks/` from previous, aborted, or failed runs. Residual state files could leak into future executions, causing context pollution and false positives in evidence grounding.

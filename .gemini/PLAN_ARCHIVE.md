@@ -1,35 +1,30 @@
-# Vector Protocol Review Plan
+# Vector Protocol Plan
 
 ## 1. Intent
-Review and analyze the Vector Protocol's instructions, structure, formatting, and robustness to provide comprehensive feedback on its quality and reliability.
+Implement structural and documentation fixes identified in the `protocol-review/FINAL_REPORT.md` to enhance documentation consistency, eliminate state mutation contradictions, and introduce operational robustness (circuit breakers, deadlocks, rollback).
 
 ## 2. Success Criteria & Definition of Done
-- Consistency Audit between `AGENTS.md` and `SKILL.md` is completed and documented.
-- Structural Integrity Check of `.gemini/` requirements is completed.
-- Formatting & UX Evaluation is documented.
-- Failure Mode Analysis (Robustness check) is documented.
-- Final synthesized feedback report is presented to the user.
+- `SKILL.md` forbids subagents from directly modifying root state files (`PLAN.md`, `STATE.md`, `EVIDENCE.md`).
+- Redundancy between `AGENTS.md` and `GEMINI.md` is eliminated.
+- Operational robustness guidelines (circuit breakers like `MAX_ITERATIONS`, deadlock arbitration, rollback) are formally documented.
+- All structural updates are grouped into mutually exclusive parallel batches.
 
 ## 3. Dependencies
-- `AGENTS.md`
-- `skills/vector/SKILL.md`
-- `.gemini/` documentation and configuration files.
+- `.gemini/tasks/protocol-review/FINAL_REPORT.md` (reviewed)
 
 ## 4. Side Effects
-- Creation of fractal task directories and state files. No codebase modification.
+- Future agent runs will strictly adhere to fractal writes and utilize circuit breakers to prevent infinite loops.
 
 ## 5. Unknowns & Hypotheses
-- Potential discrepancies or redundancies between `AGENTS.md` and `SKILL.md`.
-- Unhandled edge cases in the Orchestrator loop (e.g., infinite loop risks without maximum retry limits).
-- Clarity of subagent delegation rules in the actual protocol vs. conceptual rules.
+- Assuming `GEMINI.md` should serve as a high-level pointer/manifest rather than duplicating the entire `AGENTS.md` ruleset.
 
 ## 6. Execution Roadmap
 
-[PARALLEL BATCH]
-- [x] Task 1: Instruction Consistency Audit (`.gemini/tasks/protocol-review/task-1-consistency`)
-- [x] Task 2: Structural Integrity Check (`.gemini/tasks/protocol-review/task-2-structure`)
-- [x] Task 3: Formatting & UX Evaluation (`.gemini/tasks/protocol-review/task-3-formatting`)
-- [x] Task 4: Failure Mode Analysis (`.gemini/tasks/protocol-review/task-4-robustness`)
+### [PARALLEL BATCH 1]
+- [x] Task 1: Fix Shared State Mutation rules in `skills/vector/SKILL.md`. (Task: `protocol-fixes/task-1-shared-state`)
+- [x] Task 2: Eliminate redundancy in `GEMINI.md` by referencing `AGENTS.md`. (Task: `protocol-fixes/task-2-gemini-redundancy`)
+- [x] Task 3: Add operational robustness principles (rollback, deadlocks, cleanup) to `AGENTS.md`. (Task: `protocol-fixes/task-3-robustness-agents`)
+- [x] Task 5: Align manifest in `gemini-extension.json`. (Task: `protocol-fixes/task-5-manifest`)
 
-[SEQUENTIAL]
-- [x] Task 5: Synthesize Final Feedback Report (`.gemini/tasks/protocol-review/task-5-synthesis`)
+### [PARALLEL BATCH 2]
+- [x] Task 4: Integrate `MAX_ITERATIONS` circuit breakers and align loop terminology in `skills/vector/SKILL.md`. (Task: `protocol-fixes/task-4-robustness-skill`)

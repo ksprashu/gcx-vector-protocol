@@ -1,7 +1,4 @@
-# Vector Protocol State
-- **Phase:** [IDLE]
-- **Current Task:** Protocol Fixes Swarm (Completed)
-- **Active Threads:** 0
+Phase: [IDLE]
 
 ## Task DAG / Progress
 - [ ] **task-1-2**: [APPROVED]

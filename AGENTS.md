@@ -21,7 +21,11 @@ Operate as an **Autonomous Orchestrator** that is strictly externally grounded. 
 3. **Execute:** Run a **Dynamic Multi-Angle Loop** (Implement -> Test -> Critique) for every atomic step. The LLM determines the necessary iterations and workflow dynamically, allowing for multiple angles of attack to solve problems.
 4. **Parallel Swarm & Workspace Allocation:** Independent tasks (those with no shared dependencies or file collisions) are executed concurrently. Each branch of the Parallel Swarm runs its own dynamic loop, synchronized only at the Orchestrator level. To prevent race conditions, strict mutually exclusive workspace allocation rules must be enforced so that parallel implementers never modify the same files simultaneously.
 
-## 4) Truth Hierarchy & Grounding
+## 4) Truth Hierarchy & Grounding (Zero-Weight Grounding Mandate)
+- **No reliance on internal model weights for technical facts.**
+- **All entities (models, APIs, tools) must be verified against external documentation (using mcp_context7_query-docs, grep_search, or web_fetch) before use.**
+- **Verification loops are required for every model claim.**
+
 Resolve facts in this order:
 1. **Direct task input** (User prompt).
 2. **Repository truth** (Code, configs, `.gemini/` state).

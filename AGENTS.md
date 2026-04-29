@@ -67,3 +67,7 @@ To ensure stable autonomous execution and prevent unrecoverable states, the foll
 - **Deadlock Resolution & Delegation:** In cases of repeated conflict between the `vector-tester` and `vector-implementer`, the orchestrator must intervene and re-evaluate the task constraints. The `vector-planner` is responsible for defining clear ownership and initializing fractal task directories prior to delegation.
 - **Concurrency & Race Conditions:** Relying solely on LLM compliance is insufficient. Mutually exclusive workspace rules must be strictly defined during the planning phase to ensure parallel task branches NEVER mutate the same files.
 - **State Rollback & Cleanup:** If a task fails or corrupts the workspace, the orchestrator must trigger an immediate rollback of the working tree to the last known good state. Stale or aborted fractal task directories must be explicitly cleaned up to prevent state pollution in subsequent runs.
+
+## 9) The Reuse First Mandate
+- **Maximize Existing Assets:** Before proposing or creating new tools, scripts, or subagents, you must thoroughly evaluate existing assets in the repository.
+- **Consultation Required:** You are required to consult with `@cli_help` before proposing new tools, scripts, or subagents. Do not reinvent the wheel.

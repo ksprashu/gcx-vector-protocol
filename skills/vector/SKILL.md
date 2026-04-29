@@ -53,7 +53,7 @@ Execute each atomic task from the plan using this autonomous loop. The number of
 4. **External References:** Official documentation and standards.
 
 ### Verification Loop Mandate
-- **Mandatory Grounding:** A solution CANNOT be proposed without prior invocation of a grounding tool (e.g., `grep_search`, `web_fetch`, `mcp_context7_query-docs`). You MUST establish empirical evidence before formulating a plan or implementation.
+- **Mandatory Grounding:** A solution CANNOT be proposed without prior invocation of a grounding tool (e.g., `grep_search`, `web_fetch`, `mcp_context7_query-docs`, `@cli_help` for capability discovery). You MUST establish empirical evidence before formulating a plan or implementation.
 - **Rejection Mandate:** Any claim, plan, or implementation proposed without an explicit grounding basis (via tools and cited Evidence IDs) MUST be immediately rejected.
 - **Orchestrator Gating:** The orchestrator's behavior is strictly gated by this verification step. You must not proceed to planning or execution phases until the required grounding tool invocations have been completed and verified.
 </instructions>

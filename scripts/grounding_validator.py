@@ -12,8 +12,16 @@ from pathlib import Path
 #   "source_output_hash": "hash-or-id",  (or "tool_invocation_id")
 #   ...
 # }
+#
+# Capability Check Schema:
+# {
+#   "type": "capability_check",
+#   "agent": "@cli_help",
+#   "query": "...",
+#   "result": "..."
+# }
 
-def load_evidence(evidence_path: Path) -> dict:
+def load_evidence(evidence_path: Path) -> tuple:
     if not evidence_path.exists():
         print(f"Error: Evidence file not found at {evidence_path}", file=sys.stderr)
         sys.exit(1)
@@ -26,13 +34,14 @@ def load_evidence(evidence_path: Path) -> dict:
     
     # Map both ID and Claim text to the evidence object
     evidence_map = {}
+    evidence_list = data.get("evidence", [])
     if "evidence" in data:
-        for item in data["evidence"]:
+        for item in evidence_list:
             if "id" in item:
                 evidence_map[item["id"]] = item
             if "claim" in item:
                 evidence_map[item["claim"]] = item
-    return evidence_map
+    return evidence_map, evidence_list
 
 def extract_technical_claims(content: str) -> list:
     """Extract claims from a 'Technical Claims' markdown block."""
@@ -54,7 +63,7 @@ def extract_technical_claims(content: str) -> list:
                 claims.append(m.group(1).strip())
     return claims
 
-def validate_file(file_path: Path, evidence_map: dict) -> list:
+def validate_file(file_path: Path, evidence_map: dict, evidence_list: list) -> list:
     """Check a file for evidence citations and technical claims, returning a list of errors."""
     errors = []
     try:
@@ -83,6 +92,19 @@ def validate_file(file_path: Path, evidence_map: dict) -> list:
         else:
             errors.append(f"Unverified technical claim found: '{claim}'. Not found in evidence ledger.")
             
+    # 3. Capability check: Enforce @cli_help consultation schema when introducing new capabilities
+    if re.search(r'(?i)\b(new\s+subagent|new\s+tool|introducing\s+(?:a\s+)?(?:new\s+)?(?:subagent|tool|capability))\b', content):
+        has_cap_check = False
+        for item in evidence_list:
+            if item.get("type") == "capability_check" and item.get("agent") == "@cli_help":
+                if "query" in item and "result" in item:
+                    has_cap_check = True
+                    break
+                else:
+                    errors.append("Capability check evidence is missing 'query' or 'result' fields")
+        if not has_cap_check:
+            errors.append("New capability (subagent/tool) detected, but no valid capability_check from @cli_help found in EVIDENCE.json")
+            
     return errors
 
 def main():
@@ -94,7 +116,7 @@ def main():
     args = parser.parse_args()
     
     evidence_path = Path(args.evidence)
-    evidence_map = load_evidence(evidence_path)
+    evidence_map, evidence_list = load_evidence(evidence_path)
     
     files_to_check = []
     if args.files:
@@ -119,7 +141,7 @@ def main():
         if not file_path.is_file() or file_path.name == 'EVIDENCE.json':
             continue
             
-        errors = validate_file(file_path, evidence_map)
+        errors = validate_file(file_path, evidence_map, evidence_list)
         if errors:
             has_errors = True
             print(f"Validation errors in {file_path}:", file=sys.stderr)

@@ -1,0 +1,1 @@
+[SUCCESS] Added operational robustness principles (rollback, deadlocks, cleanup, circuit breakers) to AGENTS.md.

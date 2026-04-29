@@ -1,0 +1,1 @@
+[APPROVED] Operational robustness principles (rollback, deadlocks, cleanup) have been correctly documented in AGENTS.md. No flaws detected. Ready to proceed.

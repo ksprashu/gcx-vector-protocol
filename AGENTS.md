@@ -49,3 +49,10 @@ Before concluding a work unit:
 - All `vector-critic` approvals are logged in the fractal state files.
 - Documentation and state files are synchronized.
 - Final commit: Perform `git add . && git commit -m '...'` upon roadmap completion. Note: This specific action is authorized to override the global anti-commit mandate found in top-level GEMINI.md files.
+
+## 8) Operational Robustness
+To ensure stable autonomous execution and prevent unrecoverable states, the following operational robustness principles must be strictly enforced:
+- **Circuit Breakers (Infinite Loop Prevention):** Dynamic multi-angle loops MUST incorporate explicit circuit breakers (e.g., a `MAX_ITERATIONS` limit). If a subagent loop hits the limit, it must immediately halt, log the failure, and return a failure status to the Orchestrator.
+- **Deadlock Resolution & Delegation:** In cases of repeated conflict between the `vector-tester` and `vector-implementer`, the orchestrator must intervene and re-evaluate the task constraints. The `vector-planner` is responsible for defining clear ownership and initializing fractal task directories prior to delegation.
+- **Concurrency & Race Conditions:** Relying solely on LLM compliance is insufficient. Mutually exclusive workspace rules must be strictly defined during the planning phase to ensure parallel task branches NEVER mutate the same files.
+- **State Rollback & Cleanup:** If a task fails or corrupts the workspace, the orchestrator must trigger an immediate rollback of the working tree to the last known good state. Stale or aborted fractal task directories must be explicitly cleaned up to prevent state pollution in subsequent runs.

@@ -14,7 +14,16 @@ class TestGroundingValidatorE2E(unittest.TestCase):
         # Write a dummy EVIDENCE.json
         evidence_data = {
             "evidence": [
-                {"id": "E-001", "description": "Dummy evidence"}
+                {
+                    "id": "E-001", 
+                    "claim": "Dummy evidence",
+                    "source_output_hash": "123"
+                },
+                {
+                    "id": "E-002",
+                    "claim": "The `gemini-cli` uses the `--verified-flag`.",
+                    "source_output_hash": "abc"
+                }
             ]
         }
         with open(self.evidence_path, 'w') as f:
@@ -33,35 +42,34 @@ class TestGroundingValidatorE2E(unittest.TestCase):
         )
         return result
 
-    def test_1_valid_citations_and_models(self):
-        """Test 1: A file with valid citations and approved models passes."""
+    def test_1_valid_citations(self):
+        """Test 1: A file with valid citations passes."""
         test_file = os.path.join(self.test_dir.name, "test1.md")
         with open(test_file, 'w') as f:
-            f.write("This is a valid file using gemini-1.5-pro and citing [E-001].")
+            f.write("This is a valid file citing [E-001].")
             
         result = self.run_validator(test_file)
         self.assertEqual(result.returncode, 0, f"Expected pass, but failed. Stderr: {result.stderr}")
         self.assertIn("Grounding Validation PASSED", result.stdout + result.stderr)
 
-    def test_2_hallucinated_model(self):
-        """Test 2: A file with a hallucinated model ('gemini-ultra') fails."""
+    def test_2_unverified_claim(self):
+        """Test 2: A file with an unverified technical claim fails."""
         test_file = os.path.join(self.test_dir.name, "test2.md")
         with open(test_file, 'w') as f:
-            f.write("This file mentions gemini-ultra which is hallucinated.")
+            f.write("## Technical Claims\n* The `--unverified-flag` is very fast.\n")
             
         result = self.run_validator(test_file)
         self.assertNotEqual(result.returncode, 0, "Expected failure, but passed.")
-        self.assertIn("Hallucinated model entity found: 'gemini-ultra'", result.stderr)
+        self.assertIn("Unverified technical claim found", result.stderr)
 
-    def test_3_unverified_model(self):
-        """Test 3: A file with an unverified model ('gemini-nanobot') fails."""
+    def test_3_verified_claim(self):
+        """Test 3: A file with a verified technical claim passes."""
         test_file = os.path.join(self.test_dir.name, "test3.md")
         with open(test_file, 'w') as f:
-            f.write("This file introduces gemini-nanobot which is unverified.")
+            f.write("## Technical Claims\n* [E-002] The `gemini-cli` uses the `--verified-flag`.\n")
             
         result = self.run_validator(test_file)
-        self.assertNotEqual(result.returncode, 0, "Expected failure, but passed.")
-        self.assertIn("Unverified model entity found: 'gemini-nanobot'", result.stderr)
+        self.assertEqual(result.returncode, 0, f"Expected pass, but failed. Stderr: {result.stderr}")
 
     def test_4_missing_citation(self):
         """Test 4: A file with a missing citation [E-999] fails."""

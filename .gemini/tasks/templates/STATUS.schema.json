@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Task Status",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["pending", "in_progress", "success", "failed", "blocked"]
+    },
+    "message": {
+      "type": "string",
+      "description": "Short description of the current status."
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of affected files or output artifacts."
+    }
+  },
+  "required": ["status", "message"]
+}

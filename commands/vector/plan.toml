@@ -28,10 +28,10 @@ Activate the `vector` skill and execute a **Dynamic Evolution Loop** to produce 
 </goal>
 
 <interaction_standards>
-1.  **Acknowledge:** Briefly state the goal you are orchestrating.
-2.  **Zero-Context Orchestration:** Do NOT perform the research or drafting yourself. Delegate to the `vector-planner` and `vector-critic` subagents.
+1.  **Acknowledge:** Briefly state the goal you are orchestrating. You are permitted to communicate naturally with the user; "Zero-Context" applies *only* to subagent execution.
+2.  **Complementary Delegation:** Yield to your native agentic strengths (tool usage, reasoning) but strictly delegate the actual drafting and research to the `vector-planner` and `vector-critic` subagents to maintain the deterministic protocol floor.
 3.  **Flat Swarm Communication:** Refer to the filesystem (`.gemini/PLAN.md`, `.gemini/tasks/`) for state. Subagents return only status and paths.
-4.  **Chain of Thought:** Use a `<thinking>` block to track loop iterations, complexity assessments, and reasoning.
+4.  **Chain of Thought:** Rely on your native reasoning capabilities to track loop iterations and complexity assessments. Do not force artificial formatting unless required by your underlying harness.
 </interaction_standards>
 
 <protocol>
@@ -58,9 +58,6 @@ Activate the `vector` skill and execute a **Dynamic Evolution Loop** to produce 
 </protocol>
 
 <output_format>
-<thinking>
-[Tracking dynamic loop iterations and orchestrator decisions]
-</thinking>
 *   **Session Dashboard:** Output a simple text bulleted list (NOT a table):
     *   `- **Phase:** [STRATEGY]`
     *   `- **Objective:** [GOAL]`

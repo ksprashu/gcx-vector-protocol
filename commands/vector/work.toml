@@ -28,10 +28,10 @@ Activate the `vector` skill and orchestrate a concurrent swarm of **Dynamic Exec
 </goal>
 
 <interaction_standards>
-1.  **Acknowledge:** List the active tasks currently being processed by the swarm.
-2.  **Zero-Context Orchestration:** Strictly delegate all implementation, testing, and critique to specialized subagents.
+1.  **Acknowledge:** List the active tasks currently being processed by the swarm. You may communicate naturally with the user; "Zero-Context" applies *only* to subagent execution.
+2.  **Complementary Delegation:** Strictly delegate all implementation, testing, and critique to specialized subagents, leveraging your native reasoning to coordinate the swarm.
 3.  **Fractal Isolation & Non-Overlapping Constraints:** Use `.gemini/tasks/` to manage parallel state. You MUST enforce non-overlapping file constraints: never distribute tasks to parallel implementers that require modifying the same files simultaneously.
-4.  **Chain of Thought:** Use a `<thinking>` block to track swarm coordination, dependency resolution, and file lock assertions.
+4.  **Chain of Thought:** Rely on your native reasoning capabilities to track swarm coordination, dependency resolution, and file lock assertions.
 </interaction_standards>
 
 <protocol>
@@ -56,9 +56,6 @@ Activate the `vector` skill and orchestrate a concurrent swarm of **Dynamic Exec
 </protocol>
 
 <output_format>
-<thinking>
-[Tracking concurrent task selection, file isolation constraints, and swarm orchestration decisions]
-</thinking>
 *   **Session Dashboard:**
     *   `- **Phase:** [EXECUTION]`
     *   `- **Active Tasks:** [List of tasks currently in-flight]`

@@ -6,9 +6,74 @@ import json
 import glob
 from datetime import datetime
 
+def parse_plan_md(plan_md_content):
+    parsed_data = {
+        'intent': '',
+        'success_criteria': '',
+        'dependencies': '',
+        'side_effects': '',
+        'unknowns_hypotheses': '',
+        'roadmap': []
+    }
+    
+    current_section = None
+    lines = plan_md_content.split('\n')
+    
+    for line in lines:
+        stripped_line = line.strip()
+        
+        if re.match(r'^#+\s*(?:\d+[\.\)])?\s*Intent', stripped_line, re.IGNORECASE):
+            current_section = 'intent'
+            continue
+        elif re.match(r'^#+\s*(?:\d+[\.\)])?\s*Success Criteria', stripped_line, re.IGNORECASE):
+            current_section = 'success_criteria'
+            continue
+        elif re.match(r'^#+\s*(?:\d+[\.\)])?\s*Dependencies', stripped_line, re.IGNORECASE):
+            current_section = 'dependencies'
+            continue
+        elif re.match(r'^#+\s*(?:\d+[\.\)])?\s*Side Effects', stripped_line, re.IGNORECASE):
+            current_section = 'side_effects'
+            continue
+        elif re.match(r'^#+\s*(?:\d+[\.\)])?\s*Unknowns', stripped_line, re.IGNORECASE):
+            current_section = 'unknowns_hypotheses'
+            continue
+        elif re.match(r'^#+\s*(?:\d+[\.\)])?\s*Execution Roadmap', stripped_line, re.IGNORECASE):
+            current_section = 'roadmap'
+            continue
+            
+        if current_section == 'roadmap':
+            if re.match(r'^##+', stripped_line):
+                parsed_data['roadmap'].append({'batch': stripped_line, 'tasks': []})
+            elif re.match(r'^\s*-\s*\[([ xX])\]\s+([a-zA-Z0-9_\-]+):\s+(.*)', line):
+                match = re.match(r'^\s*-\s*\[([ xX])\]\s+([a-zA-Z0-9_\-]+):\s+(.*)', line)
+                if len(parsed_data['roadmap']) > 0:
+                    parsed_data['roadmap'][-1]['tasks'].append({
+                        'checked': match.group(1).lower() == 'x',
+                        'id': match.group(2),
+                        'description': match.group(3)
+                    })
+            elif re.match(r'^\s*-\s*\[([ xX])\]\s+(.*)', line):
+                match = re.match(r'^\s*-\s*\[([ xX])\]\s+(.*)', line)
+                if len(parsed_data['roadmap']) > 0:
+                    parsed_data['roadmap'][-1]['tasks'].append({
+                        'checked': match.group(1).lower() == 'x',
+                        'id': '',
+                        'description': match.group(2)
+                    })
+        elif current_section:
+            if parsed_data[current_section]:
+                parsed_data[current_section] += '\n' + line
+            else:
+                parsed_data[current_section] = line
+
+    for key in parsed_data:
+        if isinstance(parsed_data[key], str):
+            parsed_data[key] = parsed_data[key].strip()
+
+    return parsed_data
+
 def aggregate_tasks():
     tasks = {}
-    # Use glob to find all STATUS.json
     status_files = glob.glob('.gemini/tasks/*/STATUS.json')
     for sf in status_files:
         try:
@@ -20,7 +85,6 @@ def aggregate_tasks():
             if not task_id:
                 task_id = os.path.basename(task_dir)
                 
-            # Read all md files in the task directory
             md_files = glob.glob(os.path.join(task_dir, '*.md'))
             md_data = {}
             for md in md_files:
@@ -44,105 +108,130 @@ def aggregate_tasks():
     return tasks
 
 def generate_html_dashboard(tasks, output_file='.gemini/VIEW.html'):
-    html_template = """<!DOCTYPE html>
+    plan_path = '.gemini/PLAN.md'
+    plan_content = ""
+    if os.path.exists(plan_path):
+        with open(plan_path, 'r', encoding='utf-8') as f:
+            plan_content = f.read()
+    
+    plan_data = parse_plan_md(plan_content)
+    
+    def markdown_to_html_list(md_text):
+        if not md_text:
+            return ""
+        items = []
+        for line in md_text.split('\n'):
+            line = line.strip()
+            if line.startswith('- ') or line.startswith('* '):
+                items.append(f"<li>{line[2:]}</li>")
+            elif line:
+                items.append(f"<li>{line}</li>")
+        if items:
+            return f'<ul class="space-y-2 text-slate-600 list-disc list-inside">{"".join(items)}</ul>'
+        else:
+            return f'<p class="text-slate-600 leading-relaxed">{md_text}</p>'
+            
+    intent_html = f'<p class="text-slate-600 leading-relaxed">{plan_data.get("intent", "No Intent found.")}</p>'
+    success_criteria_html = markdown_to_html_list(plan_data.get('success_criteria', ''))
+
+    batches_html = ""
+    for batch in plan_data.get('roadmap', []):
+        batch_title = batch['batch'].lstrip('#').strip()
+        tasks_html = ""
+        for task in batch['tasks']:
+            checked = task.get('checked', False)
+            task_id = task.get('id', '')
+            desc = task.get('description', '')
+            
+            status_badge = ""
+            status_color = "slate-300"
+            if task_id and task_id in tasks:
+                t = tasks[task_id]
+                status = t['status'].upper()
+                if status in ['SUCCESS', 'COMPLETED', 'DONE', 'APPROVED']:
+                    badge_bg = 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                    checked = True
+                elif status in ['FAILED']:
+                    badge_bg = 'bg-red-100 text-red-800 border-red-200'
+                elif status in ['IN_PROGRESS']:
+                    badge_bg = 'bg-blue-100 text-blue-800 border-blue-200'
+                else:
+                    badge_bg = 'bg-amber-100 text-amber-800 border-amber-200'
+                status_badge = f'<span class="ml-2 px-2 py-0.5 rounded text-xs font-bold border {badge_bg}">{status}</span>'
+            
+            check_icon = '<svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>' if checked else ''
+            border_color = 'border-emerald-500 bg-emerald-50' if checked else 'border-slate-300 bg-white'
+            
+            tasks_html += f"""
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 h-6 w-6 rounded-full border-2 {border_color} flex items-center justify-center mt-0.5">
+                        {check_icon}
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-md font-medium text-slate-800">{task_id}{status_badge}</h4>
+                        <p class="text-slate-500 text-sm mt-1">{desc}</p>
+                    </div>
+                </div>
+            """
+            
+        batches_html += f"""
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
+                <h3 class="text-sm font-bold text-indigo-500 uppercase tracking-wider mb-4">{batch_title}</h3>
+                <div class="space-y-4">
+                    {tasks_html}
+                </div>
+            </div>
+        """
+
+    html_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vector Protocol - Swarm State Dashboard</title>
+    <title>Executive Report - Vector Protocol Plan</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans p-6 min-h-screen">
-    <div class="max-w-7xl mx-auto">
-        <header class="mb-8 border-b border-gray-200 pb-6 bg-white p-6 rounded-xl shadow-sm">
-            <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Vector Protocol Dashboard</h1>
-            <p class="text-sm text-gray-500 mt-2 font-medium">Autonomous Swarm State Overview &bull; Generated: {timestamp}</p>
-        </header>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {task_cards}
+<body class="bg-slate-50 text-slate-900 font-sans p-8 max-w-5xl mx-auto">
+    <header class="flex justify-between items-center mb-8 border-b pb-4 border-slate-200">
+        <div>
+            <h1 class="text-3xl font-bold text-slate-800">Project Executive Report</h1>
+            <p class="text-slate-500 mt-1">Vector Protocol Implementation Plan &bull; Generated: {{timestamp}}</p>
         </div>
+        <div class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-semibold text-sm">
+            Active
+        </div>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h2 class="text-xl font-semibold mb-4 text-slate-700 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Intent
+            </h2>
+            {intent_html}
+        </section>
+
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h2 class="text-xl font-semibold mb-4 text-slate-700 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Success Criteria
+            </h2>
+            {success_criteria_html}
+        </section>
     </div>
-    
-    <script>
-        function toggleDetails(id) {
-            const el = document.getElementById('details-' + id);
-            const icon = document.getElementById('icon-' + id);
-            if (el.classList.contains('hidden')) {
-                el.classList.remove('hidden');
-                icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" /></svg>`;
-            } else {
-                el.classList.add('hidden');
-                icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>`;
-            }
-        }
-    </script>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-bold mb-6 text-slate-800">Execution Roadmap</h2>
+        <div class="space-y-6">
+            {batches_html}
+        </div>
+    </section>
 </body>
 </html>
 """
 
-    task_cards = []
-    for task_id in sorted(tasks.keys()):
-        t = tasks[task_id]
-        
-        # Color mapping based on status
-        status_colors = {
-            'success': 'bg-emerald-100 text-emerald-800 border-emerald-200',
-            'completed': 'bg-emerald-100 text-emerald-800 border-emerald-200',
-            'done': 'bg-emerald-100 text-emerald-800 border-emerald-200',
-            'approved': 'bg-emerald-100 text-emerald-800 border-emerald-200',
-            'in_progress': 'bg-blue-100 text-blue-800 border-blue-200',
-            'pending': 'bg-amber-100 text-amber-800 border-amber-200',
-            'failed': 'bg-red-100 text-red-800 border-red-200',
-            'blocked': 'bg-purple-100 text-purple-800 border-purple-200'
-        }
-        
-        status_lower = t['status'].lower()
-        color_class = status_colors.get(status_lower, 'bg-gray-100 text-gray-800 border-gray-200')
-        
-        artifacts_html = ""
-        if t['artifacts']:
-            items = ''.join([f"<li class='text-xs font-mono text-gray-600 bg-gray-50 px-2 py-1 rounded'>{a}</li>" for a in t['artifacts']])
-            artifacts_html = f"<div class='mb-4'><strong>Artifacts:</strong><ul class='flex flex-wrap gap-2 mt-2'>{items}</ul></div>"
-            
-        md_files_html = ""
-        if t['md_files']:
-            for i, (md_name, md_content) in enumerate(t['md_files'].items()):
-                escaped_content = md_content.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-                md_files_html += f"<div class='mt-4'><h4 class='text-sm font-bold text-gray-700 bg-gray-100 px-3 py-2 rounded-t-md border border-gray-200 border-b-0'>{md_name}</h4><pre class='text-xs bg-white p-3 rounded-b-md overflow-x-auto max-h-60 text-gray-700 border border-gray-200 shadow-inner whitespace-pre-wrap'>{escaped_content}</pre></div>"
-
-        safe_id = re.sub(r'[^a-zA-Z0-9]', '_', task_id)
-
-        card = f"""
-        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-200 flex flex-col overflow-hidden">
-            <div class="p-5 border-b border-gray-100 cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors" onclick="toggleDetails('{safe_id}')">
-                <div class="flex justify-between items-start mb-3">
-                    <h2 class="text-xl font-bold text-gray-900 truncate pr-4" title="{task_id}">{task_id}</h2>
-                    <span class="px-2.5 py-1 rounded-md text-xs font-bold border {color_class} uppercase tracking-wider flex-shrink-0 shadow-sm">
-                        {t['status']}
-                    </span>
-                </div>
-                <div class="flex justify-between items-end">
-                    <p class="text-sm text-gray-600 line-clamp-2 leading-relaxed flex-grow pr-4">{t['message'] or 'No message provided.'}</p>
-                    <div id="icon-{safe_id}" class="text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="details-{safe_id}" class="hidden p-5 bg-white flex-grow border-t border-gray-100">
-                {artifacts_html}
-                <div class="mt-2">
-                    <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-2 border-b pb-1">Subagent Logs</h3>
-                    {md_files_html if md_files_html else '<p class="text-xs text-gray-500 italic bg-gray-50 p-3 rounded border border-gray-100">No markdown logs found.</p>'}
-                </div>
-            </div>
-        </div>
-        """
-        task_cards.append(card)
-
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    final_html = html_template.replace("{timestamp}", now).replace("{task_cards}", "\n".join(task_cards))
+    final_html = html_template.replace("{timestamp}", now)
     
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(final_html)
@@ -157,7 +246,6 @@ def render_state(content, tasks):
     lines = [preamble] if preamble else []
     lines.append("\n## Task DAG / Progress")
     
-    # Sort tasks by ID
     for tid in sorted(tasks.keys()):
         t = tasks[tid]
         status = t.get('status', 'UNKNOWN')
@@ -172,7 +260,6 @@ def main():
     state_file = '.gemini/STATE.md'
     
     if not os.path.exists(state_file):
-        # Not a Vector initialized repo, silently exit
         sys.exit(0)
 
     try:
@@ -182,12 +269,8 @@ def main():
         match = re.search(r'- \*\*Phase:\*\* \[(.*?)\]', content)
         if match:
             phase = match.group(1)
-            # If phase is not IDLE, user is committing manually outside of /vector:save
             if phase != 'IDLE':
-                # Reset Phase
                 content = re.sub(r'- \*\*Phase:\*\* \[.*?\]', '- **Phase:** [IDLE]', content)
-                
-                # Update Last Action to reflect manual intervention
                 content = re.sub(
                     r'- \*\*Last Action:\*\* .*', 
                     '- **Last Action:** Auto-synced phase to [IDLE] via pre-commit git hook.', 
@@ -195,25 +278,20 @@ def main():
                 )
                 print("🔄 Vector Protocol: Auto-synced STATE.md phase to [IDLE] before commit.")
 
-        # Aggregate tasks
         tasks = aggregate_tasks()
         
-        # Render new state content
         new_content = render_state(content, tasks)
         
         with open(state_file, 'w', encoding='utf-8') as f:
             f.write(new_content)
             
-        # Generate HTML Dashboard
         generate_html_dashboard(tasks)
         
-        # Re-stage the STATE file so the hook modifications are included in the commit
         if os.path.exists('.git'):
             subprocess.run(['git', 'add', state_file, '.gemini/VIEW.html'], check=False)
                 
     except Exception as e:
         print(f"⚠️ Vector Protocol Warning: Failed to auto-sync STATE.md: {e}")
-        # We exit 0 so we don't block the user's commit if our hook fails
         sys.exit(0)
 
 if __name__ == '__main__':

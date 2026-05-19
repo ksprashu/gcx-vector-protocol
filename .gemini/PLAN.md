@@ -1,39 +1,28 @@
-# Vector Protocol Evolution: Harness Alignment & Read-Only HTML View Layer
+# Intent
+The user finds the current `view.html` (a Trello-like task board) ineffective for communicating the overall plan for approval. The goal is to redesign `view.html` into a rich, narrative HTML document optimized for human readability and plan approval, replacing the raw dashboard view.
 
-## 1. Intent
-Ensure the Vector Protocol complements rather than overrides Gemini CLI's native agentic capabilities. Transition human-facing state views from Markdown to rich, semantic HTML for better readability, while strictly maintaining Markdown and JSON as the machine-readable sources of truth. HTML will be generated as a read-only presentation layer with semantic meaning.
+# Success Criteria & Definition of Done
+- At least 2-3 sample HTML mockups demonstrating rich plan presentation are generated for user review.
+- The system generating the HTML view (`scripts/sync_state.py`) is updated to use the new rich HTML structure instead of the Trello-like cards.
+- The HTML view clearly articulates the goal, success criteria, dependencies, side effects, and execution roadmap.
+- The user is presented with the HTML file for approval instead of a Markdown file (though the internal `.gemini/PLAN.md` is kept for the agent swarm).
 
-## 2. Success Criteria & Definition of Done
-- A detailed review document mapping Vector's context engineering against native Gemini CLI capabilities, ensuring the `vector` skill instructions do not force unnecessary context already provided by the CLI harness.
-- MD/JSON files are strictly maintained as the underlying source-of-truth for state and planning by all subagents.
-- A new HTML Generator component in `sync_state.py` that reads the MD/JSON sources of truth and compiles them into a read-only HTML view for human consumption using a classless CSS framework (e.g., Pico.css).
-- Updated `vector` skill and commands that integrate seamlessly with native CLI harness features through Complementary Delegation.
+# Dependencies
+- Existing `STATUS.json` and internal `.gemini/PLAN.md` state.
+- `scripts/sync_state.py` orchestration logic.
 
-## 3. Dependencies
-- Gemini CLI architecture documentation (to understand native vs. overridden features).
-- Classless CSS stylesheet choice (e.g., Pico.css) for the HTML generator.
-- `sync_state.py` for housing the HTML generation logic.
+# Side Effects
+- The visualization of swarm progress and plan structure changes significantly.
+- Internal tools or scripts that generate `.gemini/VIEW.html` will be heavily refactored.
 
-## 4. Side Effects
-- Users will view the protocol's progress and state via an HTML browser view, providing a significantly better user experience.
-- The `sync_state.py` script will become responsible for the one-way generation of HTML from markdown and JSON.
-- Subagents are completely isolated from HTML generation and remain focused on writing machine-friendly Markdown and JSON.
+# Unknowns & Hypotheses
+- Should the HTML be static or dynamically updated with JS? Hypothesis: Keep it static/server-rendered using Tailwind, with minimal JS, but structured like a formal report or document.
+- Does the user want this HTML to replace `PLAN.md` completely? While the prompt suggests "No MD files needed for that artifact", `AGENTS.md` strictly requires `.gemini/PLAN.md` for the swarm. We will maintain the internal `.gemini/PLAN.md` for swarm orchestration, but the *user-facing* approval artifact will be solely the rich HTML document.
 
-## 5. Unknowns & Hypotheses
-- *Hypothesis:* Isolating HTML generation to a Python script keeps the LLM context clean and prevents subagents from wasting tokens on formatting, while still delivering a rich UI to the human user.
-- *Risk:* Over-relaxing the Vector constraints might lead to loss of the deterministic execution loops that make the protocol valuable. We must find the "sweet spot" of alignment with the CLI harness.
+# Execution Roadmap
+## [PARALLEL BATCH]
+- [x] task-rich-html-1: Generate 3 sample rich HTML mockups (Executive Report, Timeline View, Structured Doc) in a `.gemini/mockups/` directory for user review to confirm understanding.
+- [x] task-rich-html-2: Analyze `scripts/sync_state.py` and write the data extraction logic required to pull Intent, Success Criteria, and Roadmap details from `.gemini/PLAN.md`.
 
-## 6. Execution Roadmap
-
-### Workspace Allocation
-- **Task 1:** `skills/vector/SKILL.md`, `commands/`
-- **Task 2:** `.gemini/tasks/` (subagent output templates)
-- **Task 3:** `scripts/sync_state.py`, `.gemini/VIEW.html`
-
-### [PARALLEL BATCH]
-- [ ] **Task 1: Harness-Aware Delegation Interface** (See `.gemini/tasks/task-001/PLAN.md`)
-    - *Focus:* Define a "Complementary Delegation" model where Vector handles protocol-specific state/loops but yields to the harness for general agentic tasks (tool usage, safety, model steering). Ensure the Vector Protocol is never handicapped if the agent/harness is insufficient, but avoids overriding tuned behaviors of the evolving harness.
-- [ ] **Task 2: Source-of-Truth Markdown/JSON Standardization** (See `.gemini/tasks/task-002/PLAN.md`)
-    - *Focus:* Ensure all subagent outputs are strictly formalized in machine-readable MD/JSON.
-- [ ] **Task 3: Semantic Information Design for HTML Layer** (See `.gemini/tasks/task-003/PLAN.md`)
-    - *Focus:* Implement "Semantic Mapping" for the HTML generator. Re-imagine the HTML content in a user-friendly, information-presentation-focused way instead of just re-rendering Markdown. Transform raw state data into specific UI components (dashboards, progress trackers for execution, collapsible trees for planning, task-cards).
+## [PARALLEL BATCH]
+- [x] task-rich-html-3: Refactor `scripts/sync_state.py` to generate the `.gemini/VIEW.html` using the chosen rich HTML template, integrating the parsed plan details and roadmap status.

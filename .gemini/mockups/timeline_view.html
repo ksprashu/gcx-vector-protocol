@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Roadmap - Vector Protocol Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans p-8 max-w-4xl mx-auto">
+    <div class="mb-12 text-center">
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Execution Roadmap</h1>
+        <p class="text-lg text-gray-500 mt-3">Vector Protocol Plan Redesign</p>
+    </div>
+
+    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200 mb-12">
+        <h2 class="text-2xl font-bold mb-3 text-gray-800">Intent</h2>
+        <p class="text-gray-600 leading-relaxed">The user finds the current view.html ineffective for communicating the overall plan for approval. The goal is to redesign view.html into a rich, narrative HTML document optimized for human readability and plan approval.</p>
+    </div>
+
+    <div class="relative border-l-4 border-blue-500 ml-6 pl-8 space-y-12">
+        <!-- Step 1 -->
+        <div class="relative">
+            <div class="absolute -left-10 w-6 h-6 bg-blue-500 rounded-full border-4 border-white shadow"></div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <span class="text-xs font-bold uppercase text-blue-500 mb-2 block tracking-wider">Phase 1: Foundation</span>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Generate HTML Mockups</h3>
+                <p class="text-gray-600 mb-4 text-sm leading-relaxed"><strong>task-rich-html-1:</strong> Generate 3 sample rich HTML mockups (Executive Report, Timeline View, Structured Doc) in a .gemini/mockups/ directory for user review to confirm understanding.</p>
+                <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">
+                    Status: Pending
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="relative">
+            <div class="absolute -left-10 w-6 h-6 bg-blue-500 rounded-full border-4 border-white shadow"></div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <span class="text-xs font-bold uppercase text-blue-500 mb-2 block tracking-wider">Phase 1: Foundation</span>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Data Extraction Logic</h3>
+                <p class="text-gray-600 mb-4 text-sm leading-relaxed"><strong>task-rich-html-2:</strong> Analyze scripts/sync_state.py and write the data extraction logic required to pull Intent, Success Criteria, and Roadmap details from .gemini/PLAN.md.</p>
+                <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">
+                    Status: Pending
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="relative">
+            <div class="absolute -left-10 w-6 h-6 bg-gray-300 rounded-full border-4 border-white shadow"></div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 opacity-80 hover:opacity-100 transition-opacity">
+                <span class="text-xs font-bold uppercase text-gray-500 mb-2 block tracking-wider">Phase 2: Integration</span>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Refactor Sync Script</h3>
+                <p class="text-gray-600 mb-4 text-sm leading-relaxed"><strong>task-rich-html-3:</strong> Refactor scripts/sync_state.py to generate the .gemini/VIEW.html using the chosen rich HTML template, integrating the parsed plan details and roadmap status.</p>
+                <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-500">
+                    Status: Blocked (Waiting on Phase 1)
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

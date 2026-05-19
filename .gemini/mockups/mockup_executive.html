@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Summary - Vector Protocol Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans p-8 min-h-screen">
+    <div class="max-w-4xl mx-auto bg-white p-10 rounded-2xl shadow-lg border border-slate-100">
+        <header class="mb-10 pb-6 border-b border-slate-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Executive Plan Approval</h1>
+                    <p class="text-slate-500 mt-2 text-lg">Vector Protocol Autonomous Swarm</p>
+                </div>
+                <div class="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-lg font-semibold text-sm border border-indigo-100">
+                    STATUS: PENDING APPROVAL
+                </div>
+            </div>
+        </header>
+
+        <section class="mb-10">
+            <h2 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                Core Intent
+            </h2>
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 text-slate-700 leading-relaxed text-lg">
+                Redesign `view.html` into a rich, narrative HTML document optimized for human readability and plan approval, replacing the raw dashboard view.
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <section>
+                <h2 class="text-lg font-bold text-slate-800 mb-3 border-b pb-2">Success Criteria</h2>
+                <ul class="space-y-2 text-slate-600">
+                    <li class="flex items-start"><span class="text-emerald-500 mr-2">✓</span> Sample HTML mockups generated.</li>
+                    <li class="flex items-start"><span class="text-emerald-500 mr-2">✓</span> sync_state.py refactored.</li>
+                    <li class="flex items-start"><span class="text-emerald-500 mr-2">✓</span> Rich narrative structure implemented.</li>
+                </ul>
+            </section>
+            <section>
+                <h2 class="text-lg font-bold text-slate-800 mb-3 border-b pb-2">Dependencies & Risks</h2>
+                <ul class="space-y-2 text-slate-600">
+                    <li class="flex items-start"><span class="text-amber-500 mr-2">⚠</span> Python parsing logic for Markdown ATX headings.</li>
+                    <li class="flex items-start"><span class="text-amber-500 mr-2">⚠</span> Overwriting legacy dashboard logic.</li>
+                </ul>
+            </section>
+        </div>
+
+        <section>
+            <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center">
+                <svg class="w-6 h-6 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                Execution Roadmap
+            </h2>
+            <div class="space-y-4">
+                <div class="bg-white border-l-4 border-indigo-500 shadow-sm p-5 rounded-r-xl">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold text-slate-800">Phase 1: Foundation (Parallel Batch)</h3>
+                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded font-mono">2 tasks</span>
+                    </div>
+                    <p class="text-sm text-slate-500">Generate UI mockups and write parsing logic for Markdown state.</p>
+                </div>
+                <div class="bg-white border-l-4 border-slate-300 shadow-sm p-5 rounded-r-xl opacity-75">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold text-slate-800">Phase 2: Integration</h3>
+                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded font-mono">1 task</span>
+                    </div>
+                    <p class="text-sm text-slate-500">Refactor scripts/sync_state.py to output the final HTML template.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

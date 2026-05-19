@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Specification - Vector Protocol Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-slate-800 font-serif leading-relaxed py-12 px-8 max-w-4xl mx-auto border-x border-slate-100 shadow-sm min-h-screen">
+    <header class="border-b-2 border-slate-900 pb-8 mb-12">
+        <h1 class="text-4xl font-bold font-sans text-slate-900 mb-3 tracking-tight">Project Plan Document</h1>
+        <p class="text-slate-500 font-sans text-sm uppercase tracking-wider">Document ID: VP-RICH-HTML-001 | Version: 1.0</p>
+    </header>
+
+    <main class="space-y-12">
+        <section>
+            <h2 class="text-2xl font-bold font-sans text-slate-900 mb-5 border-b border-slate-200 pb-2">1. Intent</h2>
+            <p class="text-slate-700">The user finds the current <code>view.html</code> (a Trello-like task board) ineffective for communicating the overall plan for approval. The goal is to redesign <code>view.html</code> into a rich, narrative HTML document optimized for human readability and plan approval, replacing the raw dashboard view.</p>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold font-sans text-slate-900 mb-5 border-b border-slate-200 pb-2">2. Success Criteria & Definition of Done</h2>
+            <ul class="list-disc list-outside ml-5 space-y-3 text-slate-700">
+                <li>At least 2-3 sample HTML mockups demonstrating rich plan presentation are generated for user review.</li>
+                <li>The system generating the HTML view (<code>scripts/sync_state.py</code>) is updated to use the new rich HTML structure instead of the Trello-like cards.</li>
+                <li>The HTML view clearly articulates the goal, success criteria, dependencies, side effects, and execution roadmap.</li>
+                <li>The user is presented with the HTML file for approval instead of a Markdown file (though the internal <code>.gemini/PLAN.md</code> is kept for the agent swarm).</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold font-sans text-slate-900 mb-5 border-b border-slate-200 pb-2">3. Dependencies & Side Effects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                    <h3 class="font-bold font-sans text-slate-800 mb-3 text-lg">Dependencies</h3>
+                    <ul class="list-disc list-outside ml-5 text-slate-700 text-sm space-y-2">
+                        <li>Existing <code>STATUS.json</code> and internal <code>.gemini/PLAN.md</code> state.</li>
+                        <li><code>scripts/sync_state.py</code> orchestration logic.</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                    <h3 class="font-bold font-sans text-slate-800 mb-3 text-lg">Side Effects</h3>
+                    <ul class="list-disc list-outside ml-5 text-slate-700 text-sm space-y-2">
+                        <li>The visualization of swarm progress and plan structure changes significantly.</li>
+                        <li>Internal tools or scripts that generate <code>.gemini/VIEW.html</code> will be heavily refactored.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold font-sans text-slate-900 mb-6 border-b border-slate-200 pb-2">4. Execution Roadmap</h2>
+            
+            <div class="mb-8">
+                <h3 class="text-lg font-bold font-sans text-slate-800 mb-4 bg-slate-100 py-2 px-4 rounded border border-slate-200">Parallel Batch 1</h3>
+                <table class="w-full text-left border-collapse font-sans">
+                    <thead>
+                        <tr class="border-b border-slate-300">
+                            <th class="py-3 px-4 font-semibold text-slate-600 bg-slate-50">Task ID</th>
+                            <th class="py-3 px-4 font-semibold text-slate-600 bg-slate-50">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-slate-200 hover:bg-slate-50 transition-colors">
+                            <td class="py-4 px-4 font-mono text-slate-500 align-top whitespace-nowrap">task-rich-html-1</td>
+                            <td class="py-4 px-4 text-slate-700">Generate 3 sample rich HTML mockups (Executive Report, Timeline View, Structured Doc) in a <code>.gemini/mockups/</code> directory for user review to confirm understanding.</td>
+                        </tr>
+                        <tr class="border-b border-slate-200 hover:bg-slate-50 transition-colors">
+                            <td class="py-4 px-4 font-mono text-slate-500 align-top whitespace-nowrap">task-rich-html-2</td>
+                            <td class="py-4 px-4 text-slate-700">Analyze <code>scripts/sync_state.py</code> and write the data extraction logic required to pull Intent, Success Criteria, and Roadmap details from <code>.gemini/PLAN.md</code>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-bold font-sans text-slate-800 mb-4 bg-slate-100 py-2 px-4 rounded border border-slate-200">Parallel Batch 2</h3>
+                <table class="w-full text-left border-collapse font-sans">
+                    <thead>
+                        <tr class="border-b border-slate-300">
+                            <th class="py-3 px-4 font-semibold text-slate-600 bg-slate-50">Task ID</th>
+                            <th class="py-3 px-4 font-semibold text-slate-600 bg-slate-50">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-slate-200 hover:bg-slate-50 transition-colors">
+                            <td class="py-4 px-4 font-mono text-slate-500 align-top whitespace-nowrap">task-rich-html-3</td>
+                            <td class="py-4 px-4 text-slate-700">Refactor <code>scripts/sync_state.py</code> to generate the <code>.gemini/VIEW.html</code> using the chosen rich HTML template, integrating the parsed plan details and roadmap status.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

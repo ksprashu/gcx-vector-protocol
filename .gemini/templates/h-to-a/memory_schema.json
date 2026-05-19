@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Agent Memory",
+  "type": "object",
+  "properties": {
+    "user_id": { "type": "string" },
+    "preferences": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "facts": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["user_id", "preferences", "facts"]
+}

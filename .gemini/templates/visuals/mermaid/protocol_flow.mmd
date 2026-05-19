@@ -1,0 +1,11 @@
+flowchart LR
+    Start([Start Task]) --> Plan[Planning Phase]
+    Plan --> Dissect[Task Breakdown]
+    Dissect --> Loop[Execution Loop]
+    Loop --> Implement[Implement]
+    Implement --> Test[Test]
+    Test --> Critique[Critique]
+    Critique -- Refine --> Implement
+    Critique -- Approved --> Next[Next Task]
+    Next --> Loop
+    Next -- Done --> Finish([Completion])

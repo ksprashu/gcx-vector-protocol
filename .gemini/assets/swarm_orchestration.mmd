@@ -1,0 +1,6 @@
+graph TD
+    Start((Start)) --> Implement[Implement - vector-implementer]
+    Implement --> Test[Test - vector-tester]
+    Test --> Critique[Critique - vector-critic]
+    Critique -- Improvement Needed --> Implement
+    Critique -- Success --> End((Success))

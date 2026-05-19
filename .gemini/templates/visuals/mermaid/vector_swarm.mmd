@@ -1,0 +1,13 @@
+graph TD
+    User([User Intent]) --> Orchestrator
+    Orchestrator[Vector Orchestrator] --> Planner[vector-planner]
+    Orchestrator --> Implementer[vector-implementer]
+    Orchestrator --> Tester[vector-tester]
+    Orchestrator --> Critic[vector-critic]
+    
+    Planner --> |Plans| State[(Fractal State)]
+    Implementer --> |Writes| Code
+    Tester --> |Tests| Code
+    Tester --> |Logs| State
+    Critic --> |Verifies| State
+    Critic --> Orchestrator

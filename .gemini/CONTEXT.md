@@ -55,3 +55,9 @@ To balance architectural rigor with execution speed, the protocol employs a **Du
     -   **Review:** The user reviews the plan and provides feedback (via subsequent `/vector:plan` calls).
     -   **Approved:** Execution (`/vector:work`) is blocked until the user provides a definitive `APPROVED` signal in the plan.
 -   **Revision History:** Deep Mode plans MUST maintain a log of iterations to ensure design decisions are traceable.
+
+## 9. Documentation Standards
+- **Templates:** All communication must adhere to the standard templates located in `.gemini/templates/`.
+- **A-to-H (Agent-to-Human):** Use HTML for high-fidelity proposals and reports. Generate infographics via the `image-gen-expert` skill.
+- **A-to-A (Agent-to-Agent):** Use structured JSON and Markdown for Swarm State and Task Context. Utilize Mermaid for workflow mapping.
+- **H-to-A (Human-to-Agent):** Use structured JSON and Markdown for memory and references.

@@ -1,0 +1,15 @@
+graph LR
+    subgraph FractalTasks [Fractal Task Directories]
+        T1[task-1/STATUS.json]
+        T2[task-2/STATUS.json]
+        T3[task-3/STATUS.json]
+    end
+    
+    SyncScript[scripts/sync_state.py]
+    MasterState[.gemini/STATE.md]
+    
+    T1 --> SyncScript
+    T2 --> SyncScript
+    T3 --> SyncScript
+    
+    SyncScript --> MasterState

@@ -71,3 +71,21 @@ To ensure stable autonomous execution and prevent unrecoverable states, the foll
 ## 9) The Reuse First Mandate
 - **Maximize Existing Assets:** Before proposing or creating new tools, scripts, or subagents, you must thoroughly evaluate existing assets in the repository.
 - **Consultation Required:** You are required to consult with `@cli_help` before proposing new tools, scripts, or subagents. Do not reinvent the wheel.
+
+## 10) Standard Communication Protocols
+To ensure high-fidelity communication and robust parsing, the Vector Protocol adheres to three strict communication tiers. Templates for these tiers are located in `.gemini/templates/`.
+
+1. **A-to-H (Agent-to-Human):**
+   - **Format:** Rich HTML Proposals and Executive Reports.
+   - **Purpose:** Used for high-fidelity presentations to human operators.
+   - **Requirements:** Must incorporate visual elements like Google Stitch designs. Infographics MUST be generated using the `image-gen-expert` skill.
+
+2. **A-to-A (Agent-to-Agent):**
+   - **Format:** Structured JSON and Markdown schemas.
+   - **Purpose:** Swarm State and Task Context sharing between subagents.
+   - **Requirements:** Strictly constrained schemas to minimize token usage and prevent parsing errors. Mermaid charts MUST be used for architectural and workflow mapping.
+
+3. **H-to-A (Human-to-Agent):**
+   - **Format:** Structured JSON and Markdown schemas.
+   - **Purpose:** Reference material and memory setting.
+   - **Requirements:** Optimized for fast context setting and retrieval.

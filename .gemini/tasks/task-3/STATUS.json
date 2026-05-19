@@ -1,11 +1,11 @@
 {
-  "task_id": "task-3",
-  "status": "completed",
-  "result": "[SUCCESS]",
+  "id": "task-3",
+  "status": "COMPLETED",
+  "name": "Visual Asset Generation",
+  "description": "Create Mermaid diagrams and generate an infographic for Zero-Context Orchestration.",
   "artifacts": [
-    "policies/autonomous.toml",
-    ".gemini/tasks/task-policies/autonomous.toml",
-    ".gemini/tasks/task-3/LOG.md"
-  ],
-  "critic_status": "APPROVED"
+    ".gemini/assets/swarm_orchestration.mmd",
+    ".gemini/assets/state_sync.mmd",
+    ".gemini/assets/zero_context_infographic.png"
+  ]
 }

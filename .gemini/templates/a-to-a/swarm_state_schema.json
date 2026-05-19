@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Swarm State",
+  "type": "object",
+  "properties": {
+    "plan_id": { "type": "string" },
+    "status": { "type": "string", "enum": ["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"] },
+    "active_tasks": { "type": "array", "items": { "type": "string" } },
+    "completed_tasks": { "type": "array", "items": { "type": "string" } },
+    "failed_tasks": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["plan_id", "status", "active_tasks", "completed_tasks", "failed_tasks"]
+}

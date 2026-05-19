@@ -1,14 +1,13 @@
 {
-  "task_id": "task-2",
-  "status": "approved",
-  "completion_percentage": 100,
-  "dependencies": ["task-1"],
-  "last_updated": "2025-05-14T10:15:00Z",
+  "status": "COMPLETED",
+  "message": "Defined structured templates for A-to-A and H-to-A communication.",
   "artifacts": [
-    ".gemini/tasks/task-2/SPEC.md",
-    ".gemini/tasks/task-2/LOG.md",
-    ".gemini/tasks/task-2/CRITIQUE.md",
-    ".gemini/tasks/task-2/STATUS.json",
-    ".gemini/tasks/task-2/HIERARCHY.md"
+    ".gemini/templates/a-to-a/swarm_state_schema.json",
+    ".gemini/templates/a-to-a/task_context_schema.json",
+    ".gemini/templates/a-to-a/swarm_state.md",
+    ".gemini/templates/a-to-a/task_context.md",
+    ".gemini/templates/h-to-a/memory_schema.json",
+    ".gemini/templates/h-to-a/reference.md",
+    ".gemini/templates/README.md"
   ]
 }

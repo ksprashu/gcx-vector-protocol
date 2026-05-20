@@ -5,14 +5,12 @@
 ## Active Tasks
 - task-1-2
 - task-docs
-- task-policies
 - task-verify
 
 ## Completed Tasks
 - task-003
 - task-1
 - task-10
-- task-12
 - task-2
 - task-2-1
 - task-3
@@ -33,7 +31,6 @@
 - [x] **task-1**: SUCCESS
 - [ ] **task-1-2**: [APPROVED]
 - [x] **task-10**: success
-- [x] **task-12**: completed
 - [x] **task-2**: COMPLETED
 - [x] **task-2-1**: SUCCESS
 - [x] **task-3**: COMPLETED
@@ -44,7 +41,6 @@
 - [ ] **task-docs**: [SUCCESS]
 - [x] **task-internal**: SUCCESS
 - [x] **task-manifest**: SUCCESS
-- [ ] **task-policies**: TESTING_COMPLETE
 - [x] **task-update-docs**: SUCCESS
 - [x] **task-update-work**: SUCCESS
 - [x] **task-verification-script**: completed
